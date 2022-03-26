@@ -14,7 +14,7 @@ import com.vishalgaur.shoppingapp.data.utils.EmailMobileData
 import com.vishalgaur.shoppingapp.data.utils.OrderStatus
 import kotlinx.coroutines.tasks.await
 
-class AuthRemoteDataSource : UserDataSource {
+class AuthRemoteFbDataSource : UserDataSource {
 	private val firebaseDb: FirebaseFirestore = Firebase.firestore
 
 	private fun usersCollectionRef() = firebaseDb.collection(USERS_COLLECTION)

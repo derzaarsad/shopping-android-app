@@ -48,6 +48,10 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
     // Source: https://github.com/Kotlin/kotlinx.coroutines/tree/master/integration/kotlinx-coroutines-play-services
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.1'
 
