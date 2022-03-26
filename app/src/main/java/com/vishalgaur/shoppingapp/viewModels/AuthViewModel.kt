@@ -122,7 +122,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 				_errorStatusLoginFragment.value = LoginViewErrors.ERR_MOBILE
 			} else {
 				_errorStatusLoginFragment.value = LoginViewErrors.NONE
-				logIn("+91" + mobile.trim(), password)
+				logIn(mobile.trim(), password)
 			}
 		}
 	}
