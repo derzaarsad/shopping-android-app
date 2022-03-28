@@ -113,7 +113,7 @@ class AuthRepository(
 		try {
 			queryResult = authRemoteDataSource.getUserByMobileAndPassword(mobile, password)
 		} catch (e: Exception) {
-			// No Handling
+			Log.d(TAG,"Error on Login: " + e.toString())
 		}
 		return if (queryResult.size > 0) {
 			queryResult[0]
