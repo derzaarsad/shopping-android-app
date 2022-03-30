@@ -1,15 +1,36 @@
 package com.vishalgaur.shoppingapp.data.source.remote
 
+import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.UserData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+
+data class LoginData(
+	val mobile: String,
+	val password: String
+)
+
+interface KomodiAPI {
+
+	@POST("getAccessToken")
+	suspend fun getUserByMobileAndPassword(@Body body: LoginData): MutableList<UserData>
+	@POST("getAccessToken")
+	suspend fun getUserByMobile(@Body body: LoginData): UserData
+
+	@GET("getAllProducts")
+	suspend fun getAllProducts(): List<Product>
+}
 
 object UserNetwork {
 
 	val retrofit by lazy {
 		Retrofit.Builder()
-			.baseUrl("https://5a2mwt9wb2.execute-api.eu-central-1.amazonaws.com/v1/")
+			.baseUrl("https://5a2mwt9wb2.execute-api.eu-central-1.amazonaws.com/v2/")
 			.addConverterFactory(GsonConverterFactory.create())
 			.build()
-			.create(UserAPI::class.java)
+			.create(KomodiAPI::class.java)
 	}
 }

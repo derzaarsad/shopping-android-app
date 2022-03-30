@@ -34,9 +34,9 @@ class ProductsRemoteRestDataSource : ProductDataSource {
 	}
 
 	override suspend fun getAllProducts(): Result<List<Product>> {
-		val resRef = productsCollectionRef().get().await()
-		return if (!resRef.isEmpty) {
-			Success(resRef.toObjects(Product::class.java))
+		val resRef = UserNetwork.retrofit.getAllProducts()
+		return if (!resRef.isEmpty()) {
+			Success(resRef)
 		} else {
 			Error(Exception("Error getting Products!"))
 		}

@@ -14,22 +14,6 @@ import com.vishalgaur.shoppingapp.data.utils.EmailMobileData
 import com.vishalgaur.shoppingapp.data.utils.OrderStatus
 import kotlinx.coroutines.tasks.await
 
-import retrofit2.http.Body
-import retrofit2.http.POST
-
-data class LoginData(
-	val mobile: String,
-	val password: String
-)
-
-interface UserAPI {
-
-	@POST("getAccessToken")
-	suspend fun getUserByMobileAndPassword(@Body body: LoginData): MutableList<UserData>
-	@POST("getAccessToken")
-	suspend fun getUserByMobile(@Body body: LoginData): UserData
-}
-
 class AuthRemoteRestDataSource : UserDataSource {
 	private val firebaseDb: FirebaseFirestore = Firebase.firestore
 
