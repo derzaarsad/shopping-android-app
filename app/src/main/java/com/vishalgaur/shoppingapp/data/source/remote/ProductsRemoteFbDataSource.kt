@@ -16,7 +16,7 @@ import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.source.ProductDataSource
 import kotlinx.coroutines.tasks.await
 
-class ProductsRemoteDataSource : ProductDataSource {
+class ProductsRemoteFbDataSource : ProductDataSource {
 	private val firebaseDb: FirebaseFirestore = Firebase.firestore
 	private val firebaseStorage: FirebaseStorage = Firebase.storage
 
