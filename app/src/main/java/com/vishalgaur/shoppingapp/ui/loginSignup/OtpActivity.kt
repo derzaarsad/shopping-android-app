@@ -42,13 +42,15 @@ class OtpActivity : AppCompatActivity() {
 			val viewModelFactory = OtpViewModelFactory(application, uData)
 			viewModel =
 				ViewModelProvider(this, viewModelFactory).get(OtpViewModel::class.java)
-
-			viewModel.verifyPhoneOTPStart(uData.mobile, this)
 		}
-		setViews()
-
-		setObservers()
-		setContentView(binding.root)
+		if (fromWhere == getString(R.string.signup_fragment_label)) {
+			viewModel.signUp()
+		} else {
+			val rememberMe = intent.getBooleanExtra("loginRememberMe", false)
+			viewModel.login(rememberMe)
+		}
+		launchHome(this)
+		finish()
 	}
 
 	private fun setObservers() {
