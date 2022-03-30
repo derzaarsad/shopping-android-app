@@ -9,7 +9,7 @@ import com.vishalgaur.shoppingapp.data.source.local.ProductsLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.local.ShoppingAppDatabase
 import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
-import com.vishalgaur.shoppingapp.data.source.remote.ProductsRemoteFbDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.ProductsRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepoInterface
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepository
 import com.vishalgaur.shoppingapp.data.source.repository.ProductsRepoInterface
@@ -53,7 +53,7 @@ object ServiceLocator {
 
 	private fun createProductsRepository(context: Context): ProductsRepoInterface {
 		val newRepo =
-			ProductsRepository(ProductsRemoteFbDataSource(), createProductsLocalDataSource(context))
+			ProductsRepository(ProductsRemoteRestDataSource(), createProductsLocalDataSource(context))
 		productsRepository = newRepo
 		return newRepo
 	}

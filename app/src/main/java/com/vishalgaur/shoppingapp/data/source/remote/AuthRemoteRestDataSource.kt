@@ -14,8 +14,6 @@ import com.vishalgaur.shoppingapp.data.utils.EmailMobileData
 import com.vishalgaur.shoppingapp.data.utils.OrderStatus
 import kotlinx.coroutines.tasks.await
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -30,17 +28,6 @@ interface UserAPI {
 	suspend fun getUserByMobileAndPassword(@Body body: LoginData): MutableList<UserData>
 	@POST("getAccessToken")
 	suspend fun getUserByMobile(@Body body: LoginData): UserData
-}
-
-object UserNetwork {
-
-	val retrofit by lazy {
-		Retrofit.Builder()
-			.baseUrl("https://5a2mwt9wb2.execute-api.eu-central-1.amazonaws.com/v1/")
-			.addConverterFactory(GsonConverterFactory.create())
-			.build()
-			.create(UserAPI::class.java)
-	}
 }
 
 class AuthRemoteRestDataSource : UserDataSource {
