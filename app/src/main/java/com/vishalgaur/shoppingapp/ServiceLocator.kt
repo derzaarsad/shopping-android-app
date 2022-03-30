@@ -8,7 +8,7 @@ import com.vishalgaur.shoppingapp.data.source.UserDataSource
 import com.vishalgaur.shoppingapp.data.source.local.ProductsLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.local.ShoppingAppDatabase
 import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
-import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteFbDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.ProductsRemoteDataSource
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepoInterface
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepository
@@ -61,7 +61,7 @@ object ServiceLocator {
 	private fun createAuthRepository(context: Context): AuthRepoInterface {
 		val appSession = ShoppingAppSessionManager(context.applicationContext)
 		val newRepo =
-			AuthRepository(createUserLocalDataSource(context), AuthRemoteFbDataSource(), appSession)
+			AuthRepository(createUserLocalDataSource(context), AuthRemoteRestDataSource(), appSession)
 		authRepository = newRepo
 		return newRepo
 	}
