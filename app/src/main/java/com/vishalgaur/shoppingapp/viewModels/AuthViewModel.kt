@@ -21,7 +21,6 @@ private const val TAG = "AuthViewModel"
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val authRepository = (application as ShoppingApplication).authRepository
-	private val productsRepository = (application as ShoppingApplication).productsRepository
 
 	private val _userData = MutableLiveData<UserData>()
 	val userData: LiveData<UserData> get() = _userData
@@ -47,7 +46,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 	private fun refreshStatus() {
 		viewModelScope.launch {
 			getCurrUser()
-			productsRepository.refreshProducts()
 		}
 	}
 
