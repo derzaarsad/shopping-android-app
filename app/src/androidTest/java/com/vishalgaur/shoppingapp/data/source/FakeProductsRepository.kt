@@ -21,7 +21,7 @@ class FakeProductsRepository : ProductsRepoInterface {
 	private val imagesStorage = mutableListOf<String>()
 	private val observableProducts = MutableLiveData<Result<List<Product>>>()
 
-	override suspend fun refreshProducts(): StoreDataStatus {
+	override suspend fun refreshProducts(ownerId: String): StoreDataStatus {
 		observableProducts.value = Success(productsServiceData.values.toList())
 		return StoreDataStatus.DONE
 	}

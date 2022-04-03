@@ -13,6 +13,10 @@ data class LoginData(
 	val password: String
 )
 
+data class AccessData(
+	val ownerId: String
+)
+
 interface KomodiAPI {
 
 	@POST("getAccessToken")
@@ -20,8 +24,8 @@ interface KomodiAPI {
 	@POST("getAccessToken")
 	suspend fun getUserByMobile(@Body body: LoginData): UserData
 
-	@GET("getAllProducts")
-	suspend fun getAllProducts(): List<Product>
+	@POST("getAllProductsByOwner")
+	suspend fun getAllProductsByOwner(@Body body: AccessData): List<Product>
 }
 
 object UserNetwork {

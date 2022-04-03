@@ -23,9 +23,9 @@ class ProductsRepository(
 		private const val TAG = "ProductsRepository"
 	}
 
-	override suspend fun refreshProducts(): StoreDataStatus? {
+	override suspend fun refreshProducts(ownerId: String): StoreDataStatus? {
 		Log.d(TAG, "Updating Products in Room")
-		return updateProductsFromRemoteSource()
+		return updateProductsFromRemoteSource(ownerId)
 	}
 
 	override fun observeProducts(): LiveData<Result<List<Product>>?> {
@@ -154,10 +154,10 @@ class ProductsRepository(
 		}
 	}
 
-	private suspend fun updateProductsFromRemoteSource(): StoreDataStatus? {
+	private suspend fun updateProductsFromRemoteSource(ownerId: String): StoreDataStatus? {
 		var res: StoreDataStatus? = null
 		try {
-			val remoteProducts = productsRemoteSource.getAllProducts()
+			val remoteProducts = productsRemoteSource.getAllProductsByOwner(ownerId)
 			if (remoteProducts is Success) {
 				Log.d(TAG, "pro list = ${remoteProducts.data}")
 				productsLocalSource.deleteAllProducts()

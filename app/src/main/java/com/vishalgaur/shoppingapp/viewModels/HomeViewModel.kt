@@ -141,7 +141,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		} as MutableLiveData<List<Product>>
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { productsRepository.refreshProducts() }
+			val res = async { productsRepository.refreshProducts(currentUser!!) }
 			res.await()
 			Log.d(TAG, "getAllProducts: status = ${_storeDataStatus.value}")
 		}
@@ -210,7 +210,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			} as MutableLiveData<List<Product>>
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { productsRepository.refreshProducts() }
+			val res = async { productsRepository.refreshProducts(currentUser!!) }
 			res.await()
 			Log.d(TAG, "getProductsByOwner: status = ${_storeDataStatus.value}")
 		}

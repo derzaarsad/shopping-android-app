@@ -7,7 +7,7 @@ import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 
 interface ProductsRepoInterface {
-	suspend fun refreshProducts(): StoreDataStatus?
+	suspend fun refreshProducts(ownerId: String): StoreDataStatus?
 	fun observeProducts(): LiveData<Result<List<Product>>?>
 	fun observeProductsByOwner(ownerId: String): LiveData<Result<List<Product>>?>
 	suspend fun getAllProductsByOwner(ownerId: String): Result<List<Product>>

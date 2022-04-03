@@ -25,16 +25,12 @@ class ProductsRemoteRestDataSource : ProductDataSource {
 	private fun storageRef() = firebaseStorage.reference
 	private fun productsCollectionRef() = firebaseDb.collection(PRODUCT_COLLECTION)
 
-	override suspend fun refreshProducts() {
-		observableProducts.value = getAllProducts()
-	}
-
 	override fun observeProducts(): LiveData<Result<List<Product>>?> {
 		return observableProducts
 	}
 
-	override suspend fun getAllProducts(): Result<List<Product>> {
-		val resRef = UserNetwork.retrofit.getAllProducts()
+	override suspend fun getAllProductsByOwner(ownerId: String): Result<List<Product>> {
+		val resRef = UserNetwork.retrofit.getAllProductsByOwner(AccessData(ownerId))
 		return Success(resRef)
 	}
 
