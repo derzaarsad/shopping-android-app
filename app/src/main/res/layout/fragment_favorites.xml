@@ -104,5 +104,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <Spinner
+            android:id="@+id/supplier_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="150dp"
+            app:layout_constraintBottom_toTopOf="@+id/input_inventory_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/loader_layout" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

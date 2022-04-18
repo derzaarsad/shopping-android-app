@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -42,6 +43,13 @@ class FavoritesFragment : Fragment() {
 		binding.favTopAppBar.topAppBar.setNavigationOnClickListener {
 			findNavController().navigateUp()
 		}
+
+		// access the spinner
+		var suppliers = listOf("Java", "PHP", "Kotlin", "Javascript", "Python", "Swift")
+		var supplierSpinnerAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item, suppliers)
+		supplierSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+		binding.supplierSpinner.adapter = supplierSpinnerAdapter
+
 		if (context != null) {
 			val proList = viewModel.likedProducts.value ?: emptyList()
 			productsAdapter = LikedProductAdapter(proList, requireContext())
