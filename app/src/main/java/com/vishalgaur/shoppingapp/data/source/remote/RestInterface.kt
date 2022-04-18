@@ -22,6 +22,10 @@ data class CartItemData(
 	val userId: String
 )
 
+data class ProductData(
+	val productId: String
+)
+
 interface KomodiAPI {
 
 	@POST("getAccessToken")
@@ -31,6 +35,9 @@ interface KomodiAPI {
 
 	@POST("getAllProductsByOwner")
 	suspend fun getAllProductsByOwner(@Body body: AccessData): List<Product>
+
+	@POST("getProductById")
+	suspend fun getProductById(@Body body: ProductData): Product
 
 	@POST("insertCartItem")
 	suspend fun insertCartItem(@Body body: CartItemData): AccessData

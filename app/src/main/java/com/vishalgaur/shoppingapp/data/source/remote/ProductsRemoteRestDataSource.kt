@@ -50,11 +50,11 @@ class ProductsRemoteRestDataSource : ProductDataSource {
 	}
 
 	override suspend fun getProductById(productId: String): Result<Product> {
-		val resRef = productsCollectionRef().whereEqualTo(PRODUCT_ID_FIELD, productId).get().await()
-		return if (!resRef.isEmpty) {
-			Success(resRef.toObjects(Product::class.java)[0])
-		} else {
-			Error(Exception("Product with id: $productId Not Found!"))
+		try {
+			val resRef = UserNetwork.retrofit.getProductById(ProductData(productId))
+			return Success(resRef)
+		} catch (e: Exception) {
+			return Error(Exception("Product with id: $productId Not Found!"))
 		}
 	}
 
