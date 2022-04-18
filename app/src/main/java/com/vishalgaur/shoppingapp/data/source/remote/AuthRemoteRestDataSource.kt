@@ -56,12 +56,11 @@ class AuthRemoteRestDataSource : UserDataSource {
 	}
 
 	override suspend fun getAddressesByUserId(userId: String): Result<List<UserData.Address>?> {
-		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
-		return if (!userRef.isEmpty) {
-			val userData = userRef.documents[0].toObject(UserData::class.java)
-			Success(userData!!.addresses)
-		} else {
-			Error(Exception("User Not Found!"))
+		try {
+			val resRef = UserNetwork.retrofit.getAddressesByUserId(AccessData(userId))
+			return Success(resRef)
+		} catch (e: Exception) {
+			return Error(Exception("User Not Found!"))
 		}
 	}
 
