@@ -38,11 +38,10 @@ class FavoritesFragment : Fragment() {
 	private fun setViews() {
 		viewModel.setDataLoading()
 		viewModel.getLikedProducts()
-		binding.favTopAppBar.topAppBar.title = "Favorite Products"
+		binding.favTopAppBar.topAppBar.title = "Barang Masuk"
 		binding.favTopAppBar.topAppBar.setNavigationOnClickListener {
 			findNavController().navigateUp()
 		}
-		binding.favEmptyTextView.visibility = View.GONE
 		if (context != null) {
 			val proList = viewModel.likedProducts.value ?: emptyList()
 			productsAdapter = LikedProductAdapter(proList, requireContext())
@@ -73,7 +72,6 @@ class FavoritesFragment : Fragment() {
 			if (status == StoreDataStatus.LOADING) {
 				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
 				binding.loaderLayout.circularLoader.showAnimationBehavior
-				binding.favEmptyTextView.visibility = View.GONE
 			} else if (status != null) {
 				viewModel.likedProducts.observe(viewLifecycleOwner) {
 					if (it.isNotEmpty()) {
@@ -86,7 +84,6 @@ class FavoritesFragment : Fragment() {
 							notifyDataSetChanged()
 						}
 					} else if (it.isEmpty()) {
-						binding.favEmptyTextView.visibility = View.VISIBLE
 						binding.favProductsRecyclerView.visibility = View.GONE
 						binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 						binding.loaderLayout.circularLoader.hideAnimationBehavior
