@@ -453,6 +453,21 @@ class AuthRepository(
 		return userLocalDataSource.getLikesByUserId(userId)
 	}
 
+	override suspend fun getSuppliers(): List<String>? {
+		var queryResult = listOf<String>()
+		try {
+			queryResult = authRemoteDataSource.getSuppliers()
+			Log.d(TAG,"getting Suppliers success: " + queryResult.size + " suppliers found")
+		} catch (e: Exception) {
+			Log.d(TAG,"Error on getting Suppliers: " + e.toString())
+		}
+		return if (queryResult.size > 0) {
+			queryResult
+		} else {
+			null
+		}
+	}
+
 	override suspend fun getUserData(userId: String): Result<UserData?> {
 		return userLocalDataSource.getUserById(userId)
 	}

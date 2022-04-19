@@ -45,7 +45,7 @@ class FavoritesFragment : Fragment() {
 		}
 
 		// access the spinner
-		var suppliers = listOf("Java", "PHP", "Kotlin", "Javascript", "Python", "Swift")
+		var suppliers = viewModel.suppliers.value ?: emptyList()
 		var supplierSpinnerAdapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item, suppliers)
 		supplierSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 		binding.supplierSpinner.adapter = supplierSpinnerAdapter

@@ -44,6 +44,9 @@ interface KomodiAPI {
 
 	@POST("getAddressesByUserId")
 	suspend fun getAddressesByUserId(@Body body: AccessData): List<UserData.Address>
+
+	@GET("getSuppliers")
+	suspend fun getSuppliers(): List<String>
 }
 
 object UserNetwork {

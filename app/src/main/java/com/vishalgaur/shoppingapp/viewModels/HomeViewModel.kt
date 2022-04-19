@@ -10,6 +10,7 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
+import com.vishalgaur.shoppingapp.data.source.repository.ProductsRepository
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -56,6 +57,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	private var _userLikes = MutableLiveData<List<String>>()
 	val userLikes: LiveData<List<String>> get() = _userLikes
 
+	private var _suppliers = MutableLiveData<List<String>>()
+	val suppliers: LiveData<List<String>> get() = _suppliers
+
 	private var _filterCategory = MutableLiveData("All")
 	val filterCategory: LiveData<String> get() = _filterCategory
 
@@ -72,6 +76,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		viewModelScope.launch {
 			authRepository.refreshUserDataFromRemote()
 			getUserLikes()
+			getSuppliers()
 		}
 
 		if (isUserASeller)
@@ -163,6 +168,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 				if (res is Error)
 					Log.d(TAG, "Getting Likes: Error, ${res.exception}")
 			}
+		}
+	}
+
+	fun getSuppliers() {
+		viewModelScope.launch {
+			val res = authRepository.getSuppliers()
+			_suppliers.value = res ?: emptyList()
 		}
 	}
 

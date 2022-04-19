@@ -22,6 +22,10 @@ interface UserDataSource {
 		return mutableListOf()
 	}
 
+	suspend fun getSuppliers(): List<String> {
+		return listOf()
+	}
+
 	suspend fun likeProduct(productId: String, userId: String) {}
 
 	suspend fun dislikeProduct(productId: String, userId: String) {}
