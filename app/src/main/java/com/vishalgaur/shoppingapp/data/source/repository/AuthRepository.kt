@@ -185,7 +185,7 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun hardRefreshUserData() {
+	override suspend fun refreshUserDataFromRemote() {
 		userLocalDataSource.clearUser()
 		val mobile = sessionManager.getPhoneNumber()
 		if (mobile != null) {

@@ -64,7 +64,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		_dataStatus.value = StoreDataStatus.LOADING
 		viewModelScope.launch {
 			val deferredRes = async {
-				authRepository.hardRefreshUserData()
+				authRepository.refreshUserDataFromRemote()
 				authRepository.getUserData(currentUser!!)
 			}
 			val userRes = deferredRes.await()

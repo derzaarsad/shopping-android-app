@@ -138,7 +138,7 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 				}
 				val res = updateRes.await()
 				if (res is Success) {
-					authRepository.hardRefreshUserData()
+					authRepository.refreshUserDataFromRemote()
 					Log.d(TAG, "onUpdate: Success")
 					_addAddressStatus.value = AddObjectStatus.DONE
 				} else {
@@ -162,7 +162,7 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 				}
 				val res = deferredRes.await()
 				if (res is Success) {
-					authRepository.hardRefreshUserData()
+					authRepository.refreshUserDataFromRemote()
 					Log.d(TAG, "onInsertAddress: Success")
 					_addAddressStatus.value = AddObjectStatus.DONE
 				} else {

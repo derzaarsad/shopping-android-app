@@ -15,7 +15,7 @@ interface AuthRepoInterface {
 	suspend fun checkEmailAndMobile(email: String, mobile: String, context: Context): SignUpErrors?
 	suspend fun checkLogin(mobile: String, password: String): UserData?
 	suspend fun signOut()
-	suspend fun hardRefreshUserData()
+	suspend fun refreshUserDataFromRemote()
 	suspend fun insertProductToLikes(productId: String, userId: String): Result<Boolean>
 	suspend fun removeProductFromLikes(productId: String, userId: String): Result<Boolean>
 	suspend fun insertAddress(newAddress: UserData.Address, userId: String): Result<Boolean>

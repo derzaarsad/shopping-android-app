@@ -70,7 +70,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 	init {
 		viewModelScope.launch {
-			authRepository.hardRefreshUserData()
+			authRepository.refreshUserDataFromRemote()
 			getUserLikes()
 		}
 
