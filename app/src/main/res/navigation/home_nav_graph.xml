@@ -155,6 +155,12 @@
             app:argType="string" />
     </fragment>
     <fragment
+        android:id="@+id/adminFragment"
+        android:name="com.vishalgaur.shoppingapp.ui.home.AdminFragment"
+        android:label="fragment_admin"
+        tools:layout="@layout/fragment_admin" >
+    </fragment>
+    <fragment
         android:id="@+id/addressFragment"
         android:name="com.vishalgaur.shoppingapp.ui.home.AddressFragment"
         android:label="fragment_address"
