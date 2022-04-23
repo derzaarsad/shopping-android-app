@@ -42,9 +42,6 @@ class AuthRemoteRestDataSource : UserDataSource {
 			}
 	}
 
-	override suspend fun getUserByMobile(phoneNumber: String): UserData =
-		UserNetwork.retrofit.getUserByMobile(LoginData(phoneNumber,""))
-
 	override suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?> {
 		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
 		return if (!userRef.isEmpty) {

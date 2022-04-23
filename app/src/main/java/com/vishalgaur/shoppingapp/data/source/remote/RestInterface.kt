@@ -30,8 +30,6 @@ interface KomodiAPI {
 
 	@POST("getAccessToken")
 	suspend fun getUserByMobileAndPassword(@Body body: LoginData): MutableList<UserData>
-	@POST("getAccessToken")
-	suspend fun getUserByMobile(@Body body: LoginData): UserData
 
 	@POST("getAllProductsByOwner")
 	suspend fun getAllProductsByOwner(@Body body: AccessData): List<Product>

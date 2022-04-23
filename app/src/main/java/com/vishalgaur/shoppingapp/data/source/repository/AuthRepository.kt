@@ -42,7 +42,7 @@ class AuthRepository(
 	override suspend fun refreshData() {
 		Log.d(TAG, "refreshing userdata")
 		if (sessionManager.isLoggedIn()) {
-			updateUserInLocalSource(sessionManager.getPhoneNumber())
+			updateUserInLocalSource(sessionManager.getPhoneNumber(),sessionManager.getPassword())
 		} else {
 			sessionManager.logoutFromSession()
 			deleteUserFromLocalSource()
@@ -171,14 +171,14 @@ class AuthRepository(
 		userLocalDataSource.clearUser()
 	}
 
-	private suspend fun updateUserInLocalSource(phoneNumber: String?) {
+	private suspend fun updateUserInLocalSource(phoneNumber: String?,password: String?) {
 		coroutineScope {
 			launch {
-				if (phoneNumber != null) {
+				if (phoneNumber != null && password != null) {
 					val getUser = userLocalDataSource.getUserByMobile(phoneNumber)
 					if (getUser == null) {
 						userLocalDataSource.clearUser()
-						val uData = authRemoteDataSource.getUserByMobile(phoneNumber)
+						val uData = checkLogin(phoneNumber,password)
 						if (uData != null) {
 							userLocalDataSource.addUser(uData)
 						}
@@ -191,8 +191,9 @@ class AuthRepository(
 	override suspend fun refreshUserDataFromRemote() {
 		userLocalDataSource.clearUser()
 		val mobile = sessionManager.getPhoneNumber()
-		if (mobile != null) {
-			val uData = authRemoteDataSource.getUserByMobile(mobile)
+		val password = sessionManager.getPassword()
+		if (mobile != null && password != null) {
+			val uData = checkLogin(mobile,password)
 			if (uData != null) {
 				userLocalDataSource.addUser(uData)
 			}
