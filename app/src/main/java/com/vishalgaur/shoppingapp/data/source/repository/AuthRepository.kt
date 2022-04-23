@@ -14,7 +14,8 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
-import com.vishalgaur.shoppingapp.data.source.UserDataSource
+import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.utils.SignUpErrors
 import com.vishalgaur.shoppingapp.data.utils.UserType
 import kotlinx.coroutines.async
@@ -23,8 +24,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
 class AuthRepository(
-	private val userLocalDataSource: UserDataSource,
-	private val authRemoteDataSource: UserDataSource,
+	private val userLocalDataSource: UserLocalDataSource,
+	private val authRemoteDataSource: AuthRemoteRestDataSource,
 	private var sessionManager: ShoppingAppSessionManager
 ) : AuthRepoInterface {
 

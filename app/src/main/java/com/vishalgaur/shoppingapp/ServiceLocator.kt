@@ -71,7 +71,7 @@ object ServiceLocator {
 		return ProductsLocalDataSource(database.productsDao())
 	}
 
-	private fun createUserLocalDataSource(context: Context): UserDataSource {
+	private fun createUserLocalDataSource(context: Context): UserLocalDataSource {
 		val database = database ?: ShoppingAppDatabase.getInstance(context.applicationContext)
 		return UserLocalDataSource(database.userDao())
 	}
