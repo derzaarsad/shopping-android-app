@@ -14,11 +14,13 @@ class ShoppingAppSessionManager(context: Context) {
 		id: String,
 		name: String,
 		mobile: String,
+		password: String,
 		isRemOn: Boolean,
 		isSeller: Boolean
 	) {
 		editor.putBoolean(IS_LOGIN, true)
 		editor.putString(KEY_ID, id)
+		editor.putString(KEY_PASSWORD,password)
 		editor.putString(KEY_NAME, name)
 		editor.putString(KEY_MOBILE, mobile)
 		editor.putBoolean(KEY_REMEMBER_ME, isRemOn)
@@ -32,6 +34,8 @@ class ShoppingAppSessionManager(context: Context) {
 	fun isRememberMeOn(): Boolean = userSession.getBoolean(KEY_REMEMBER_ME, false)
 
 	fun getPhoneNumber(): String? = userSession.getString(KEY_MOBILE, null)
+
+	fun getPassword(): String? = userSession.getString(KEY_PASSWORD, null)
 
 	fun getUserDataFromSession(): HashMap<String, String?> {
 		return hashMapOf(
@@ -57,5 +61,6 @@ class ShoppingAppSessionManager(context: Context) {
 		private const val KEY_ID = "userId"
 		private const val KEY_REMEMBER_ME = "isRemOn"
 		private const val KEY_IS_SELLER = "isSeller"
+		private const val KEY_PASSWORD = "userPassword"
 	}
 }

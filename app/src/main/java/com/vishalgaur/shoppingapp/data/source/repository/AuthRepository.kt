@@ -55,6 +55,7 @@ class AuthRepository(
 			userData.userId,
 			userData.name,
 			userData.mobile,
+			userData.password,
 			false,
 			isSeller
 		)
@@ -71,6 +72,7 @@ class AuthRepository(
 			userData.userId,
 			userData.name,
 			userData.mobile,
+			userData.password,
 			rememberMe,
 			isSeller
 		)
