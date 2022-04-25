@@ -26,6 +26,10 @@ interface UserDataSource {
 		return listOf()
 	}
 
+	suspend fun getProductCategories(): List<String> {
+		return listOf()
+	}
+
 	suspend fun likeProduct(productId: String, userId: String) {}
 
 	suspend fun dislikeProduct(productId: String, userId: String) {}

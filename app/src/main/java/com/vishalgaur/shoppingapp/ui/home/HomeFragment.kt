@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.Product
-import com.vishalgaur.shoppingapp.data.utils.ProductCategories
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.databinding.FragmentHomeBinding
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
@@ -92,9 +91,13 @@ class HomeFragment : Fragment() {
 
 		if (!viewModel.isUserASeller) {
 			binding.homeFabAddProduct.visibility = View.GONE
+		} else {
+			viewModel.getProductCategories()
 		}
 		binding.homeFabAddProduct.setOnClickListener {
-			showDialogWithItems(ProductCategories, 0, false)
+			viewModel.getProductCategories()
+			var productCategories = viewModel.productCategories.value ?: emptyList()
+			showDialogWithItems(productCategories.toTypedArray(), 0, false)
 		}
 		binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
 		binding.loaderLayout.circularLoader.showAnimationBehavior
@@ -150,10 +153,12 @@ class HomeFragment : Fragment() {
 	private fun setAppBarItemClicks(menuItem: MenuItem): Boolean {
 		return when (menuItem.itemId) {
 			R.id.home_filter -> {
+				viewModel.getProductCategories()
+				var productCategories = viewModel.productCategories.value ?: emptyList()
 				val extraFilters = arrayOf("All", "None")
-				val categoryList = ProductCategories.plus(extraFilters)
+				val categoryList = productCategories.plus(extraFilters)
 				val checkedItem = categoryList.indexOf(viewModel.filterCategory.value)
-				showDialogWithItems(categoryList, checkedItem, true)
+				showDialogWithItems(categoryList.toTypedArray(), checkedItem, true)
 				true
 			}
 			R.id.home_favorites -> {

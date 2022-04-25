@@ -472,6 +472,21 @@ class AuthRepository(
 		}
 	}
 
+	override suspend fun getProductCategories(): List<String>? {
+		var queryResult = listOf<String>()
+		try {
+			queryResult = authRemoteDataSource.getProductCategories()
+			Log.d(TAG,"getting product categories success: " + queryResult.size + " suppliers found")
+		} catch (e: Exception) {
+			Log.d(TAG,"Error on getting product categories: " + e.toString())
+		}
+		return if (queryResult.size > 0) {
+			queryResult
+		} else {
+			null
+		}
+	}
+
 	override suspend fun getUserData(userId: String): Result<UserData?> {
 		return userLocalDataSource.getUserById(userId)
 	}

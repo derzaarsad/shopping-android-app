@@ -60,6 +60,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	private var _suppliers = MutableLiveData<List<String>>()
 	val suppliers: LiveData<List<String>> get() = _suppliers
 
+	private var _productCategories = MutableLiveData<List<String>>()
+	val productCategories: LiveData<List<String>> get() = _productCategories
+
 	private var _filterCategory = MutableLiveData("All")
 	val filterCategory: LiveData<String> get() = _filterCategory
 
@@ -175,6 +178,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		viewModelScope.launch {
 			val res = authRepository.getSuppliers()
 			_suppliers.value = res ?: emptyList()
+		}
+	}
+
+	fun getProductCategories() {
+		viewModelScope.launch {
+			val res = authRepository.getProductCategories()
+			_productCategories.value = res ?: emptyList()
 		}
 	}
 

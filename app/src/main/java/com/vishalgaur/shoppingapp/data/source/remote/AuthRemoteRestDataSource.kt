@@ -78,6 +78,8 @@ class AuthRemoteRestDataSource : UserDataSource {
 
 	override suspend fun getSuppliers(): List<String> = UserNetwork.retrofit.getSuppliers()
 
+	override suspend fun getProductCategories(): List<String> = UserNetwork.retrofit.getProductCategories()
+
 	override suspend fun likeProduct(productId: String, userId: String) {
 		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
 		if (!userRef.isEmpty) {
