@@ -163,7 +163,7 @@ class AddEditProductFragment : Fragment() {
 
 		if (!isEdit) {
 			binding.addProAppBar.topAppBar.title =
-				"Add Product - ${viewModel.selectedCategory.value}"
+				"Tambah Inventaris - ${viewModel.selectedCategory.value}"
 
 			val adapter = AddProductImagesAdapter(requireContext(), imgList)
 			binding.addProImagesRv.adapter = adapter
