@@ -17,14 +17,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.vishalgaur.shoppingapp.R
-import com.vishalgaur.shoppingapp.data.utils.AddProductErrors
+import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
 import com.vishalgaur.shoppingapp.data.utils.ShoeColors
 import com.vishalgaur.shoppingapp.data.utils.ShoeSizes
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.databinding.FragmentAddEditProductBinding
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
-import com.vishalgaur.shoppingapp.viewModels.AddEditProductViewModel
+import com.vishalgaur.shoppingapp.viewModels.AddEditInventoryViewModel
 import kotlin.properties.Delegates
 
 private const val TAG = "AddProductFragment"
@@ -32,7 +32,7 @@ private const val TAG = "AddProductFragment"
 class AddEditProductFragment : Fragment() {
 
 	private lateinit var binding: FragmentAddEditProductBinding
-	private val viewModel by viewModels<AddEditProductViewModel>()
+	private val viewModel by viewModels<AddEditInventoryViewModel>()
 	private val focusChangeListener = MyOnFocusChangeListener()
 
 	// arguments
@@ -80,7 +80,7 @@ class AddEditProductFragment : Fragment() {
 		viewModel.setIsEdit(isEdit)
 		if (isEdit) {
 			Log.d(TAG, "init view model, isedit = true, $productId")
-			viewModel.setProductData(productId)
+			viewModel.setInventoryData(productId)
 		} else {
 			Log.d(TAG, "init view model, isedit = false, $catName")
 			viewModel.setCategory(catName)
@@ -109,19 +109,19 @@ class AddEditProductFragment : Fragment() {
 				}
 			}
 		}
-		viewModel.addProductErrors.observe(viewLifecycleOwner) { status ->
+		viewModel.addInventoryErrors.observe(viewLifecycleOwner) { status ->
 			when (status) {
-				AddProductErrors.ADDING -> {
+				AddInventoryErrors.ADDING -> {
 					binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
 					binding.loaderLayout.circularLoader.showAnimationBehavior
 				}
-				AddProductErrors.ERR_ADD_IMG -> {
+				AddInventoryErrors.ERR_ADD_IMG -> {
 					setAddProductErrors(getString(R.string.add_product_error_img_upload))
 				}
-				AddProductErrors.ERR_ADD -> {
+				AddInventoryErrors.ERR_ADD -> {
 					setAddProductErrors(getString(R.string.add_product_insert_error))
 				}
-				AddProductErrors.NONE -> {
+				AddInventoryErrors.NONE -> {
 					binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 					binding.loaderLayout.circularLoader.hideAnimationBehavior
 				}
@@ -138,20 +138,20 @@ class AddEditProductFragment : Fragment() {
 	}
 
 	private fun fillDataInAllViews() {
-		viewModel.productData.value?.let { product ->
+		viewModel.inventoryData.value?.let { inventory ->
 			Log.d(TAG, "fill data in views")
-			binding.addProAppBar.topAppBar.title = "Edit Product - ${product.name}"
-			binding.proNameEditText.setText(product.name)
-			binding.proPriceEditText.setText(product.price.toString())
-			binding.proMrpEditText.setText(product.mrp.toString())
-			binding.proDescEditText.setText(product.description)
+			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
+			binding.proNameEditText.setText(inventory.name)
+			binding.proPriceEditText.setText(inventory.price.toString())
+			binding.proMrpEditText.setText(inventory.mrp.toString())
+			binding.proDescEditText.setText(inventory.description)
 
-			imgList = product.images.map { it.toUri() } as MutableList<Uri>
+			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
 			val adapter = AddProductImagesAdapter(requireContext(), imgList)
 			binding.addProImagesRv.adapter = adapter
 
-			setShoeSizesChips(product.availableSizes)
-			setShoeColorsChips(product.availableColors)
+			setShoeSizesChips(inventory.availableSizes)
+			setShoeColorsChips(inventory.availableColors)
 
 			binding.addProBtn.setText(R.string.edit_product_btn_text)
 		}
@@ -190,8 +190,8 @@ class AddEditProductFragment : Fragment() {
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
 			if (viewModel.errorStatus.value == AddProductViewErrors.NONE) {
-				viewModel.addProductErrors.observe(viewLifecycleOwner) { err ->
-					if (err == AddProductErrors.NONE) {
+				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
+					if (err == AddInventoryErrors.NONE) {
 						findNavController().navigate(R.id.action_addProductFragment_to_homeFragment)
 					}
 				}

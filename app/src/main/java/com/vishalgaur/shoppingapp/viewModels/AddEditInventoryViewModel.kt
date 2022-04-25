@@ -14,7 +14,7 @@ import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
-import com.vishalgaur.shoppingapp.data.utils.AddProductErrors
+import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getProductId
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "AddEditViewModel"
 
-class AddEditProductViewModel(application: Application) : AndroidViewModel(application) {
+class AddEditInventoryViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val productsRepository =
 		(application.applicationContext as ShoppingApplication).productsRepository
@@ -35,8 +35,8 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 	private val _selectedCategory = MutableLiveData<String>()
 	val selectedCategory: LiveData<String> get() = _selectedCategory
 
-	private val _productId = MutableLiveData<String>()
-	val productId: LiveData<String> get() = _productId
+	private val _inventoryId = MutableLiveData<String>()
+	val inventoryId: LiveData<String> get() = _inventoryId
 
 	private val _isEdit = MutableLiveData<Boolean>()
 	val isEdit: LiveData<Boolean> get() = _isEdit
@@ -47,11 +47,11 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 	private val _dataStatus = MutableLiveData<StoreDataStatus>()
 	val dataStatus: LiveData<StoreDataStatus> get() = _dataStatus
 
-	private val _addProductErrors = MutableLiveData<AddProductErrors?>()
-	val addProductErrors: LiveData<AddProductErrors?> get() = _addProductErrors
+	private val _addInventoryErrors = MutableLiveData<AddInventoryErrors?>()
+	val addInventoryErrors: LiveData<AddInventoryErrors?> get() = _addInventoryErrors
 
-	private val _productData = MutableLiveData<Product>()
-	val productData: LiveData<Product> get() = _productData
+	private val _inventoryData = MutableLiveData<Product>()
+	val inventoryData: LiveData<Product> get() = _inventoryData
 
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	val newProductData = MutableLiveData<Product>()
@@ -68,23 +68,23 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 		_selectedCategory.value = catName
 	}
 
-	fun setProductData(productId: String) {
-		_productId.value = productId
+	fun setInventoryData(inventoryId: String) {
+		_inventoryId.value = inventoryId
 		viewModelScope.launch {
 			Log.d(TAG, "onLoad: Getting product Data")
 			_dataStatus.value = StoreDataStatus.LOADING
-			val res = async { productsRepository.getProductById(productId) }
+			val res = async { productsRepository.getProductById(inventoryId) }
 			val proRes = res.await()
 			if (proRes is Success) {
 				val proData = proRes.data
-				_productData.value = proData
-				_selectedCategory.value = _productData.value!!.category
+				_inventoryData.value = proData
+				_selectedCategory.value = _inventoryData.value!!.category
 				Log.d(TAG, "onLoad: Successfully retrieved product data")
 				_dataStatus.value = StoreDataStatus.DONE
 			} else if (proRes is Error) {
 				_dataStatus.value = StoreDataStatus.ERROR
 				Log.d(TAG, "onLoad: Error getting product data")
-				_productData.value = Product()
+				_inventoryData.value = Product()
 			}
 		}
 	}
@@ -105,7 +105,7 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 				_errorStatus.value = AddProductViewErrors.ERR_PRICE_0
 			} else {
 				_errorStatus.value = AddProductViewErrors.NONE
-				val proId = if (_isEdit.value == true) _productId.value!! else
+				val proId = if (_isEdit.value == true) _inventoryId.value!! else
 					getProductId(currentUser!!, selectedCategory.value!!)
 				val newProduct =
 					Product(
@@ -134,26 +134,26 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 
 	private fun updateProduct(imgList: List<Uri>) {
 		viewModelScope.launch {
-			if (newProductData.value != null && _productData.value != null) {
-				_addProductErrors.value = AddProductErrors.ADDING
+			if (newProductData.value != null && _inventoryData.value != null) {
+				_addInventoryErrors.value = AddInventoryErrors.ADDING
 				val resImg =
-					async { productsRepository.updateImages(imgList, _productData.value!!.images) }
+					async { productsRepository.updateImages(imgList, _inventoryData.value!!.images) }
 				val imagesPaths = resImg.await()
 				newProductData.value?.images = imagesPaths
 				if (newProductData.value?.images?.isNotEmpty() == true) {
 					if (imagesPaths[0] == ERR_UPLOAD) {
 						Log.d(TAG, "error uploading images")
-						_addProductErrors.value = AddProductErrors.ERR_ADD_IMG
+						_addInventoryErrors.value = AddInventoryErrors.ERR_ADD_IMG
 					} else {
 						val updateRes =
 							async { productsRepository.updateProduct(newProductData.value!!) }
 						val res = updateRes.await()
 						if (res is Success) {
 							Log.d(TAG, "onUpdate: Success")
-							_addProductErrors.value = AddProductErrors.NONE
+							_addInventoryErrors.value = AddInventoryErrors.NONE
 						} else {
 							Log.d(TAG, "onUpdate: Some error occurred!")
-							_addProductErrors.value = AddProductErrors.ERR_ADD
+							_addInventoryErrors.value = AddInventoryErrors.ERR_ADD
 							if (res is Error)
 								Log.d(TAG, "onUpdate: Error, ${res.exception}")
 						}
@@ -170,14 +170,14 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 	private fun insertProduct(imgList: List<Uri>) {
 		viewModelScope.launch {
 			if (newProductData.value != null) {
-				_addProductErrors.value = AddProductErrors.ADDING
+				_addInventoryErrors.value = AddInventoryErrors.ADDING
 				val resImg = async { productsRepository.insertImages(imgList) }
 				val imagesPaths = resImg.await()
 				newProductData.value?.images = imagesPaths
 				if (newProductData.value?.images?.isNotEmpty() == true) {
 					if (imagesPaths[0] == ERR_UPLOAD) {
 						Log.d(TAG, "error uploading images")
-						_addProductErrors.value = AddProductErrors.ERR_ADD_IMG
+						_addInventoryErrors.value = AddInventoryErrors.ERR_ADD_IMG
 					} else {
 						val deferredRes = async {
 							productsRepository.insertProduct(newProductData.value!!)
@@ -185,9 +185,9 @@ class AddEditProductViewModel(application: Application) : AndroidViewModel(appli
 						val res = deferredRes.await()
 						if (res is Success) {
 							Log.d(TAG, "onInsertProduct: Success")
-							_addProductErrors.value = AddProductErrors.NONE
+							_addInventoryErrors.value = AddInventoryErrors.NONE
 						} else {
-							_addProductErrors.value = AddProductErrors.ERR_ADD
+							_addInventoryErrors.value = AddInventoryErrors.ERR_ADD
 							if (res is Error)
 								Log.d(TAG, "onInsertProduct: Error Occurred, ${res.exception}")
 						}

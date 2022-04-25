@@ -6,7 +6,7 @@ enum class SignUpErrors { NONE, SERR }
 
 enum class LogInErrors { NONE, LERR }
 
-enum class AddProductErrors { NONE, ERR_ADD, ERR_ADD_IMG, ADDING }
+enum class AddInventoryErrors { NONE, ERR_ADD, ERR_ADD_IMG, ADDING }
 
 enum class AddObjectStatus { DONE, ERR_ADD, ADDING }
 
