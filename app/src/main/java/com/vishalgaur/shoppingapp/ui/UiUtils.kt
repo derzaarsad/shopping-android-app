@@ -30,6 +30,8 @@ enum class OTPStatus { NONE, CORRECT, WRONG, INVALID_REQ }
 
 enum class AddProductViewErrors { NONE, EMPTY, ERR_PRICE_0 }
 
+enum class AddInventoryViewErrors { NONE, EMPTY, ERR_PRICE_0 }
+
 enum class AddAddressViewErrors { EMPTY, ERR_FNAME_EMPTY, ERR_LNAME_EMPTY, ERR_STR1_EMPTY, ERR_CITY_EMPTY, ERR_STATE_EMPTY, ERR_ZIP_EMPTY, ERR_ZIP_INVALID, ERR_PHONE_INVALID, ERR_PHONE_EMPTY }
 
 enum class AddItemErrors { ERROR_SIZE, ERROR_COLOR }

@@ -22,7 +22,7 @@ import com.vishalgaur.shoppingapp.data.utils.ShoeColors
 import com.vishalgaur.shoppingapp.data.utils.ShoeSizes
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.databinding.FragmentAddEditProductBinding
-import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
+import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
 import com.vishalgaur.shoppingapp.viewModels.AddEditInventoryViewModel
 import kotlin.properties.Delegates
@@ -141,7 +141,7 @@ class AddEditProductFragment : Fragment() {
 		viewModel.inventoryData.value?.let { inventory ->
 			Log.d(TAG, "fill data in views")
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
-			binding.proNameEditText.setText(inventory.name)
+			//binding.proNameEditText.setText(inventory.name)
 			binding.proPriceEditText.setText(inventory.price.toString())
 			binding.proMrpEditText.setText(inventory.mrp.toString())
 			binding.proDescEditText.setText(inventory.description)
@@ -182,14 +182,14 @@ class AddEditProductFragment : Fragment() {
 		setShoeColorsChips()
 
 		binding.addProErrorTextView.visibility = View.GONE
-		binding.proNameEditText.onFocusChangeListener = focusChangeListener
+		//binding.proNameEditText.onFocusChangeListener = focusChangeListener
 		binding.proPriceEditText.onFocusChangeListener = focusChangeListener
 		binding.proMrpEditText.onFocusChangeListener = focusChangeListener
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
 
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
-			if (viewModel.errorStatus.value == AddProductViewErrors.NONE) {
+			if (viewModel.errorStatus.value == AddInventoryViewErrors.NONE) {
 				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
 					if (err == AddInventoryErrors.NONE) {
 						findNavController().navigate(R.id.action_addProductFragment_to_homeFragment)
@@ -200,7 +200,7 @@ class AddEditProductFragment : Fragment() {
 	}
 
 	private fun onAddProduct() {
-		val name = binding.proNameEditText.text.toString()
+		val name = binding.proSpinner.selectedItem.toString()
 		val price = binding.proPriceEditText.text.toString().toDoubleOrNull()
 		val mrp = binding.proMrpEditText.text.toString().toDoubleOrNull()
 		val desc = binding.proDescEditText.text.toString()
@@ -281,14 +281,14 @@ class AddEditProductFragment : Fragment() {
 		}
 	}
 
-	private fun modifyErrors(err: AddProductViewErrors) {
+	private fun modifyErrors(err: AddInventoryViewErrors) {
 		when (err) {
-			AddProductViewErrors.NONE -> binding.addProErrorTextView.visibility = View.GONE
-			AddProductViewErrors.EMPTY -> {
+			AddInventoryViewErrors.NONE -> binding.addProErrorTextView.visibility = View.GONE
+			AddInventoryViewErrors.EMPTY -> {
 				binding.addProErrorTextView.visibility = View.VISIBLE
 				binding.addProErrorTextView.text = getString(R.string.add_product_error_string)
 			}
-			AddProductViewErrors.ERR_PRICE_0 -> {
+			AddInventoryViewErrors.ERR_PRICE_0 -> {
 				binding.addProErrorTextView.visibility = View.VISIBLE
 				binding.addProErrorTextView.text = getString(R.string.add_pro_error_price_string)
 			}

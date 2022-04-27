@@ -17,13 +17,13 @@ import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getProductId
-import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
+import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-private const val TAG = "AddEditViewModel"
+private const val TAG = "AdminViewModel"
 
-class AddEditInventoryViewModel(application: Application) : AndroidViewModel(application) {
+class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val productsRepository =
 		(application.applicationContext as ShoppingApplication).productsRepository
@@ -41,8 +41,8 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	private val _isEdit = MutableLiveData<Boolean>()
 	val isEdit: LiveData<Boolean> get() = _isEdit
 
-	private val _errorStatus = MutableLiveData<AddInventoryViewErrors>()
-	val errorStatus: LiveData<AddInventoryViewErrors> get() = _errorStatus
+	private val _errorStatus = MutableLiveData<AddProductViewErrors>()
+	val errorStatus: LiveData<AddProductViewErrors> get() = _errorStatus
 
 	private val _dataStatus = MutableLiveData<StoreDataStatus>()
 	val dataStatus: LiveData<StoreDataStatus> get() = _dataStatus
@@ -57,7 +57,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	val newProductData = MutableLiveData<Product>()
 
 	init {
-		_errorStatus.value = AddInventoryViewErrors.NONE
+		_errorStatus.value = AddProductViewErrors.NONE
 	}
 
 	fun setIsEdit(state: Boolean) {
@@ -99,12 +99,12 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		imgList: List<Uri>,
 	) {
 		if (name.isBlank() || price == null || mrp == null || desc.isBlank() || sizes.isNullOrEmpty() || colors.isNullOrEmpty() || imgList.isNullOrEmpty()) {
-			_errorStatus.value = AddInventoryViewErrors.EMPTY
+			_errorStatus.value = AddProductViewErrors.EMPTY
 		} else {
 			if (price == 0.0 || mrp == 0.0) {
-				_errorStatus.value = AddInventoryViewErrors.ERR_PRICE_0
+				_errorStatus.value = AddProductViewErrors.ERR_PRICE_0
 			} else {
-				_errorStatus.value = AddInventoryViewErrors.NONE
+				_errorStatus.value = AddProductViewErrors.NONE
 				val proId = if (_isEdit.value == true) _inventoryId.value!! else
 					getProductId(currentUser!!, selectedCategory.value!!)
 				val newProduct =
