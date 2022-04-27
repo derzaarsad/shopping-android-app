@@ -194,7 +194,7 @@ class AdminFragment : Fragment() {
 			if (viewModel.errorStatus.value == AddProductViewErrors.NONE) {
 				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
 					if (err == AddInventoryErrors.NONE) {
-						findNavController().navigate(R.id.action_addProductFragment_to_homeFragment)
+						findNavController().navigate(R.id.action_addInventoryFragment_to_homeFragment)
 					}
 				}
 			}

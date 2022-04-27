@@ -21,17 +21,17 @@ import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
 import com.vishalgaur.shoppingapp.data.utils.ShoeColors
 import com.vishalgaur.shoppingapp.data.utils.ShoeSizes
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
-import com.vishalgaur.shoppingapp.databinding.FragmentAddEditProductBinding
+import com.vishalgaur.shoppingapp.databinding.FragmentAddEditInventoryBinding
 import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
 import com.vishalgaur.shoppingapp.viewModels.AddEditInventoryViewModel
 import kotlin.properties.Delegates
 
-private const val TAG = "AddProductFragment"
+private const val TAG = "AddInventoryFragment"
 
-class AddEditProductFragment : Fragment() {
+class AddEditInventoryFragment : Fragment() {
 
-	private lateinit var binding: FragmentAddEditProductBinding
+	private lateinit var binding: FragmentAddEditInventoryBinding
 	private val viewModel by viewModels<AddEditInventoryViewModel>()
 	private val focusChangeListener = MyOnFocusChangeListener()
 
@@ -60,7 +60,7 @@ class AddEditProductFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
-		binding = FragmentAddEditProductBinding.inflate(layoutInflater)
+		binding = FragmentAddEditInventoryBinding.inflate(layoutInflater)
 
 		isEdit = arguments?.getBoolean("isEdit") == true
 		catName = arguments?.getString("categoryName").toString()
@@ -192,7 +192,7 @@ class AddEditProductFragment : Fragment() {
 			if (viewModel.errorStatus.value == AddInventoryViewErrors.NONE) {
 				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
 					if (err == AddInventoryErrors.NONE) {
-						findNavController().navigate(R.id.action_addProductFragment_to_homeFragment)
+						findNavController().navigate(R.id.action_addInventoryFragment_to_homeFragment)
 					}
 				}
 			}

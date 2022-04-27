@@ -237,7 +237,7 @@ class HomeFragment : Fragment() {
 
 			override fun onEditClick(productId: String) {
 				Log.d(TAG, "onEditProduct: initiated for $productId")
-				navigateToAddEditProductFragment(isEdit = true, productId = productId)
+				navigateToAddEditInventoryFragment(isEdit = true, productId = productId)
 			}
 
 			override fun onLikeClick(productId: String) {
@@ -305,7 +305,7 @@ class HomeFragment : Fragment() {
 						if (isFilter) {
 							viewModel.filterProducts(categoryItems[checkedItem])
 						} else {
-							navigateToAddEditProductFragment(
+							navigateToAddEditInventoryFragment(
 								isEdit = false,
 								catName = categoryItems[checkedItem]
 							)
@@ -317,13 +317,13 @@ class HomeFragment : Fragment() {
 		}
 	}
 
-	private fun navigateToAddEditProductFragment(
+	private fun navigateToAddEditInventoryFragment(
 		isEdit: Boolean,
 		catName: String? = null,
 		productId: String? = null
 	) {
 		findNavController().navigate(
-			R.id.action_goto_addProduct,
+			R.id.action_goto_addInventory,
 			bundleOf("isEdit" to isEdit, "categoryName" to catName, "productId" to productId)
 		)
 	}
