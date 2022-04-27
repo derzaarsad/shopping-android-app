@@ -144,7 +144,7 @@ class AdminFragment : Fragment() {
 			Log.d(TAG, "fill data in views")
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			binding.proNameEditText.setText(inventory.name)
-			binding.proPriceEditText.setText(inventory.price.toString())
+			//binding.proPriceEditText.setText(inventory.price.toString())
 			binding.proMrpEditText.setText(inventory.mrp.toString())
 			binding.proDescEditText.setText(inventory.description)
 
@@ -185,7 +185,7 @@ class AdminFragment : Fragment() {
 
 		binding.addProErrorTextView.visibility = View.GONE
 		binding.proNameEditText.onFocusChangeListener = focusChangeListener
-		binding.proPriceEditText.onFocusChangeListener = focusChangeListener
+		//binding.proPriceEditText.onFocusChangeListener = focusChangeListener
 		binding.proMrpEditText.onFocusChangeListener = focusChangeListener
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
 
@@ -203,7 +203,7 @@ class AdminFragment : Fragment() {
 
 	private fun onAddProduct() {
 		val name = binding.proNameEditText.text.toString()
-		val price = binding.proPriceEditText.text.toString().toDoubleOrNull()
+		val price = 345.0 // TODO: Remove
 		val mrp = binding.proMrpEditText.text.toString().toDoubleOrNull()
 		val desc = binding.proDescEditText.text.toString()
 		Log.d(
