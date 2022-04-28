@@ -93,11 +93,11 @@ class HomeFragment : Fragment() {
 			binding.homeFabAddProduct.visibility = View.GONE
 		} else {
 			viewModel.getProductCategories()
-		}
-		binding.homeFabAddProduct.setOnClickListener {
-			viewModel.getProductCategories()
-			var productCategories = viewModel.productCategories.value ?: emptyList()
-			showDialogWithItems(productCategories.toTypedArray(), 0, false)
+			binding.homeFabAddProduct.setOnClickListener {
+				viewModel.getProductCategories()
+				var productCategories = viewModel.productCategories.value ?: emptyList()
+				showDialogWithItems(productCategories.toTypedArray(), 0, false)
+			}
 		}
 		binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
 		binding.loaderLayout.circularLoader.showAnimationBehavior
