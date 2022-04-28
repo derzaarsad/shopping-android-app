@@ -65,7 +65,7 @@ class ProductDetailsFragment : Fragment() {
 			viewModel = ViewModelProvider(this, viewModelFactory).get(ProductViewModel::class.java)
 		}
 
-		if (viewModel.isSeller()) {
+		if (viewModel.isUserSeller()) {
 			binding.proDetailsAddCartBtn.visibility = View.GONE
 		} else {
 			binding.proDetailsAddCartBtn.visibility = View.VISIBLE

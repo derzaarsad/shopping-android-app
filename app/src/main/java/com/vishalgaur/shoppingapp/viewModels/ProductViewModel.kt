@@ -112,7 +112,7 @@ class ProductViewModel(private val productId: String, application: Application) 
 		}
 	}
 
-	fun isSeller() = sessionManager.isUserSeller()
+	fun isUserSeller() = sessionManager.isUserSeller()
 
 	fun checkIfInCart() {
 		viewModelScope.launch {
