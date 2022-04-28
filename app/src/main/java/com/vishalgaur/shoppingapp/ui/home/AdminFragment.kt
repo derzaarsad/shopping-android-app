@@ -46,21 +46,6 @@ class AdminFragment : Fragment() {
 	private lateinit var catName: String
 	private lateinit var productId: String
 
-	private var sizeList = mutableSetOf<Int>()
-	private var colorsList = mutableSetOf<String>()
-	private var imgList = mutableListOf<Uri>()
-
-	private val getImages =
-		registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { result ->
-			imgList.addAll(result)
-			if (imgList.size > 3) {
-				imgList = imgList.subList(0, 3)
-				makeToast("Maximum 3 images are allowed!")
-			}
-			val adapter = context?.let { AddProductImagesAdapter(it, imgList) }
-			binding.addProImagesRv.adapter = adapter
-		}
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
@@ -156,13 +141,6 @@ class AdminFragment : Fragment() {
 			binding.proMrpEditText.setText(inventory.mrp.toString())
 			binding.proDescEditText.setText(inventory.description)
 
-			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
-			val adapter = AddProductImagesAdapter(requireContext(), imgList)
-			binding.addProImagesRv.adapter = adapter
-
-			setShoeSizesChips(inventory.availableSizes)
-			setShoeColorsChips(inventory.availableColors)
-
 			binding.addProBtn.setText(R.string.edit_product_btn_text)
 		}
 
@@ -171,25 +149,13 @@ class AdminFragment : Fragment() {
 	private fun setViews() {
 		Log.d(TAG, "set views")
 
-		if (!isEdit) {
-			binding.addProAppBar.topAppBar.title =
-				"Tambah Inventaris - ${viewModel.selectedCategory.value}"
-
-			val adapter = AddProductImagesAdapter(requireContext(), imgList)
-			binding.addProImagesRv.adapter = adapter
-		}
-		binding.addProImagesBtn.setOnClickListener {
-			getImages.launch("image/*")
-		}
+		binding.addProAppBar.topAppBar.title = "Tambah Produk"
 
 		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
 			findNavController().navigateUp()
 		}
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-
-		setShoeSizesChips()
-		setShoeColorsChips()
 
 		binding.addProErrorTextView.visibility = View.GONE
 		binding.proNameEditText.onFocusChangeListener = focusChangeListener
@@ -218,79 +184,11 @@ class AdminFragment : Fragment() {
 		val desc = binding.proDescEditText.text.toString()
 		Log.d(
 			TAG,
-			"onAddProduct: Add product initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
+			"onAddProduct: Add product initiated, $name, $price, $mrp, $desc"
 		)
 		viewModel.submitProduct(
-			name, price, mrp, desc, sizeList.toList(), colorsList.toList(), imgList
+			name, price, mrp, desc, listOf(), listOf(), listOf()
 		)
-	}
-
-	private fun setShoeSizesChips(shoeList: List<Int>? = emptyList()) {
-		binding.addProSizeChipGroup.apply {
-			removeAllViews()
-			for ((_, v) in ShoeSizes) {
-				val chip = Chip(context)
-				chip.id = v
-				chip.tag = v
-
-				chip.text = "$v"
-				chip.isCheckable = true
-
-				if (shoeList?.contains(v) == true) {
-					chip.isChecked = true
-					sizeList.add(chip.tag.toString().toInt())
-				}
-
-				chip.setOnCheckedChangeListener { buttonView, isChecked ->
-					val tag = buttonView.tag.toString().toInt()
-					if (!isChecked) {
-						sizeList.remove(tag)
-					} else {
-						sizeList.add(tag)
-					}
-				}
-				addView(chip)
-			}
-			invalidate()
-		}
-	}
-
-	private fun setShoeColorsChips(colorList: List<String>? = emptyList()) {
-		binding.addProColorChipGroup.apply {
-			removeAllViews()
-			var ind = 1
-			for ((k, v) in ShoeColors) {
-				val chip = Chip(context)
-				chip.id = ind
-				chip.tag = k
-
-				chip.chipStrokeColor = ColorStateList.valueOf(Color.BLACK)
-				chip.chipStrokeWidth = TypedValue.applyDimension(
-					TypedValue.COMPLEX_UNIT_DIP,
-					1F,
-					context.resources.displayMetrics
-				)
-				chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(v))
-				chip.isCheckable = true
-
-				if (colorList?.contains(k) == true) {
-					chip.isChecked = true
-					colorsList.add(chip.tag.toString())
-				}
-
-				chip.setOnCheckedChangeListener { buttonView, isChecked ->
-					val tag = buttonView.tag.toString()
-					if (!isChecked) {
-						colorsList.remove(tag)
-					} else {
-						colorsList.add(tag)
-					}
-				}
-				addView(chip)
-				ind++
-			}
-			invalidate()
-		}
 	}
 
 	private fun modifyAddProductErrors(err: AddProductViewErrors) {
@@ -312,7 +210,6 @@ class AdminFragment : Fragment() {
 	}
 
 	private fun setSupplierStateSelectTextField() {
-		val isoCountriesMap = getISOCountriesMap()
 		val states = getProvinces()
 		val defaultState = getDefaultProvince()
 		val stateAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, states)
