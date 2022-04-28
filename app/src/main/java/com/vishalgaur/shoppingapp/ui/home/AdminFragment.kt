@@ -90,8 +90,8 @@ class AdminFragment : Fragment() {
 	}
 
 	private fun setObservers() {
-		viewModel.errorStatus.observe(viewLifecycleOwner) { err ->
-			modifyErrors(err)
+		viewModel.addProductErrorStatus.observe(viewLifecycleOwner) { err ->
+			modifyAddProductErrors(err)
 		}
 		viewModel.dataStatus.observe(viewLifecycleOwner) { status ->
 			when (status) {
@@ -191,7 +191,7 @@ class AdminFragment : Fragment() {
 
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
-			if (viewModel.errorStatus.value == AddProductViewErrors.NONE) {
+			if (viewModel.addProductErrorStatus.value == AddProductViewErrors.NONE) {
 				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
 					if (err == AddInventoryErrors.NONE) {
 						findNavController().navigate(R.id.action_addInventoryFragment_to_homeFragment)
@@ -283,7 +283,7 @@ class AdminFragment : Fragment() {
 		}
 	}
 
-	private fun modifyErrors(err: AddProductViewErrors) {
+	private fun modifyAddProductErrors(err: AddProductViewErrors) {
 		when (err) {
 			AddProductViewErrors.NONE -> binding.addProErrorTextView.visibility = View.GONE
 			AddProductViewErrors.EMPTY -> {

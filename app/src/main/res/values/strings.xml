@@ -44,14 +44,14 @@
     <string name="home_add_fab_desc">Add Product FAB</string>
     <string name="add_cat_name_label_text">Tambah Kategori Produk</string>
     <string name="app_cat_btn_text">Tambah Kategori</string>
-    <string name="add_sup_name_label_text">Supplier Name</string>
+    <string name="add_sup_name_label_text">Pemasok</string>
     <string name="add_pro_name_label_text">Product Name</string>
     <string name="add_pro_price_label_text">Selling Price</string>
     <string name="add_pro_mrp_label_text">MRP</string>
     <string name="add_pro_desc_label_text">Description</string>
     <string name="add_pro_sizes_label_text">Sizes Available</string>
     <string name="app_pro_btn_text">Add Product</string>
-    <string name="pro_cat_dialog_title">Pilih Kategori Produk</string>
+    <string name="pro_cat_dialog_title">Kategori Produk</string>
     <string name="pro_cat_dialog_cancel_btn">Cancel</string>
     <string name="pro_cat_dialog_ok_btn">OK</string>
     <string name="add_pro_error_empty">Fill all the details!</string>

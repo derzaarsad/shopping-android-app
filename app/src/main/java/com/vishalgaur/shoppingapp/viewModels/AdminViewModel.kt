@@ -41,8 +41,8 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 	private val _isEdit = MutableLiveData<Boolean>()
 	val isEdit: LiveData<Boolean> get() = _isEdit
 
-	private val _errorStatus = MutableLiveData<AddProductViewErrors>()
-	val errorStatus: LiveData<AddProductViewErrors> get() = _errorStatus
+	private val _addProductErrorStatus = MutableLiveData<AddProductViewErrors>()
+	val addProductErrorStatus: LiveData<AddProductViewErrors> get() = _addProductErrorStatus
 
 	private val _dataStatus = MutableLiveData<StoreDataStatus>()
 	val dataStatus: LiveData<StoreDataStatus> get() = _dataStatus
@@ -57,7 +57,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 	val newProductData = MutableLiveData<Product>()
 
 	init {
-		_errorStatus.value = AddProductViewErrors.NONE
+		_addProductErrorStatus.value = AddProductViewErrors.NONE
 	}
 
 	fun setIsEdit(state: Boolean) {
@@ -99,12 +99,12 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 		imgList: List<Uri>,
 	) {
 		if (name.isBlank() || price == null || mrp == null || desc.isBlank() || sizes.isNullOrEmpty() || colors.isNullOrEmpty() || imgList.isNullOrEmpty()) {
-			_errorStatus.value = AddProductViewErrors.EMPTY
+			_addProductErrorStatus.value = AddProductViewErrors.EMPTY
 		} else {
 			if (price == 0.0 || mrp == 0.0) {
-				_errorStatus.value = AddProductViewErrors.ERR_PRICE_0
+				_addProductErrorStatus.value = AddProductViewErrors.ERR_PRICE_0
 			} else {
-				_errorStatus.value = AddProductViewErrors.NONE
+				_addProductErrorStatus.value = AddProductViewErrors.NONE
 				val proId = if (_isEdit.value == true) _inventoryId.value!! else
 					getProductId(currentUser!!, selectedCategory.value!!)
 				val newProduct =
