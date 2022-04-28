@@ -193,9 +193,9 @@ internal fun launchHome(context: Context) {
 
 internal fun getCompleteAddress(address: UserData.Address): String {
 	return if (address.streetAddress2.isBlank()) {
-		"${address.streetAddress}, ${address.city}, ${address.state} - ${address.zipCode}, ${getISOCountriesMap()[address.countryISOCode]}"
+		"${address.streetAddress}, ${address.city}, ${address.state} - ${address.zipCode}"
 	} else {
-		"${address.streetAddress}, ${address.streetAddress2}, ${address.city}, ${address.state} - ${address.zipCode}, ${getISOCountriesMap()[address.countryISOCode]}"
+		"${address.streetAddress}, ${address.streetAddress2}, ${address.city}, ${address.state} - ${address.zipCode}"
 	}
 }
 

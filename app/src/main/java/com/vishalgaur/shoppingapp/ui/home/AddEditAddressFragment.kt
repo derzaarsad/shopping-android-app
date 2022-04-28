@@ -13,9 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout
 import com.vishalgaur.shoppingapp.R
-import com.vishalgaur.shoppingapp.data.utils.AddObjectStatus
-import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
-import com.vishalgaur.shoppingapp.data.utils.getISOCountriesMap
+import com.vishalgaur.shoppingapp.data.utils.*
 import com.vishalgaur.shoppingapp.databinding.FragmentAddEditAddressBinding
 import com.vishalgaur.shoppingapp.ui.AddAddressViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
@@ -77,7 +75,7 @@ class AddEditAddressFragment : Fragment() {
 		binding.addressStateEditText.onFocusChangeListener = focusChangeListener
 		binding.addressZipcodeEditText.onFocusChangeListener = focusChangeListener
 		binding.addressPhoneEditText.onFocusChangeListener = focusChangeListener
-		setCountrySelectTextField()
+		setStateSelectTextField()
 
 		binding.addAddressSaveBtn.setOnClickListener {
 			onAddAddress()
@@ -139,8 +137,6 @@ class AddEditAddressFragment : Fragment() {
 	private fun fillDataInViews() {
 		viewModel.addressData.value?.let { address ->
 			binding.addAddressTopAppBar.topAppBar.title = "Edit Address"
-			val countryName = getISOCountriesMap()[address.countryISOCode]
-			binding.addressCountryEditText.setText(countryName, false)
 			binding.addressFirstNameEditText.setText(address.fName)
 			binding.addressLastNameEditText.setText(address.lName)
 			binding.addressStreetAddEditText.setText(address.streetAddress)
@@ -167,7 +163,6 @@ class AddEditAddressFragment : Fragment() {
 	}
 
 	private fun onAddAddress() {
-		val countryName = binding.addressCountryEditText.text.toString()
 		val firstName = binding.addressFirstNameEditText.text.toString()
 		val lastName = binding.addressLastNameEditText.text.toString()
 		val streetAdd = binding.addressStreetAddEditText.text.toString()
@@ -177,12 +172,8 @@ class AddEditAddressFragment : Fragment() {
 		val zipCode = binding.addressZipcodeEditText.text.toString()
 		val phoneNumber = binding.addressPhoneEditText.text.toString()
 
-		val countryCode =
-			getISOCountriesMap().keys.find { Locale("", it).displayCountry == countryName }
-
 		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
 		viewModel.submitAddress(
-			countryCode!!,
 			firstName,
 			lastName,
 			streetAdd,
@@ -194,14 +185,13 @@ class AddEditAddressFragment : Fragment() {
 		)
 	}
 
-	private fun setCountrySelectTextField() {
-		val isoCountriesMap = getISOCountriesMap()
-		val countries = isoCountriesMap.values.toSortedSet().toList()
-		val defaultCountry = Locale.getDefault().displayCountry
-		val countryAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, countries)
-		(binding.addressCountryEditText as? AutoCompleteTextView)?.let {
-			it.setText(defaultCountry, false)
-			it.setAdapter(countryAdapter)
+	private fun setStateSelectTextField() {
+		val states = getProvinces()
+		val defaultState = getDefaultProvince()
+		val stateAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, states)
+		(binding.addressStateEditText as? AutoCompleteTextView)?.let {
+			it.setText(defaultState, false)
+			it.setAdapter(stateAdapter)
 		}
 	}
 

@@ -311,14 +311,14 @@ class AdminFragment : Fragment() {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 	}
 
-	private fun setSupplierCountrySelectTextField() {
+	private fun setSupplierStateSelectTextField() {
 		val isoCountriesMap = getISOCountriesMap()
-		val countries = isoCountriesMap.values.toSortedSet().toList()
-		val defaultCountry = Locale.getDefault().displayCountry
-		val countryAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, countries)
-		(binding.addressCountryEditText as? AutoCompleteTextView)?.let {
-			it.setText(defaultCountry, false)
-			it.setAdapter(countryAdapter)
+		val states = getProvinces()
+		val defaultState = getDefaultProvince()
+		val stateAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, states)
+		(binding.addressStateEditText as? AutoCompleteTextView)?.let {
+			it.setText(defaultState, false)
+			it.setAdapter(stateAdapter)
 		}
 	}
 
@@ -332,7 +332,7 @@ class AdminFragment : Fragment() {
 		binding.addressStateEditText.onFocusChangeListener = focusChangeListener
 		binding.addressZipcodeEditText.onFocusChangeListener = focusChangeListener
 		binding.addressPhoneEditText.onFocusChangeListener = focusChangeListener
-		setSupplierCountrySelectTextField()
+		setSupplierStateSelectTextField()
 
 		binding.addSupSaveBtn.setOnClickListener {
 			onAddSupplierAddress()
@@ -348,7 +348,6 @@ class AdminFragment : Fragment() {
 	}
 
 	private fun onAddSupplierAddress() {
-		val countryName = binding.addressCountryEditText.text.toString()
 		val firstName = binding.addressFirstNameEditText.text.toString()
 		val lastName = binding.addressLastNameEditText.text.toString()
 		val streetAdd = binding.addressStreetAddEditText.text.toString()
@@ -358,12 +357,8 @@ class AdminFragment : Fragment() {
 		val zipCode = binding.addressZipcodeEditText.text.toString()
 		val phoneNumber = binding.addressPhoneEditText.text.toString()
 
-		val countryCode =
-			getISOCountriesMap().keys.find { Locale("", it).displayCountry == countryName }
-
 		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
 		addEditAddressViewModel.submitAddress(
-			countryCode!!,
 			firstName,
 			lastName,
 			streetAdd,
@@ -468,8 +463,6 @@ class AdminFragment : Fragment() {
 
 	private fun fillSupplierAddressDataInViews() {
 		addEditAddressViewModel.addressData.value?.let { address ->
-			val countryName = getISOCountriesMap()[address.countryISOCode]
-			binding.addressCountryEditText.setText(countryName, false)
 			binding.addressFirstNameEditText.setText(address.fName)
 			binding.addressLastNameEditText.setText(address.lName)
 			binding.addressStreetAddEditText.setText(address.streetAddress)

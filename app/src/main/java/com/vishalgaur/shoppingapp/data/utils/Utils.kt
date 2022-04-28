@@ -24,3 +24,46 @@ fun getISOCountriesMap(): Map<String, String> {
 	}
 	return result
 }
+
+fun getProvinces(): List<String> {
+	return listOf(
+		"ACEH",
+		"SUMATERA UTARA",
+		"SUMATERA BARAT",
+		"RIAU",
+		"JAMBI",
+		"SUMATERA SELATAN",
+		"BENGKULU",
+		"LAMPUNG",
+		"KEPULAUAN BANGKA BELITUNG",
+		"KEPULAUAN RIAU",
+		"DKI JAKARTA",
+		"JAWA BARAT",
+		"JAWA TENGAH",
+		"DI YOGYAKARTA",
+		"JAWA TIMUR",
+		"BANTEN",
+		"BALI",
+		"NUSA TENGGARA BARAT",
+		"NUSA TENGGARA TIMUR",
+		"KALIMANTAN BARAT",
+		"KALIMANTAN TENGAH",
+		"KALIMANTAN SELATAN",
+		"KALIMANTAN TIMUR",
+		"KALIMANTAN UTARA",
+		"SULAWESI UTARA",
+		"SULAWESI TENGAH",
+		"SULAWESI SELATAN",
+		"SULAWESI TENGGARA",
+		"GORONTALO",
+		"SULAWESI BARAT",
+		"MALUKU",
+		"MALUKU UTARA",
+		"PAPUA",
+		"PAPUA BARAT"
+	)
+}
+
+fun getDefaultProvince(): String {
+	return getProvinces()[11]
+}

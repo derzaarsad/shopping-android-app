@@ -80,7 +80,6 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 	}
 
 	fun submitAddress(
-		countryCode: String,
 		firstName: String,
 		lastName: String,
 		streetAdd: String,
@@ -112,7 +111,6 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 				addressId,
 				firstName.trim(),
 				lastName.trim(),
-				countryCode.trim(),
 				streetAdd.trim(),
 				streetAdd2.trim(),
 				city.trim(),
