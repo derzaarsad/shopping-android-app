@@ -82,7 +82,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 								UserData(
 									uId,
 									name.trim(),
-									"+91" + mobile.trim(),
+									"+62" + mobile.trim(),
 									email.trim(),
 									pwd1.trim(),
 									ArrayList(),

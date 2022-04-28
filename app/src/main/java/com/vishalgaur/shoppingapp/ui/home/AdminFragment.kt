@@ -324,8 +324,8 @@ class AdminFragment : Fragment() {
 
 	private fun setSupplierAddressViews() {
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-		binding.addressFirstNameEditText.onFocusChangeListener = focusChangeListener
-		binding.addressLastNameEditText.onFocusChangeListener = focusChangeListener
+		binding.supplierNameEditText.onFocusChangeListener = focusChangeListener
+		binding.supplierCpEditText.onFocusChangeListener = focusChangeListener
 		binding.addressStreetAddEditText.onFocusChangeListener = focusChangeListener
 		binding.addressStreetAdd2EditText.onFocusChangeListener = focusChangeListener
 		binding.addressCityEditText.onFocusChangeListener = focusChangeListener
@@ -348,8 +348,8 @@ class AdminFragment : Fragment() {
 	}
 
 	private fun onAddSupplierAddress() {
-		val firstName = binding.addressFirstNameEditText.text.toString()
-		val lastName = binding.addressLastNameEditText.text.toString()
+		val supplierName = binding.supplierNameEditText.text.toString()
+		val lastName = binding.supplierCpEditText.text.toString()
 		val streetAdd = binding.addressStreetAddEditText.text.toString()
 		val streetAdd2 = binding.addressStreetAdd2EditText.text.toString()
 		val city = binding.addressCityEditText.text.toString()
@@ -359,7 +359,7 @@ class AdminFragment : Fragment() {
 
 		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
 		addEditAddressViewModel.submitAddress(
-			firstName,
+			supplierName,
 			lastName,
 			streetAdd,
 			streetAdd2,
@@ -415,8 +415,8 @@ class AdminFragment : Fragment() {
 	}
 
 	private fun modifyAddSupplierErrors(errList: List<AddAddressViewErrors>) {
-		binding.fNameOutlinedTextField.error = null
-		binding.lNameOutlinedTextField.error = null
+		binding.supplierNameOutlinedTextField.error = null
+		binding.cpOutlinedTextField.error = null
 		binding.streetAddOutlinedTextField.error = null
 		binding.cityOutlinedTextField.error = null
 		binding.stateOutlinedTextField.error = null
@@ -426,9 +426,9 @@ class AdminFragment : Fragment() {
 			when (err) {
 				AddAddressViewErrors.EMPTY -> setAddSupplierEditTextsError(true)
 				AddAddressViewErrors.ERR_FNAME_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.fNameOutlinedTextField)
+					setAddSupplierEditTextsError(true, binding.supplierNameOutlinedTextField)
 				AddAddressViewErrors.ERR_LNAME_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.lNameOutlinedTextField)
+					setAddSupplierEditTextsError(true, binding.cpOutlinedTextField)
 				AddAddressViewErrors.ERR_STR1_EMPTY ->
 					setAddSupplierEditTextsError(true, binding.streetAddOutlinedTextField)
 				AddAddressViewErrors.ERR_CITY_EMPTY ->
@@ -463,14 +463,14 @@ class AdminFragment : Fragment() {
 
 	private fun fillSupplierAddressDataInViews() {
 		addEditAddressViewModel.addressData.value?.let { address ->
-			binding.addressFirstNameEditText.setText(address.fName)
-			binding.addressLastNameEditText.setText(address.lName)
+			binding.supplierNameEditText.setText(address.fName)
+			binding.supplierCpEditText.setText(address.lName)
 			binding.addressStreetAddEditText.setText(address.streetAddress)
 			binding.addressStreetAdd2EditText.setText(address.streetAddress2)
 			binding.addressCityEditText.setText(address.city)
 			binding.addressStateEditText.setText(address.state)
 			binding.addressZipcodeEditText.setText(address.zipCode)
-			binding.addressPhoneEditText.setText(address.phoneNumber.substringAfter("+91"))
+			binding.addressPhoneEditText.setText(address.phoneNumber.substringAfter("+62"))
 			binding.addSupSaveBtn.setText(R.string.save_address_btn_text)
 		}
 	}

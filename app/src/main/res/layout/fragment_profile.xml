@@ -104,7 +104,7 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/profile_mobile_label_tv"
             app:layout_constraintTop_toTopOf="@+id/profile_mobile_label_tv"
-            tools:text="+91 9999988888" />
+            tools:text="+62 9999988888" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

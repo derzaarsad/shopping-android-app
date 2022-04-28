@@ -107,6 +107,7 @@
     <string name="add_address_country_label_text">Country or region</string>
     <string name="add_address_first_name_label_text">First Name</string>
     <string name="add_address_last_name_label_text">Last Name</string>
+    <string name="add_supplier_cp_label_text">Kontak Person</string>
     <string name="add_address_street_add_label_text">Street Address</string>
     <string name="add_address_street_add2_label_text">Street Address 2 (Optional)</string>
     <string name="add_address_city_label_text">City</string>

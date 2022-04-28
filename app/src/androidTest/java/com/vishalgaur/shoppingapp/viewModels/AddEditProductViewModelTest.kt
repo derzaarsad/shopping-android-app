@@ -25,7 +25,7 @@ class AddEditProductViewModelTest {
 	private val userSeller = UserData(
 		"user1234selller",
 		"Some Name",
-		"+919999988888",
+		"+629999988888",
 		"somemail123seller@somemail.com",
 		"1234",
 		emptyList(),

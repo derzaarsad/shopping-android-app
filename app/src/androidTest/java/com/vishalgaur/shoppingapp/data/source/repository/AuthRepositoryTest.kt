@@ -24,7 +24,7 @@ class AuthRepositoryTest {
 	private val userSeller = UserData(
 		"weoifhwenf29385",
 		"Seller Name",
-		"+919999990000",
+		"+629999990000",
 		"somemail@mail.com",
 		"12345",
 		emptyList(),
@@ -35,7 +35,7 @@ class AuthRepositoryTest {
 	private val userCustomer = UserData(
 		"dwoeihwjklvn48329752",
 		"Customer Name",
-		"+919090909090",
+		"+629090909090",
 		"somemail1232@mail.com",
 		"12345",
 		emptyList(),
@@ -96,11 +96,11 @@ class AuthRepositoryTest {
 
 	@Test
 	fun checkEmailAndMobile_existingEmail_returnsError() {
-		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+919999988888")
+		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+629999988888")
 		runOnUiThread {
 			runBlockingTest {
 				val result =
-					authRepository.checkEmailAndMobile("mail123@mail.com", "+919685", context)
+					authRepository.checkEmailAndMobile("mail123@mail.com", "+629685", context)
 				assertThat(result, `is`(SignUpErrors.SERR))
 			}
 		}
@@ -108,11 +108,11 @@ class AuthRepositoryTest {
 
 	@Test
 	fun checkEmailAndMobile_existingMobile_returnsError() {
-		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+919999988888")
+		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+629999988888")
 		runOnUiThread {
 			runBlockingTest {
 				val result =
-					authRepository.checkEmailAndMobile("mail999@mail.com", "+919999988888", context)
+					authRepository.checkEmailAndMobile("mail999@mail.com", "+629999988888", context)
 				assertThat(result, `is`(SignUpErrors.SERR))
 			}
 		}
@@ -120,11 +120,11 @@ class AuthRepositoryTest {
 
 	@Test
 	fun checkEmailAndMobile_existingMobileAndEmail_returnsError() {
-		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+919999988888")
+		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+629999988888")
 		runOnUiThread {
 			runBlockingTest {
 				val result =
-					authRepository.checkEmailAndMobile("mail123@mail.com", "+919999988888", context)
+					authRepository.checkEmailAndMobile("mail123@mail.com", "+629999988888", context)
 				assertThat(result, `is`(SignUpErrors.SERR))
 			}
 		}
@@ -132,13 +132,13 @@ class AuthRepositoryTest {
 
 	@Test
 	fun checkEmailAndMobile_newData_returnsError() {
-		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+919999988888")
+		authRemoteDataSource.updateEmailsAndMobiles("mail123@mail.com", "+629999988888")
 		runOnUiThread {
 			runBlockingTest {
 				val result =
 					authRepository.checkEmailAndMobile(
 						"somemail123@mail.com",
-						"+919999977777",
+						"+629999977777",
 						context
 					)
 				assertThat(result, `is`(SignUpErrors.NONE))
@@ -154,7 +154,7 @@ class AuthRepositoryTest {
 
 	@Test
 	fun checkLogin_newCredentials_returnsNull() = runBlockingTest {
-		val result = authRepository.checkLogin("+919879879879", "sdygt4")
+		val result = authRepository.checkLogin("+629879879879", "sdygt4")
 		assertThat(result, `is`(nullValue()))
 	}
 
@@ -233,7 +233,7 @@ class AuthRepositoryTest {
 			"kanopwe",
 			"up",
 			"209876",
-			"+919999988888"
+			"+629999988888"
 		)
 		authRepository.insertAddress(address, userCustomer.userId)
 		val res = authRepository.getAddressesByUserId(userCustomer.userId)
@@ -257,7 +257,7 @@ class AuthRepositoryTest {
 			"kanopwe",
 			"up",
 			"209876",
-			"+919999988888"
+			"+629999988888"
 		)
 		authRepository.insertAddress(address, userCustomer.userId)
 		authRepository.deleteAddressById(address.addressId, userCustomer.userId)
@@ -282,7 +282,7 @@ class AuthRepositoryTest {
 			"kanopwe",
 			"up",
 			"209876",
-			"+919999988888"
+			"+629999988888"
 		)
 		val newAddress = UserData.Address(
 			"id123-add",
@@ -294,7 +294,7 @@ class AuthRepositoryTest {
 			"kanopwe",
 			"up",
 			"209876",
-			"+919999988888"
+			"+629999988888"
 		)
 		authRepository.insertAddress(address, userCustomer.userId)
 		authRepository.updateAddress(newAddress, userCustomer.userId)

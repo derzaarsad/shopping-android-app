@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/address_complete_address_tv"
-            tools:text="+91 9999988888" />
+            tools:text="+62 9999988888" />
 
         <Button
             android:id="@+id/address_edit_btn"

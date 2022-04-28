@@ -30,7 +30,7 @@ class AddEditAddressViewModelTest {
 	val user = UserData(
 		"sdjm43892yfh948ehod",
 		"Vishal",
-		"+919999988888",
+		"+629999988888",
 		"vishal@somemail.com",
 		"dh94328hd",
 		ArrayList(),
