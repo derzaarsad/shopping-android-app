@@ -28,7 +28,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val sessionManager = ShoppingAppSessionManager(application.applicationContext)
 	private val currentUser = sessionManager.getUserIdFromSession()
-	val isUserASeller = sessionManager.isUserSeller()
+	val isUserSeller = sessionManager.isUserSeller()
 
 	private var _products = MutableLiveData<List<Product>>()
 	val products: LiveData<List<Product>> get() = _products
@@ -82,7 +82,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			getSuppliers()
 		}
 
-		if (isUserASeller)
+		if (isUserSeller)
 			getProductsByOwner()
 		else
 			getProducts()

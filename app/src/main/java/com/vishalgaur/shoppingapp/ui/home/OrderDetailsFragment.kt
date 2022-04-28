@@ -89,7 +89,7 @@ class OrderDetailsFragment : Fragment() {
 
 	private fun setAllViews(orderData: UserData.OrderItem) {
 		Log.d("OrderDetail", "set all views called")
-		if (viewModel.isUserASeller) {
+		if (viewModel.isUserSeller) {
 			binding.orderChangeStatusBtn.visibility = View.VISIBLE
 			binding.orderChangeStatusBtn.setOnClickListener {
 				val statusString = orderData.status.split(" ")[0]

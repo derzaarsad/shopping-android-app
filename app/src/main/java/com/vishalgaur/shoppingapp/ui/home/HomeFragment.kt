@@ -89,7 +89,7 @@ class HomeFragment : Fragment() {
 			}
 		}
 
-		if (!viewModel.isUserASeller) {
+		if (!viewModel.isUserSeller) {
 			binding.homeFabAddProduct.visibility = View.GONE
 		} else {
 			viewModel.getProductCategories()
@@ -175,7 +175,7 @@ class HomeFragment : Fragment() {
 		val debounceJob: Job? = null
 		val uiScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 		binding.homeTopAppBar.topAppBar.inflateMenu(R.menu.home_app_bar_menu)
-		if (viewModel.isUserASeller) {
+		if (viewModel.isUserSeller) {
 			binding.homeTopAppBar.topAppBar.menu.removeItem(R.id.home_favorites)
 		}
 		binding.homeTopAppBar.homeSearchEditText.onFocusChangeListener = focusChangeListener
