@@ -5,9 +5,9 @@ import android.content.SharedPreferences
 
 class ShoppingAppSessionManager(context: Context) {
 
-	var userSession: SharedPreferences =
+	private var userSession: SharedPreferences =
 		context.getSharedPreferences("userSessionData", Context.MODE_PRIVATE)
-	var editor: SharedPreferences.Editor = userSession.edit()
+	private var editor: SharedPreferences.Editor = userSession.edit()
 
 
 	fun createLoginSession(
