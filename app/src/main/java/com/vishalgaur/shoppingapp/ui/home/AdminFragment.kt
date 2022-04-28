@@ -9,6 +9,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -18,15 +20,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
+import com.google.android.material.textfield.TextInputLayout
 import com.vishalgaur.shoppingapp.R
-import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
-import com.vishalgaur.shoppingapp.data.utils.ShoeColors
-import com.vishalgaur.shoppingapp.data.utils.ShoeSizes
-import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
+import com.vishalgaur.shoppingapp.data.utils.*
 import com.vishalgaur.shoppingapp.databinding.FragmentAdminBinding
+import com.vishalgaur.shoppingapp.ui.AddAddressViewErrors
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
+import com.vishalgaur.shoppingapp.viewModels.AddEditAddressViewModel
 import com.vishalgaur.shoppingapp.viewModels.AdminViewModel
+import java.util.*
 import kotlin.properties.Delegates
 
 private const val TAG = "AdminFragment"
@@ -35,6 +38,7 @@ class AdminFragment : Fragment() {
 
 	private lateinit var binding: FragmentAdminBinding
 	private val viewModel by viewModels<AdminViewModel>()
+	private val addEditAddressViewModel by viewModels<AddEditAddressViewModel>()
 	private val focusChangeListener = MyOnFocusChangeListener()
 
 	// arguments
@@ -87,6 +91,8 @@ class AdminFragment : Fragment() {
 			Log.d(TAG, "init view model, isedit = false, $catName")
 			viewModel.setCategory(catName)
 		}
+
+		addEditAddressViewModel.setIsEdit(false)
 	}
 
 	private fun setObservers() {
@@ -129,6 +135,8 @@ class AdminFragment : Fragment() {
 				}
 			}
 		}
+
+		setSupplierObservers()
 	}
 
 	private fun setAddInventoryErrors(errText: String) {
@@ -199,6 +207,8 @@ class AdminFragment : Fragment() {
 				}
 			}
 		}
+
+		setSupplierAddressViews()
 	}
 
 	private fun onAddProduct() {
@@ -299,5 +309,185 @@ class AdminFragment : Fragment() {
 
 	private fun makeToast(text: String) {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+	}
+
+	private fun setSupplierCountrySelectTextField() {
+		val isoCountriesMap = getISOCountriesMap()
+		val countries = isoCountriesMap.values.toSortedSet().toList()
+		val defaultCountry = Locale.getDefault().displayCountry
+		val countryAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, countries)
+		(binding.addressCountryEditText as? AutoCompleteTextView)?.let {
+			it.setText(defaultCountry, false)
+			it.setAdapter(countryAdapter)
+		}
+	}
+
+	private fun setSupplierAddressViews() {
+		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
+		binding.addressFirstNameEditText.onFocusChangeListener = focusChangeListener
+		binding.addressLastNameEditText.onFocusChangeListener = focusChangeListener
+		binding.addressStreetAddEditText.onFocusChangeListener = focusChangeListener
+		binding.addressStreetAdd2EditText.onFocusChangeListener = focusChangeListener
+		binding.addressCityEditText.onFocusChangeListener = focusChangeListener
+		binding.addressStateEditText.onFocusChangeListener = focusChangeListener
+		binding.addressZipcodeEditText.onFocusChangeListener = focusChangeListener
+		binding.addressPhoneEditText.onFocusChangeListener = focusChangeListener
+		setSupplierCountrySelectTextField()
+
+		binding.addSupSaveBtn.setOnClickListener {
+			onAddSupplierAddress()
+			if (addEditAddressViewModel.errorStatus.value?.isEmpty() == true) {
+				addEditAddressViewModel.addAddressStatus.observe(viewLifecycleOwner) { status ->
+					if (status == AddObjectStatus.DONE) {
+						makeToast("Address Saved!")
+						findNavController().navigateUp()
+					}
+				}
+			}
+		}
+	}
+
+	private fun onAddSupplierAddress() {
+		val countryName = binding.addressCountryEditText.text.toString()
+		val firstName = binding.addressFirstNameEditText.text.toString()
+		val lastName = binding.addressLastNameEditText.text.toString()
+		val streetAdd = binding.addressStreetAddEditText.text.toString()
+		val streetAdd2 = binding.addressStreetAdd2EditText.text.toString()
+		val city = binding.addressCityEditText.text.toString()
+		val state = binding.addressStateEditText.text.toString()
+		val zipCode = binding.addressZipcodeEditText.text.toString()
+		val phoneNumber = binding.addressPhoneEditText.text.toString()
+
+		val countryCode =
+			getISOCountriesMap().keys.find { Locale("", it).displayCountry == countryName }
+
+		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
+		addEditAddressViewModel.submitAddress(
+			countryCode!!,
+			firstName,
+			lastName,
+			streetAdd,
+			streetAdd2,
+			city,
+			state,
+			zipCode,
+			phoneNumber
+		)
+	}
+
+	private fun setSupplierObservers() {
+		addEditAddressViewModel.errorStatus.observe(viewLifecycleOwner) { errList ->
+			if (errList.isEmpty()) {
+				binding.addSupErrorTextView.visibility = View.GONE
+			} else {
+				modifyAddSupplierErrors(errList)
+			}
+		}
+
+		addEditAddressViewModel.dataStatus.observe(viewLifecycleOwner) { status ->
+			when (status) {
+				StoreDataStatus.LOADING -> setLoaderState(View.VISIBLE)
+				StoreDataStatus.ERROR -> {
+					setLoaderState()
+					makeToast("Error getting Data, Try Again!")
+				}
+				StoreDataStatus.DONE -> {
+					fillSupplierAddressDataInViews()
+					setLoaderState()
+				}
+				else -> {
+					setLoaderState()
+				}
+			}
+		}
+
+		addEditAddressViewModel.addAddressStatus.observe(viewLifecycleOwner) { status ->
+			when (status) {
+				AddObjectStatus.DONE -> setLoaderState()
+				AddObjectStatus.ERR_ADD -> {
+					setLoaderState()
+					binding.addSupErrorTextView.visibility = View.VISIBLE
+					binding.addSupErrorTextView.text =
+						getString(R.string.save_address_error_text)
+					makeToast(getString(R.string.save_address_error_text))
+				}
+				AddObjectStatus.ADDING -> {
+					setLoaderState(View.VISIBLE)
+				}
+				else -> setLoaderState()
+			}
+		}
+	}
+
+	private fun modifyAddSupplierErrors(errList: List<AddAddressViewErrors>) {
+		binding.fNameOutlinedTextField.error = null
+		binding.lNameOutlinedTextField.error = null
+		binding.streetAddOutlinedTextField.error = null
+		binding.cityOutlinedTextField.error = null
+		binding.stateOutlinedTextField.error = null
+		binding.zipCodeOutlinedTextField.error = null
+		binding.phoneOutlinedTextField.error = null
+		errList.forEach { err ->
+			when (err) {
+				AddAddressViewErrors.EMPTY -> setAddSupplierEditTextsError(true)
+				AddAddressViewErrors.ERR_FNAME_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.fNameOutlinedTextField)
+				AddAddressViewErrors.ERR_LNAME_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.lNameOutlinedTextField)
+				AddAddressViewErrors.ERR_STR1_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.streetAddOutlinedTextField)
+				AddAddressViewErrors.ERR_CITY_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.cityOutlinedTextField)
+				AddAddressViewErrors.ERR_STATE_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.stateOutlinedTextField)
+				AddAddressViewErrors.ERR_ZIP_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.zipCodeOutlinedTextField)
+				AddAddressViewErrors.ERR_ZIP_INVALID ->
+					setAddSupplierEditTextsError(false, binding.zipCodeOutlinedTextField)
+				AddAddressViewErrors.ERR_PHONE_INVALID ->
+					setAddSupplierEditTextsError(false, binding.phoneOutlinedTextField)
+				AddAddressViewErrors.ERR_PHONE_EMPTY ->
+					setAddSupplierEditTextsError(true, binding.phoneOutlinedTextField)
+			}
+		}
+	}
+
+	private fun setAddSupplierEditTextsError(isEmpty: Boolean, editText: TextInputLayout? = null) {
+		if (isEmpty) {
+			binding.addSupErrorTextView.visibility = View.VISIBLE
+			if (editText != null) {
+				editText.error = "Please Fill the Form"
+				editText.errorIconDrawable = null
+			}
+		} else {
+			binding.addSupErrorTextView.visibility = View.GONE
+			editText!!.error = "Invalid!"
+			editText.errorIconDrawable = null
+		}
+	}
+
+	private fun fillSupplierAddressDataInViews() {
+		addEditAddressViewModel.addressData.value?.let { address ->
+			val countryName = getISOCountriesMap()[address.countryISOCode]
+			binding.addressCountryEditText.setText(countryName, false)
+			binding.addressFirstNameEditText.setText(address.fName)
+			binding.addressLastNameEditText.setText(address.lName)
+			binding.addressStreetAddEditText.setText(address.streetAddress)
+			binding.addressStreetAdd2EditText.setText(address.streetAddress2)
+			binding.addressCityEditText.setText(address.city)
+			binding.addressStateEditText.setText(address.state)
+			binding.addressZipcodeEditText.setText(address.zipCode)
+			binding.addressPhoneEditText.setText(address.phoneNumber.substringAfter("+91"))
+			binding.addSupSaveBtn.setText(R.string.save_address_btn_text)
+		}
+	}
+
+	private fun setLoaderState(isVisible: Int = View.GONE) {
+		binding.loaderLayout.loaderFrameLayout.visibility = isVisible
+		if (isVisible == View.GONE) {
+			binding.loaderLayout.circularLoader.hideAnimationBehavior
+		} else {
+			binding.loaderLayout.circularLoader.showAnimationBehavior
+		}
 	}
 }
