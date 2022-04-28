@@ -44,9 +44,7 @@ class MainActivity : AppCompatActivity() {
 		}
 
 		val sessionManager = ShoppingAppSessionManager(this.applicationContext)
-		if (sessionManager.isUserSeller()) {
-			binding.homeBottomNavigation.menu.removeItem(R.id.cartFragment)
-		}else {
+		if (!sessionManager.isUserSeller()) {
 			binding.homeBottomNavigation.menu.removeItem(R.id.ordersFragment)
 			binding.homeBottomNavigation.menu.removeItem(R.id.adminFragment)
 		}

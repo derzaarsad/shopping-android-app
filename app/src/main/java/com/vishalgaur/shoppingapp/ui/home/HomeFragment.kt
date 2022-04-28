@@ -175,9 +175,7 @@ class HomeFragment : Fragment() {
 		val debounceJob: Job? = null
 		val uiScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
 		binding.homeTopAppBar.topAppBar.inflateMenu(R.menu.home_app_bar_menu)
-		if (viewModel.isUserSeller) {
-			binding.homeTopAppBar.topAppBar.menu.removeItem(R.id.home_favorites)
-		}
+		binding.homeTopAppBar.topAppBar.menu.removeItem(R.id.home_favorites) // TODO: remove this for real
 		binding.homeTopAppBar.homeSearchEditText.onFocusChangeListener = focusChangeListener
 		binding.homeTopAppBar.homeSearchEditText.doAfterTextChanged { editable ->
 			if (editable != null) {

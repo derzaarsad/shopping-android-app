@@ -65,21 +65,17 @@ class ProductDetailsFragment : Fragment() {
 			viewModel = ViewModelProvider(this, viewModelFactory).get(ProductViewModel::class.java)
 		}
 
-		if (viewModel.isUserSeller()) {
-			binding.proDetailsAddCartBtn.visibility = View.GONE
-		} else {
-			binding.proDetailsAddCartBtn.visibility = View.VISIBLE
-			binding.proDetailsAddCartBtn.setOnClickListener {
-				if (viewModel.isItemInCart.value == true) {
-					navigateToCartFragment()
-				} else {
-					onAddToCart()
-					if (viewModel.errorStatus.value?.isEmpty() == true) {
-						viewModel.addItemStatus.observe(viewLifecycleOwner) { status ->
-							if (status == AddObjectStatus.DONE) {
-								makeToast("Product Added To Cart")
-								viewModel.checkIfInCart()
-							}
+		binding.proDetailsAddCartBtn.visibility = View.VISIBLE
+		binding.proDetailsAddCartBtn.setOnClickListener {
+			if (viewModel.isItemInCart.value == true) {
+				navigateToCartFragment()
+			} else {
+				onAddToCart()
+				if (viewModel.errorStatus.value?.isEmpty() == true) {
+					viewModel.addItemStatus.observe(viewLifecycleOwner) { status ->
+						if (status == AddObjectStatus.DONE) {
+							makeToast("Product Added To Cart")
+							viewModel.checkIfInCart()
 						}
 					}
 				}

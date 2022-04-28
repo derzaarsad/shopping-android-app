@@ -73,7 +73,6 @@ class ProductAdapter(proList: List<Any>, userLikes: List<String>, private val co
 
 			if (sessionManager.isUserSeller()) {
 				proLikeButton.visibility = View.GONE
-				proCartButton.visibility = View.GONE
 				proEditBtn.setOnClickListener {
 					onClickListener.onEditClick(productData.productId)
 				}
@@ -85,7 +84,6 @@ class ProductAdapter(proList: List<Any>, userLikes: List<String>, private val co
 				proEditBtn.visibility = View.GONE
 				proDeleteButton.visibility = View.GONE
 				bindImageButtons.setLikeButton(productData.productId, proLikeButton)
-				bindImageButtons.setCartButton(productData.productId, proCartButton)
 				proLikeButton.setOnCheckedChangeListener { _, _ ->
 
 
@@ -93,9 +91,10 @@ class ProductAdapter(proList: List<Any>, userLikes: List<String>, private val co
 				proLikeButton.setOnClickListener {
 					onClickListener.onLikeClick(productData.productId)
 				}
-				proCartButton.setOnClickListener {
-					onClickListener.onAddToCartClick(productData)
-				}
+			}
+			bindImageButtons.setCartButton(productData.productId, proCartButton)
+			proCartButton.setOnClickListener {
+				onClickListener.onAddToCartClick(productData)
 			}
 		}
 	}

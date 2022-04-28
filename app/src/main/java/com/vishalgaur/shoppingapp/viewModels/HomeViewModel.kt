@@ -82,10 +82,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			getSuppliers()
 		}
 
-		if (isUserSeller)
-			getProductsByOwner()
-		else
-			getProducts()
+		getProductsByOwner()
 	}
 
 	fun setDataLoaded() {

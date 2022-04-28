@@ -112,8 +112,6 @@ class ProductViewModel(private val productId: String, application: Application) 
 		}
 	}
 
-	fun isUserSeller() = sessionManager.isUserSeller()
-
 	fun checkIfInCart() {
 		viewModelScope.launch {
 			val deferredRes = async { authRepository.getUserData(currentUserId!!) }
