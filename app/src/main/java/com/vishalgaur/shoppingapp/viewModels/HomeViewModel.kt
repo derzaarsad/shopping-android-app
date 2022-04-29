@@ -74,7 +74,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			getSuppliers()
 		}
 
-		getInventoriesByOwner()
+		getInventories()
 	}
 
 	fun setDataLoaded() {
