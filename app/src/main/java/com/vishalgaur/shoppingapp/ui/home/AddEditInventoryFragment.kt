@@ -51,8 +51,8 @@ class AddEditInventoryFragment : Fragment() {
 				imgList = imgList.subList(0, 3)
 				makeToast("Maximum 3 images are allowed!")
 			}
-			val adapter = context?.let { AddProductImagesAdapter(it, imgList) }
-			binding.addProImagesRv.adapter = adapter
+			val adapter = context?.let { AddInventoryImagesAdapter(it, imgList) }
+			binding.addInvImagesRv.adapter = adapter
 		}
 
 	override fun onCreateView(
@@ -132,8 +132,8 @@ class AddEditInventoryFragment : Fragment() {
 	private fun setAddProductErrors(errText: String) {
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 		binding.loaderLayout.circularLoader.hideAnimationBehavior
-		binding.addProErrorTextView.visibility = View.VISIBLE
-		binding.addProErrorTextView.text = errText
+		binding.addInvErrorTextView.visibility = View.VISIBLE
+		binding.addInvErrorTextView.text = errText
 
 	}
 
@@ -142,18 +142,18 @@ class AddEditInventoryFragment : Fragment() {
 			Log.d(TAG, "fill data in views")
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			//binding.proNameEditText.setText(inventory.name)
-			binding.proPriceEditText.setText(inventory.price.toString())
-			binding.proMrpEditText.setText(inventory.mrp.toString())
-			binding.proDescEditText.setText(inventory.description)
+			binding.invPriceEditText.setText(inventory.price.toString())
+			binding.invMrpEditText.setText(inventory.mrp.toString())
+			binding.invDescEditText.setText(inventory.description)
 
 			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
-			val adapter = AddProductImagesAdapter(requireContext(), imgList)
-			binding.addProImagesRv.adapter = adapter
+			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
+			binding.addInvImagesRv.adapter = adapter
 
 			setShoeSizesChips(inventory.availableSizes)
 			setShoeColorsChips(inventory.availableColors)
 
-			binding.addProBtn.setText(R.string.edit_product_btn_text)
+			binding.addInvBtn.setText(R.string.edit_product_btn_text)
 		}
 
 	}
@@ -165,10 +165,10 @@ class AddEditInventoryFragment : Fragment() {
 			binding.addProAppBar.topAppBar.title =
 				"Tambah Inventaris - ${viewModel.selectedCategory.value}"
 
-			val adapter = AddProductImagesAdapter(requireContext(), imgList)
-			binding.addProImagesRv.adapter = adapter
+			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
+			binding.addInvImagesRv.adapter = adapter
 		}
-		binding.addProImagesBtn.setOnClickListener {
+		binding.addInvImagesBtn.setOnClickListener {
 			getImages.launch("image/*")
 		}
 
@@ -181,14 +181,14 @@ class AddEditInventoryFragment : Fragment() {
 		setShoeSizesChips()
 		setShoeColorsChips()
 
-		binding.addProErrorTextView.visibility = View.GONE
+		binding.addInvErrorTextView.visibility = View.GONE
 		//binding.proNameEditText.onFocusChangeListener = focusChangeListener
-		binding.proPriceEditText.onFocusChangeListener = focusChangeListener
-		binding.proMrpEditText.onFocusChangeListener = focusChangeListener
-		binding.proDescEditText.onFocusChangeListener = focusChangeListener
+		binding.invPriceEditText.onFocusChangeListener = focusChangeListener
+		binding.invMrpEditText.onFocusChangeListener = focusChangeListener
+		binding.invDescEditText.onFocusChangeListener = focusChangeListener
 
-		binding.addProBtn.setOnClickListener {
-			onAddProduct()
+		binding.addInvBtn.setOnClickListener {
+			onAddInventory()
 			if (viewModel.errorStatus.value == AddInventoryViewErrors.NONE) {
 				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
 					if (err == AddInventoryErrors.NONE) {
@@ -199,22 +199,22 @@ class AddEditInventoryFragment : Fragment() {
 		}
 	}
 
-	private fun onAddProduct() {
+	private fun onAddInventory() {
 		val name = binding.proSpinner.selectedItem.toString()
-		val price = binding.proPriceEditText.text.toString().toDoubleOrNull()
-		val mrp = binding.proMrpEditText.text.toString().toDoubleOrNull()
-		val desc = binding.proDescEditText.text.toString()
+		val price = binding.invPriceEditText.text.toString().toDoubleOrNull()
+		val mrp = binding.invMrpEditText.text.toString().toDoubleOrNull()
+		val desc = binding.invDescEditText.text.toString()
 		Log.d(
 			TAG,
-			"onAddProduct: Add product initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
+			"onAddProduct: Add inventory initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
 		)
-		viewModel.submitProduct(
+		viewModel.submitInventory(
 			name, price, mrp, desc, sizeList.toList(), colorsList.toList(), imgList
 		)
 	}
 
 	private fun setShoeSizesChips(shoeList: List<Int>? = emptyList()) {
-		binding.addProSizeChipGroup.apply {
+		binding.addInvSizeChipGroup.apply {
 			removeAllViews()
 			for ((_, v) in ShoeSizes) {
 				val chip = Chip(context)
@@ -244,7 +244,7 @@ class AddEditInventoryFragment : Fragment() {
 	}
 
 	private fun setShoeColorsChips(colorList: List<String>? = emptyList()) {
-		binding.addProColorChipGroup.apply {
+		binding.addInvColorChipGroup.apply {
 			removeAllViews()
 			var ind = 1
 			for ((k, v) in ShoeColors) {
@@ -283,14 +283,14 @@ class AddEditInventoryFragment : Fragment() {
 
 	private fun modifyErrors(err: AddInventoryViewErrors) {
 		when (err) {
-			AddInventoryViewErrors.NONE -> binding.addProErrorTextView.visibility = View.GONE
+			AddInventoryViewErrors.NONE -> binding.addInvErrorTextView.visibility = View.GONE
 			AddInventoryViewErrors.EMPTY -> {
-				binding.addProErrorTextView.visibility = View.VISIBLE
-				binding.addProErrorTextView.text = getString(R.string.add_product_error_string)
+				binding.addInvErrorTextView.visibility = View.VISIBLE
+				binding.addInvErrorTextView.text = getString(R.string.add_product_error_string)
 			}
 			AddInventoryViewErrors.ERR_PRICE_0 -> {
-				binding.addProErrorTextView.visibility = View.VISIBLE
-				binding.addProErrorTextView.text = getString(R.string.add_pro_error_price_string)
+				binding.addInvErrorTextView.visibility = View.VISIBLE
+				binding.addInvErrorTextView.text = getString(R.string.add_pro_error_price_string)
 			}
 		}
 	}

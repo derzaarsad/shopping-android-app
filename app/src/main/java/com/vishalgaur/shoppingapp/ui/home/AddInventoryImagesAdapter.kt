@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vishalgaur.shoppingapp.databinding.AddImagesItemBinding
 
-class AddProductImagesAdapter(private val context: Context, images: List<Uri>) :
-	RecyclerView.Adapter<AddProductImagesAdapter.ViewHolder>() {
+class AddInventoryImagesAdapter(private val context: Context, images: List<Uri>) :
+	RecyclerView.Adapter<AddInventoryImagesAdapter.ViewHolder>() {
 
 	private var data: MutableList<Uri> = images as MutableList<Uri>
 

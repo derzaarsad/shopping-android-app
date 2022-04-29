@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vishalgaur.shoppingapp.ERR_UPLOAD
 import com.vishalgaur.shoppingapp.ShoppingApplication
-import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
@@ -25,8 +25,8 @@ private const val TAG = "AddEditViewModel"
 
 class AddEditInventoryViewModel(application: Application) : AndroidViewModel(application) {
 
-	private val productsRepository =
-		(application.applicationContext as ShoppingApplication).productsRepository
+	private val inventoriesRepository =
+		(application.applicationContext as ShoppingApplication).inventoriesRepository
 
 	private val sessionManager = ShoppingAppSessionManager(application.applicationContext)
 
@@ -50,11 +50,11 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	private val _addInventoryErrors = MutableLiveData<AddInventoryErrors?>()
 	val addInventoryErrors: LiveData<AddInventoryErrors?> get() = _addInventoryErrors
 
-	private val _inventoryData = MutableLiveData<Product>()
-	val inventoryData: LiveData<Product> get() = _inventoryData
+	private val _inventoryData = MutableLiveData<Inventory>()
+	val inventoryData: LiveData<Inventory> get() = _inventoryData
 
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-	val newProductData = MutableLiveData<Product>()
+	val newInventoryData = MutableLiveData<Inventory>()
 
 	init {
 		_errorStatus.value = AddInventoryViewErrors.NONE
@@ -71,25 +71,25 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	fun setInventoryData(inventoryId: String) {
 		_inventoryId.value = inventoryId
 		viewModelScope.launch {
-			Log.d(TAG, "onLoad: Getting product Data")
+			Log.d(TAG, "onLoad: Getting inventory Data")
 			_dataStatus.value = StoreDataStatus.LOADING
-			val res = async { productsRepository.getProductById(inventoryId) }
+			val res = async { inventoriesRepository.getInventoryById(inventoryId) }
 			val proRes = res.await()
 			if (proRes is Success) {
 				val proData = proRes.data
 				_inventoryData.value = proData
 				_selectedCategory.value = _inventoryData.value!!.category
-				Log.d(TAG, "onLoad: Successfully retrieved product data")
+				Log.d(TAG, "onLoad: Successfully retrieved inventory data")
 				_dataStatus.value = StoreDataStatus.DONE
 			} else if (proRes is Error) {
 				_dataStatus.value = StoreDataStatus.ERROR
-				Log.d(TAG, "onLoad: Error getting product data")
-				_inventoryData.value = Product()
+				Log.d(TAG, "onLoad: Error getting inventory data")
+				_inventoryData.value = Inventory()
 			}
 		}
 	}
 
-	fun submitProduct(
+	fun submitInventory(
 		name: String,
 		price: Double?,
 		mrp: Double?,
@@ -105,11 +105,11 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 				_errorStatus.value = AddInventoryViewErrors.ERR_PRICE_0
 			} else {
 				_errorStatus.value = AddInventoryViewErrors.NONE
-				val proId = if (_isEdit.value == true) _inventoryId.value!! else
+				val invId = if (_isEdit.value == true) _inventoryId.value!! else
 					getProductId(currentUser!!, selectedCategory.value!!)
-				val newProduct =
-					Product(
-						proId,
+				val newInventory =
+					Inventory(
+						invId,
 						name.trim(),
 						currentUser!!,
 						desc.trim(),
@@ -121,32 +121,32 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						emptyList(),
 						0.0
 					)
-				newProductData.value = newProduct
-				Log.d(TAG, "pro = $newProduct")
+				newInventoryData.value = newInventory
+				Log.d(TAG, "inv = $newInventory")
 				if (_isEdit.value == true) {
-					updateProduct(imgList)
+					updateInventory(imgList)
 				} else {
-					insertProduct(imgList)
+					insertInventory(imgList)
 				}
 			}
 		}
 	}
 
-	private fun updateProduct(imgList: List<Uri>) {
+	private fun updateInventory(imgList: List<Uri>) {
 		viewModelScope.launch {
-			if (newProductData.value != null && _inventoryData.value != null) {
+			if (newInventoryData.value != null && _inventoryData.value != null) {
 				_addInventoryErrors.value = AddInventoryErrors.ADDING
 				val resImg =
-					async { productsRepository.updateImages(imgList, _inventoryData.value!!.images) }
+					async { inventoriesRepository.updateImages(imgList, _inventoryData.value!!.images) }
 				val imagesPaths = resImg.await()
-				newProductData.value?.images = imagesPaths
-				if (newProductData.value?.images?.isNotEmpty() == true) {
+				newInventoryData.value?.images = imagesPaths
+				if (newInventoryData.value?.images?.isNotEmpty() == true) {
 					if (imagesPaths[0] == ERR_UPLOAD) {
 						Log.d(TAG, "error uploading images")
 						_addInventoryErrors.value = AddInventoryErrors.ERR_ADD_IMG
 					} else {
 						val updateRes =
-							async { productsRepository.updateProduct(newProductData.value!!) }
+							async { inventoriesRepository.updateInventory(newInventoryData.value!!) }
 						val res = updateRes.await()
 						if (res is Success) {
 							Log.d(TAG, "onUpdate: Success")
@@ -159,44 +159,44 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						}
 					}
 				} else {
-					Log.d(TAG, "Product images empty, Cannot Add Product")
+					Log.d(TAG, "Inventory images empty, Cannot Add Inventory")
 				}
 			} else {
-				Log.d(TAG, "Product is Null, Cannot Add Product")
+				Log.d(TAG, "Inventory is Null, Cannot Add Inventory")
 			}
 		}
 	}
 
-	private fun insertProduct(imgList: List<Uri>) {
+	private fun insertInventory(imgList: List<Uri>) {
 		viewModelScope.launch {
-			if (newProductData.value != null) {
+			if (newInventoryData.value != null) {
 				_addInventoryErrors.value = AddInventoryErrors.ADDING
-				val resImg = async { productsRepository.insertImages(imgList) }
+				val resImg = async { inventoriesRepository.insertImages(imgList) }
 				val imagesPaths = resImg.await()
-				newProductData.value?.images = imagesPaths
-				if (newProductData.value?.images?.isNotEmpty() == true) {
+				newInventoryData.value?.images = imagesPaths
+				if (newInventoryData.value?.images?.isNotEmpty() == true) {
 					if (imagesPaths[0] == ERR_UPLOAD) {
 						Log.d(TAG, "error uploading images")
 						_addInventoryErrors.value = AddInventoryErrors.ERR_ADD_IMG
 					} else {
 						val deferredRes = async {
-							productsRepository.insertProduct(newProductData.value!!)
+							inventoriesRepository.insertInventory(newInventoryData.value!!)
 						}
 						val res = deferredRes.await()
 						if (res is Success) {
-							Log.d(TAG, "onInsertProduct: Success")
+							Log.d(TAG, "onInsertInventory: Success")
 							_addInventoryErrors.value = AddInventoryErrors.NONE
 						} else {
 							_addInventoryErrors.value = AddInventoryErrors.ERR_ADD
 							if (res is Error)
-								Log.d(TAG, "onInsertProduct: Error Occurred, ${res.exception}")
+								Log.d(TAG, "onInsertInventory: Error Occurred, ${res.exception}")
 						}
 					}
 				} else {
-					Log.d(TAG, "Product images empty, Cannot Add Product")
+					Log.d(TAG, "Inventory images empty, Cannot Add Inventory")
 				}
 			} else {
-				Log.d(TAG, "Product is Null, Cannot Add Product")
+				Log.d(TAG, "Inventory is Null, Cannot Add Inventory")
 			}
 		}
 	}

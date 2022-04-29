@@ -86,7 +86,7 @@
                 app:layout_constraintTop_toBottomOf="@id/add_pro_name_label" />
 
             <TextView
-                android:id="@+id/add_pro_price_label"
+                android:id="@+id/add_inv_price_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -112,10 +112,10 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_price_label">
+                app:layout_constraintTop_toBottomOf="@id/add_inv_price_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pro_price_edit_text"
+                    android:id="@+id/inv_price_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -127,7 +127,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_pro_mrp_label"
+                android:id="@+id/add_inv_mrp_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -153,10 +153,10 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_mrp_label">
+                app:layout_constraintTop_toBottomOf="@id/add_inv_mrp_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pro_mrp_edit_text"
+                    android:id="@+id/inv_mrp_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -168,7 +168,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_pro_desc_label"
+                android:id="@+id/add_inv_desc_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -194,10 +194,10 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_desc_label">
+                app:layout_constraintTop_toBottomOf="@id/add_inv_desc_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pro_desc_edit_text"
+                    android:id="@+id/inv_desc_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|top"
@@ -211,7 +211,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_pro_images_label"
+                android:id="@+id/add_inv_images_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -222,12 +222,12 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/add_pro_images_btn"
+                app:layout_constraintEnd_toStartOf="@+id/add_inv_images_btn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/descOutlinedTextField" />
 
             <ImageButton
-                android:id="@+id/add_pro_images_btn"
+                android:id="@+id/add_inv_images_btn"
                 android:layout_width="35dp"
                 android:layout_height="40dp"
                 android:layout_marginEnd="16dp"
@@ -235,13 +235,13 @@
                 android:contentDescription="@string/add_pro_images_label_text"
                 android:scaleType="centerCrop"
                 android:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/add_pro_images_label"
+                app:layout_constraintBottom_toBottomOf="@+id/add_inv_images_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/add_pro_images_label"
+                app:layout_constraintTop_toTopOf="@+id/add_inv_images_label"
                 app:srcCompat="@drawable/ic_add_48" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/add_pro_images_rv"
+                android:id="@+id/add_inv_images_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -249,12 +249,12 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_images_label"
+                app:layout_constraintTop_toBottomOf="@id/add_inv_images_label"
                 tools:itemCount="5"
                 tools:listitem="@layout/add_images_item" />
 
             <TextView
-                android:id="@+id/add_pro_sizes_label"
+                android:id="@+id/add_inv_sizes_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -267,10 +267,10 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_images_rv" />
+                app:layout_constraintTop_toBottomOf="@id/add_inv_images_rv" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/add_pro_size_chip_group"
+                android:id="@+id/add_inv_size_chip_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -279,13 +279,13 @@
                 app:chipSpacingHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_sizes_label"
+                app:layout_constraintTop_toBottomOf="@id/add_inv_sizes_label"
                 app:selectionRequired="true">
 
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
-                android:id="@+id/add_pro_color_label"
+                android:id="@+id/add_inv_color_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -298,10 +298,10 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_size_chip_group" />
+                app:layout_constraintTop_toBottomOf="@id/add_inv_size_chip_group" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/add_pro_color_chip_group"
+                android:id="@+id/add_inv_color_chip_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -310,13 +310,13 @@
                 app:chipSpacingHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_color_label"
+                app:layout_constraintTop_toBottomOf="@id/add_inv_color_label"
                 app:selectionRequired="true">
 
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
-                android:id="@+id/add_pro_error_text_view"
+                android:id="@+id/add_inv_error_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -330,14 +330,14 @@
                 app:drawableTint="?attr/colorError"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_color_chip_group" />
+                app:layout_constraintTop_toBottomOf="@id/add_inv_color_chip_group" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
     <Button
-        android:id="@+id/add_pro_btn"
+        android:id="@+id/add_inv_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"

@@ -1,5 +1,6 @@
 package com.vishalgaur.shoppingapp.data.source.remote
 
+import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.UserData
 import retrofit2.Retrofit
@@ -26,6 +27,10 @@ data class ProductData(
 	val productId: String
 )
 
+data class InventoryData(
+	val inventoryId: String
+)
+
 interface KomodiAPI {
 
 	@POST("getAccessToken")
@@ -34,8 +39,14 @@ interface KomodiAPI {
 	@POST("getAllProductsByOwner")
 	suspend fun getAllProductsByOwner(@Body body: AccessData): List<Product>
 
+	@POST("getAllInventoriesByOwner")
+	suspend fun getAllInventoriesByOwner(@Body body: AccessData): List<Inventory>
+
 	@POST("getProductById")
 	suspend fun getProductById(@Body body: ProductData): Product
+
+	@POST("getInventoryById")
+	suspend fun getInventoryById(@Body body: InventoryData): Inventory
 
 	@POST("insertCartItem")
 	suspend fun insertCartItem(@Body body: CartItemData): AccessData
