@@ -50,9 +50,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	private var _orderInventories = MutableLiveData<List<Inventory>>()
 	val orderInventories: LiveData<List<Inventory>> get() = _orderInventories
 
-	private var _suppliers = MutableLiveData<List<String>>()
-	val suppliers: LiveData<List<String>> get() = _suppliers
-
 	private var _productCategories = MutableLiveData<List<String>>()
 	val productCategories: LiveData<List<String>> get() = _productCategories
 
@@ -71,7 +68,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	init {
 		viewModelScope.launch {
 			authRepository.refreshUserDataFromRemote()
-			getSuppliers()
 		}
 
 		getInventories()
@@ -102,13 +98,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			val res = async { inventoriesRepository.refreshInventories(currentUser!!) }
 			res.await()
 			Log.d(TAG, "getAllInventories: status = ${_storeDataStatus.value}")
-		}
-	}
-
-	fun getSuppliers() {
-		viewModelScope.launch {
-			val res = authRepository.getSuppliers()
-			_suppliers.value = res ?: emptyList()
 		}
 	}
 
