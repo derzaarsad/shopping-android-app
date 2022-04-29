@@ -93,7 +93,6 @@ class InventoryDetailsFragment : Fragment() {
 
 	override fun onResume() {
 		super.onResume()
-		viewModel.setLike()
 		viewModel.checkIfInCart()
 		selectedSize = null
 		selectedColor = null
@@ -111,13 +110,6 @@ class InventoryDetailsFragment : Fragment() {
 					binding.proDetailsLayout.visibility = View.GONE
 					binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
 				}
-			}
-		}
-		viewModel.isLiked.observe(viewLifecycleOwner) {
-			if (it == true) {
-				binding.proDetailsLikeBtn.setImageResource(R.drawable.liked_heart_drawable)
-			} else {
-				binding.proDetailsLikeBtn.setImageResource(R.drawable.heart_icon_drawable)
 			}
 		}
 		viewModel.isItemInCart.observe(viewLifecycleOwner) {
@@ -170,11 +162,6 @@ class InventoryDetailsFragment : Fragment() {
 		setImagesView()
 
 		binding.proDetailsTitleTv.text = viewModel.productData.value?.name ?: ""
-		binding.proDetailsLikeBtn.apply {
-			setOnClickListener {
-				viewModel.toggleLikeProduct()
-			}
-		}
 		binding.proDetailsRatingBar.rating = (viewModel.productData.value?.rating ?: 0.0).toFloat()
 		binding.proDetailsPriceTv.text = resources.getString(
 			R.string.pro_details_price_value,

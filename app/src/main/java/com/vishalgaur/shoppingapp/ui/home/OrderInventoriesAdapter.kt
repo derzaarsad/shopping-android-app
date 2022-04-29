@@ -14,12 +14,11 @@ import com.vishalgaur.shoppingapp.databinding.CartListItemBinding
 
 class OrderInventoriesAdapter(
 	private val context: Context, items: List<UserData.CartItem>,
-	products: List<Inventory>, userLikes: List<String>
+	products: List<Inventory>
 ) : RecyclerView.Adapter<OrderInventoriesAdapter.ViewHolder>() {
 
 	var data: List<UserData.CartItem> = items
 	var proList: List<Inventory> = products
-	var likesList: List<String> = userLikes
 
 	inner class ViewHolder(private val binding: CartListItemBinding) :
 		RecyclerView.ViewHolder(binding.root) {

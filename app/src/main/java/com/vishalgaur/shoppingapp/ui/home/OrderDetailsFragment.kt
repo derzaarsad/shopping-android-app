@@ -70,12 +70,10 @@ class OrderDetailsFragment : Fragment() {
 				binding.orderDetailsConstraintGroup.visibility = View.VISIBLE
 				setAllViews(orderData)
 				val items = orderData.items
-				val likeList = viewModel.userLikes.value ?: emptyList()
 				val prosList = viewModel.orderProducts.value ?: emptyList()
 				productsAdapter.apply {
 					data = items
 					proList = prosList
-					likesList = likeList
 				}
 				binding.orderDetailsProRecyclerView.adapter = productsAdapter
 				binding.orderDetailsProRecyclerView.adapter?.notifyDataSetChanged()
@@ -135,9 +133,8 @@ class OrderDetailsFragment : Fragment() {
 
 	private fun setProductsAdapter(itemsList: List<UserData.CartItem>?) {
 		val items = itemsList ?: emptyList()
-		val likesList = viewModel.userLikes.value ?: emptyList()
 		val proList = viewModel.orderProducts.value ?: emptyList()
-		productsAdapter = OrderInventoriesAdapter(requireContext(), items, proList, likesList)
+		productsAdapter = OrderInventoriesAdapter(requireContext(), items, proList)
 	}
 
 	private fun showDialogWithItems(checkedOption: Int = 0, orderId: String) {

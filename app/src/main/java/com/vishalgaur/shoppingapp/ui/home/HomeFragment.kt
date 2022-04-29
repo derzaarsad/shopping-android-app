@@ -51,7 +51,6 @@ class HomeFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		viewModel.getUserLikes()
 		viewModel.getSuppliers()
 	}
 
@@ -135,13 +134,6 @@ class HomeFragment : Fragment() {
 			if (it.isNotEmpty()) {
 				viewModel.setDataLoaded()
 				viewModel.filterProducts("All")
-			}
-		}
-		viewModel.userLikes.observe(viewLifecycleOwner) {
-			if (it.isNotEmpty()) {
-				binding.productsRecyclerView.adapter?.apply {
-					notifyDataSetChanged()
-				}
 			}
 		}
 	}

@@ -36,9 +36,6 @@ class InventoryViewModel(private val productId: String, application: Application
 	private val _addItemStatus = MutableLiveData<AddObjectStatus?>()
 	val addItemStatus: LiveData<AddObjectStatus?> get() = _addItemStatus
 
-	private val _isLiked = MutableLiveData<Boolean>()
-	val isLiked: LiveData<Boolean> get() = _isLiked
-
 	private val _isItemInCart = MutableLiveData<Boolean>()
 	val isItemInCart: LiveData<Boolean> get() = _isItemInCart
 
@@ -48,13 +45,11 @@ class InventoryViewModel(private val productId: String, application: Application
 	private val currentUserId = sessionManager.getUserIdFromSession()
 
 	init {
-		_isLiked.value = false
 		_errorStatus.value = emptyList()
 		viewModelScope.launch {
 			Log.d(TAG, "init: productId: $productId")
 			getProductDetails()
 			checkIfInCart()
-			setLike()
 		}
 
 	}
@@ -74,40 +69,6 @@ class InventoryViewModel(private val productId: String, application: Application
 			} catch (e: Exception) {
 				_productData.value = Product()
 				_dataStatus.value = StoreDataStatus.ERROR
-			}
-		}
-	}
-
-	fun setLike() {
-		viewModelScope.launch {
-			val res = authRepository.getLikesByUserId(currentUserId!!)
-			if (res is Success) {
-				val userLikes = res.data ?: emptyList()
-				_isLiked.value = userLikes.contains(productId)
-				Log.d(TAG, "Setting Like: Success, value = ${_isLiked.value}, ${res.data?.size}")
-			} else {
-				if (res is Error)
-					Log.d(TAG, "Getting Likes: Error Occurred, ${res.exception.message}")
-			}
-		}
-	}
-
-	fun toggleLikeProduct() {
-		Log.d(TAG, "toggling Like")
-		viewModelScope.launch {
-			val deferredRes = async {
-				if (_isLiked.value == true) {
-					authRepository.removeProductFromLikes(productId, currentUserId!!)
-				} else {
-					authRepository.insertProductToLikes(productId, currentUserId!!)
-				}
-			}
-			val res = deferredRes.await()
-			if (res is Success) {
-				_isLiked.value = !_isLiked.value!!
-			} else{
-				if(res is Error)
-					Log.d(TAG, "Error toggling like, ${res.exception}")
 			}
 		}
 	}

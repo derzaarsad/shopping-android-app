@@ -50,12 +50,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	private var _orderProducts = MutableLiveData<List<Inventory>>()
 	val orderProducts: LiveData<List<Inventory>> get() = _orderProducts
 
-	private var _likedProducts = MutableLiveData<List<Inventory>>()
-	val likedProducts: LiveData<List<Inventory>> get() = _likedProducts
-
-	private var _userLikes = MutableLiveData<List<String>>()
-	val userLikes: LiveData<List<String>> get() = _userLikes
-
 	private var _suppliers = MutableLiveData<List<String>>()
 	val suppliers: LiveData<List<String>> get() = _suppliers
 
@@ -77,7 +71,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	init {
 		viewModelScope.launch {
 			authRepository.refreshUserDataFromRemote()
-			getUserLikes()
 			getSuppliers()
 		}
 
@@ -86,45 +79,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 	fun setDataLoaded() {
 		_storeDataStatus.value = StoreDataStatus.DONE
-	}
-
-	fun isProductLiked(productId: String): Boolean {
-		return _userLikes.value?.contains(productId) == true
-	}
-
-	fun toggleLikeByProductId(productId: String) {
-		Log.d(TAG, "Toggling Like")
-		viewModelScope.launch {
-			val isLiked = isProductLiked(productId)
-			val allLikes = _userLikes.value?.toMutableList() ?: mutableListOf()
-			val deferredRes = async {
-				if (isLiked) {
-					authRepository.removeProductFromLikes(productId, currentUser!!)
-				} else {
-					authRepository.insertProductToLikes(productId, currentUser!!)
-				}
-			}
-			val res = deferredRes.await()
-			if (res is Success) {
-				if (isLiked) {
-					allLikes.remove(productId)
-				} else {
-					allLikes.add(productId)
-				}
-				_userLikes.value = allLikes
-				val proList = _likedProducts.value?.toMutableList() ?: mutableListOf()
-				val pro = proList.find { it.inventoryId == productId }
-				if (pro != null) {
-					proList.remove(pro)
-				}
-				_likedProducts.value = proList
-				Log.d(TAG, "onToggleLike: Success")
-			} else {
-				if (res is Error) {
-					Log.d(TAG, "onToggleLike: Error, ${res.exception}")
-				}
-			}
-		}
 	}
 
 	fun isProductInCart(productId: String): Boolean {
@@ -151,25 +105,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
-	fun getUserLikes() {
-		viewModelScope.launch {
-			val res = authRepository.getLikesByUserId(currentUser!!)
-			if (res is Success) {
-				val data = res.data ?: emptyList()
-				if (data[0] != "") {
-					_userLikes.value = data
-				} else {
-					_userLikes.value = emptyList()
-				}
-				Log.d(TAG, "Getting Likes: Success")
-			} else {
-				_userLikes.value = emptyList()
-				if (res is Error)
-					Log.d(TAG, "Getting Likes: Error, ${res.exception}")
-			}
-		}
-	}
-
 	fun getSuppliers() {
 		viewModelScope.launch {
 			val res = authRepository.getSuppliers()
@@ -182,26 +117,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			val res = authRepository.getProductCategories()
 			_productCategories.value = res ?: emptyList()
 		}
-	}
-
-	fun getLikedProducts() {
-		val res: List<Inventory> = if (_userLikes.value != null) {
-			val allLikes = _userLikes.value ?: emptyList()
-			if (!allLikes.isNullOrEmpty()) {
-				Log.d(TAG, "alllikes = ${allLikes.size}")
-				_dataStatus.value = StoreDataStatus.DONE
-				allLikes.map { proId ->
-					_allProducts.value?.find { it.inventoryId == proId } ?: Inventory()
-				}
-			} else {
-				_dataStatus.value = StoreDataStatus.ERROR
-				emptyList()
-			}
-		} else {
-			_dataStatus.value = StoreDataStatus.ERROR
-			emptyList()
-		}
-		_likedProducts.value = res
 	}
 
 	private fun getProductsLiveData(result: Result<List<Inventory>?>?): LiveData<List<Inventory>> {
