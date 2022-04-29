@@ -217,7 +217,7 @@ class HomeFragment : Fragment() {
 		productAdapter.onClickListener = object : ProductAdapter.OnClickListener {
 			override fun onClick(productData: Product) {
 				findNavController().navigate(
-					R.id.action_seeProduct,
+					R.id.action_seeInventory,
 					bundleOf("productId" to productData.productId)
 				)
 			}

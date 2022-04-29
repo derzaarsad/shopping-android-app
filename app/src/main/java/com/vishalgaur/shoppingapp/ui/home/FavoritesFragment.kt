@@ -57,7 +57,7 @@ class FavoritesFragment : Fragment() {
 				override fun onClick(productData: Product) {
 					Log.d(TAG, "Product: ${productData.productId} clicked")
 					findNavController().navigate(
-						R.id.action_favoritesFragment_to_productDetailsFragment,
+						R.id.action_favoritesFragment_to_inventoryDetailsFragment,
 						bundleOf("productId" to productData.productId)
 					)
 				}

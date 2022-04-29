@@ -190,7 +190,7 @@ class InventoryDetailsFragment : Fragment() {
 	}
 
 	private fun navigateToCartFragment() {
-		findNavController().navigate(R.id.action_productDetailsFragment_to_cartFragment)
+		findNavController().navigate(R.id.action_inventoryDetailsFragment_to_cartFragment)
 	}
 
 	private fun makeToast(text: String) {
