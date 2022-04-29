@@ -20,7 +20,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vishalgaur.shoppingapp.R
-import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.databinding.FragmentHomeBinding
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
 	private lateinit var binding: FragmentHomeBinding
 	private val viewModel: HomeViewModel by activityViewModels()
 	private val focusChangeListener = MyOnFocusChangeListener()
-	private lateinit var productAdapter: ProductAdapter
+	private lateinit var productAdapter: InventoryAdapter
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
 						return when (productAdapter.getItemViewType(position)) {
 							2 -> 2 //ad
 							else -> {
-								val proCount = productAdapter.data.count { it is Product }
+								val proCount = productAdapter.data.count { it is Inventory }
 								val adCount = productAdapter.data.size - proCount
 								val totalCount = proCount + (adCount * 2)
 								// product, full for last item
@@ -211,20 +211,19 @@ class HomeFragment : Fragment() {
 		}
 	}
 
-	private fun setProductsAdapter(productsList: List<Product>?) {
-		val likesList = viewModel.userLikes.value ?: emptyList()
-		productAdapter = ProductAdapter(productsList ?: emptyList(), likesList, requireContext())
-		productAdapter.onClickListener = object : ProductAdapter.OnClickListener {
-			override fun onClick(productData: Product) {
+	private fun setProductsAdapter(productsList: List<Inventory>?) {
+		productAdapter = InventoryAdapter(productsList ?: emptyList(), requireContext())
+		productAdapter.onClickListener = object : InventoryAdapter.OnClickListener {
+			override fun onClick(productData: Inventory) {
 				findNavController().navigate(
 					R.id.action_seeInventory,
-					bundleOf("productId" to productData.productId)
+					bundleOf("productId" to productData.inventoryId)
 				)
 			}
 
-			override fun onDeleteClick(productData: Product) {
-				Log.d(TAG, "onDeleteProduct: initiated for ${productData.productId}")
-				showDeleteDialog(productData.name, productData.productId)
+			override fun onDeleteClick(productData: Inventory) {
+				Log.d(TAG, "onDeleteProduct: initiated for ${productData.inventoryId}")
+				showDeleteDialog(productData.name, productData.inventoryId)
 			}
 
 			override fun onEditClick(productId: String) {
@@ -232,21 +231,12 @@ class HomeFragment : Fragment() {
 				navigateToAddEditInventoryFragment(isEdit = true, productId = productId)
 			}
 
-			override fun onLikeClick(productId: String) {
-				Log.d(TAG, "onToggleLike: initiated for $productId")
-				viewModel.toggleLikeByProductId(productId)
-			}
-
-			override fun onAddToCartClick(productData: Product) {
+			override fun onAddToCartClick(productData: Inventory) {
 				Log.d(TAG, "onToggleCartAddition: initiated")
 				viewModel.toggleProductInCart(productData)
 			}
 		}
-		productAdapter.bindImageButtons = object : ProductAdapter.BindImageButtons {
-			@SuppressLint("ResourceAsColor")
-			override fun setLikeButton(productId: String, button: CheckBox) {
-				button.isChecked = viewModel.isProductLiked(productId)
-			}
+		productAdapter.bindImageButtons = object : InventoryAdapter.BindImageButtons {
 
 			override fun setCartButton(productId: String, imgView: ImageView) {
 				if (viewModel.isProductInCart(productId)) {
@@ -320,9 +310,9 @@ class HomeFragment : Fragment() {
 		)
 	}
 
-	private fun getMixedDataList(data: List<Product>, adsList: List<Int>): List<Any> {
+	private fun getMixedDataList(data: List<Inventory>, adsList: List<Int>): List<Any> {
 		val itemsList = mutableListOf<Any>()
-		itemsList.addAll(data.sortedBy { it.productId })
+		itemsList.addAll(data.sortedBy { it.inventoryId })
 		var currPos = 0
 		if (itemsList.size >= 4) {
 			adsList.forEach label@{ ad ->

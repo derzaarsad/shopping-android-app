@@ -8,24 +8,24 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.vishalgaur.shoppingapp.R
-import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.databinding.CartListItemBinding
 
 class OrderInventoriesAdapter(
 	private val context: Context, items: List<UserData.CartItem>,
-	products: List<Product>, userLikes: List<String>
+	products: List<Inventory>, userLikes: List<String>
 ) : RecyclerView.Adapter<OrderInventoriesAdapter.ViewHolder>() {
 
 	var data: List<UserData.CartItem> = items
-	var proList: List<Product> = products
+	var proList: List<Inventory> = products
 	var likesList: List<String> = userLikes
 
 	inner class ViewHolder(private val binding: CartListItemBinding) :
 		RecyclerView.ViewHolder(binding.root) {
 		fun bind(itemData: UserData.CartItem) {
 			binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-			val proData = proList.find { it.productId == itemData.productId } ?: Product()
+			val proData = proList.find { it.inventoryId == itemData.productId } ?: Inventory()
 			binding.cartProductTitleTv.text = proData.name
 			binding.cartProductPriceTv.text =
 				context.getString(R.string.price_text, proData.price.toString())
