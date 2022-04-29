@@ -16,11 +16,11 @@ interface InventoryDataSource {
 
 	suspend fun updateInventory(invData: Inventory)
 
-	fun observeInventoriesByOwner(ownerId: String): LiveData<Result<List<Inventory>>?> {
+	fun observeInventoriesByStoreId(ownerId: String): LiveData<Result<List<Inventory>>?> {
 		return MutableLiveData()
 	}
 
-	suspend fun getAllInventoriesByOwner(ownerId: String): Result<List<Inventory>> {
+	suspend fun getAllInventoriesByStoreId(ownerId: String): Result<List<Inventory>> {
 		return Result.Success(emptyList())
 	}
 

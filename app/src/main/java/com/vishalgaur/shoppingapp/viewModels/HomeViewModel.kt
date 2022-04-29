@@ -126,7 +126,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 	private fun getInventoriesByOwner() {
 		_allInventories =
-			Transformations.switchMap(inventoriesRepository.observeInventoriesByOwner(currentUser!!)) {
+			Transformations.switchMap(inventoriesRepository.observeInventoriesByStoreId(currentUser!!)) {
 				Log.d(TAG, it.toString())
 				getInventoriesLiveData(it)
 			} as MutableLiveData<List<Inventory>>

@@ -27,9 +27,9 @@ class InventoriesLocalDataSource internal constructor(
 		}
 	}
 
-	override fun observeInventoriesByOwner(ownerId: String): LiveData<Result<List<Inventory>>?> {
+	override fun observeInventoriesByStoreId(ownerId: String): LiveData<Result<List<Inventory>>?> {
 		return try {
-			Transformations.map(inventoriesDao.observeInventoriesByOwner(ownerId)) {
+			Transformations.map(inventoriesDao.observeInventoriesByStoreId(ownerId)) {
 				Success(it)
 			}
 		} catch (e: Exception) {
@@ -39,10 +39,10 @@ class InventoriesLocalDataSource internal constructor(
 		}
 	}
 
-	override suspend fun getAllInventoriesByOwner(ownerId: String): Result<List<Inventory>> =
+	override suspend fun getAllInventoriesByStoreId(ownerId: String): Result<List<Inventory>> =
 		withContext(ioDispatcher) {
 			return@withContext try {
-				Success(inventoriesDao.getInventoriesByOwnerId(ownerId))
+				Success(inventoriesDao.getInventoriesByStoreId(ownerId))
 			} catch (e: Exception) {
 				Error(e)
 			}

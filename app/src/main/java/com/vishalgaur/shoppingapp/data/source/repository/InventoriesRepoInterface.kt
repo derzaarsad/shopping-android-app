@@ -9,8 +9,8 @@ import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 interface InventoriesRepoInterface {
 	suspend fun refreshInventories(ownerId: String): StoreDataStatus?
 	fun observeInventories(): LiveData<Result<List<Inventory>>?>
-	fun observeInventoriesByOwner(ownerId: String): LiveData<Result<List<Inventory>>?>
-	suspend fun getAllInventoriesByOwner(ownerId: String): Result<List<Inventory>>
+	fun observeInventoriesByStoreId(ownerId: String): LiveData<Result<List<Inventory>>?>
+	suspend fun getAllInventoriesByStoreId(ownerId: String): Result<List<Inventory>>
 	suspend fun getInventoryById(inventoryId: String, forceUpdate: Boolean = false): Result<Inventory>
 	suspend fun insertInventory(newInventory: Inventory): Result<Boolean>
 	suspend fun insertImages(imgList: List<Uri>): List<String>

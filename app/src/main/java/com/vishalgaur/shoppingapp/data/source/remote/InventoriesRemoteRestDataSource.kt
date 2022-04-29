@@ -29,7 +29,7 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		return observableInventories
 	}
 
-	override suspend fun getAllInventoriesByOwner(ownerId: String): Result<List<Inventory>> {
+	override suspend fun getAllInventoriesByStoreId(ownerId: String): Result<List<Inventory>> {
 		val resRef = UserNetwork.retrofit.getAllInventoriesByOwner(AccessData(ownerId))
 		return Success(resRef)
 	}
