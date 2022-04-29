@@ -37,8 +37,8 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 	private val _priceList = MutableLiveData<Map<String, Double>>()
 	val priceList: LiveData<Map<String, Double>> get() = _priceList
 
-	private val _cartProducts = MutableLiveData<List<Inventory>>()
-	val cartProducts: LiveData<List<Inventory>> get() = _cartProducts
+	private val _cartInventories = MutableLiveData<List<Inventory>>()
+	val cartInventories: LiveData<List<Inventory>> get() = _cartInventories
 
 	private val _dataStatus = MutableLiveData<StoreDataStatus>()
 	val dataStatus: LiveData<StoreDataStatus> get() = _dataStatus
@@ -68,7 +68,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 				val uData = userRes.data
 				if (uData != null) {
 					_cartItems.value = uData.cart
-					val priceRes = async { getAllProductsInCart() }
+					val priceRes = async { getAllInventoriesInCart() }
 					priceRes.await()
 					Log.d(TAG, "Getting Cart Items: Success ${_priceList.value}")
 				} else {
@@ -181,7 +181,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 				if (res is Success) {
 					cartList.removeAt(itemPos)
 					_cartItems.value = cartList
-					val priceRes = async { getAllProductsInCart() }
+					val priceRes = async { getAllInventoriesInCart() }
 					priceRes.await()
 				} else {
 					_dataStatus.value = StoreDataStatus.ERROR
@@ -240,7 +240,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 				if (res is Success) {
 					Log.d(TAG, "onInsertOrder: Success")
 					_cartItems.value = emptyList()
-					_cartProducts.value = emptyList()
+					_cartInventories.value = emptyList()
 					_priceList.value = emptyMap()
 					_orderStatus.value = StoreDataStatus.DONE
 				} else {
@@ -250,13 +250,13 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 					}
 				}
 			} else {
-				Log.d(TAG, "orInsertOrder: Error, newProduct Null")
+				Log.d(TAG, "orInsertOrder: Error, newInventory Null")
 				_orderStatus.value = StoreDataStatus.ERROR
 			}
 		}
 	}
 
-	private suspend fun getAllProductsInCart() {
+	private suspend fun getAllInventoriesInCart() {
 		viewModelScope.launch {
 //			_dataStatus.value = StoreDataStatus.LOADING
 			val priceMap = mutableMapOf<String, Double>()
@@ -264,10 +264,10 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 			var res = true
 			_cartItems.value?.let { itemList ->
 				itemList.forEach label@{ item ->
-					val productDeferredRes = async {
+					val inventoryDeferredRes = async {
 						inventoriesRepository.getInventoryById(item.productId, true)
 					}
-					val proRes = productDeferredRes.await()
+					val proRes = inventoryDeferredRes.await()
 					if (proRes is Success) {
 						val proData = proRes.data
 						proList.add(proData)
@@ -279,7 +279,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 				}
 			}
 			_priceList.value = priceMap
-			_cartProducts.value = proList
+			_cartInventories.value = proList
 			if (!res) {
 				_dataStatus.value = StoreDataStatus.ERROR
 			} else {

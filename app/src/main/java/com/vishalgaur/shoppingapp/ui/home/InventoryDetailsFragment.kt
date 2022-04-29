@@ -35,13 +35,13 @@ import com.vishalgaur.shoppingapp.viewModels.InventoryViewModel
 class InventoryDetailsFragment : Fragment() {
 
 	inner class InventoryViewModelFactory(
-		private val productId: String,
+		private val inventoryId: String,
 		private val application: Application
 	) : ViewModelProvider.Factory {
 		@Suppress("UNCHECKED_CAST")
 		override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 			if (modelClass.isAssignableFrom(InventoryViewModel::class.java)) {
-				return InventoryViewModel(productId, application) as T
+				return InventoryViewModel(inventoryId, application) as T
 			}
 			throw IllegalArgumentException("Unknown ViewModel Class")
 		}
@@ -147,7 +147,7 @@ class InventoryDetailsFragment : Fragment() {
 	private fun setViews() {
 		binding.layoutViewsGroup.visibility = View.VISIBLE
 		binding.proDetailsAddCartBtn.visibility = View.VISIBLE
-		binding.addProAppBar.topAppBar.title = viewModel.productData.value?.name
+		binding.addProAppBar.topAppBar.title = viewModel.inventoryData.value?.name
 		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
 			findNavController().navigateUp()
 		}
@@ -161,15 +161,15 @@ class InventoryDetailsFragment : Fragment() {
 
 		setImagesView()
 
-		binding.proDetailsTitleTv.text = viewModel.productData.value?.name ?: ""
-		binding.proDetailsRatingBar.rating = (viewModel.productData.value?.rating ?: 0.0).toFloat()
+		binding.proDetailsTitleTv.text = viewModel.inventoryData.value?.name ?: ""
+		binding.proDetailsRatingBar.rating = (viewModel.inventoryData.value?.rating ?: 0.0).toFloat()
 		binding.proDetailsPriceTv.text = resources.getString(
 			R.string.pro_details_price_value,
-			viewModel.productData.value?.price.toString()
+			viewModel.inventoryData.value?.price.toString()
 		)
 		setShoeSizeButtons()
 		setShoeColorsButtons()
-		binding.proDetailsSpecificsText.text = viewModel.productData.value?.description ?: ""
+		binding.proDetailsSpecificsText.text = viewModel.inventoryData.value?.description ?: ""
 		binding.proDetailsLikeBtn.visibility = View.GONE
 	}
 
@@ -190,7 +190,7 @@ class InventoryDetailsFragment : Fragment() {
 			binding.proDetailsImagesRecyclerview.isNestedScrollingEnabled = false
 			val adapter = ProductImagesAdapter(
 				requireContext(),
-				viewModel.productData.value?.images ?: emptyList()
+				viewModel.inventoryData.value?.images ?: emptyList()
 			)
 			binding.proDetailsImagesRecyclerview.adapter = adapter
 			val rad = resources.getDimension(R.dimen.radius)
@@ -207,7 +207,7 @@ class InventoryDetailsFragment : Fragment() {
 	private fun setShoeSizeButtons() {
 		binding.proDetailsSizesRadioGroup.apply {
 			for ((_, v) in ShoeSizes) {
-				if (viewModel.productData.value?.availableSizes?.contains(v) == true) {
+				if (viewModel.inventoryData.value?.availableSizes?.contains(v) == true) {
 					val radioButton = RadioButton(context)
 					radioButton.id = v
 					radioButton.tag = v
@@ -242,7 +242,7 @@ class InventoryDetailsFragment : Fragment() {
 		binding.proDetailsColorsRadioGroup.apply {
 			var ind = 1
 			for ((k, v) in ShoeColors) {
-				if (viewModel.productData.value?.availableColors?.contains(k) == true) {
+				if (viewModel.inventoryData.value?.availableColors?.contains(k) == true) {
 					val radioButton = RadioButton(context)
 					radioButton.id = ind
 					radioButton.tag = k

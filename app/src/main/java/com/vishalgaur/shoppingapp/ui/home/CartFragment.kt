@@ -79,7 +79,7 @@ class CartFragment : Fragment() {
 		}
 		orderViewModel.dataStatus.observe(viewLifecycleOwner) { status ->
 			if (status != null && status != StoreDataStatus.LOADING) {
-				orderViewModel.cartProducts.observe(viewLifecycleOwner) { itemList ->
+				orderViewModel.cartInventories.observe(viewLifecycleOwner) { itemList ->
 					if (itemList.isNotEmpty()) {
 						updateAdapter()
 						binding.cartEmptyTextView.visibility = View.GONE
@@ -109,7 +109,7 @@ class CartFragment : Fragment() {
 
 	private fun updateAdapter() {
 		val items = orderViewModel.cartItems.value ?: emptyList()
-		val prosList = orderViewModel.cartProducts.value ?: emptyList()
+		val prosList = orderViewModel.cartInventories.value ?: emptyList()
 		itemsAdapter.apply {
 			data = items
 			proList = prosList
@@ -121,7 +121,7 @@ class CartFragment : Fragment() {
 
 	private fun setItemsAdapter(itemList: List<UserData.CartItem>?) {
 		val items = itemList ?: emptyList()
-		val proList = orderViewModel.cartProducts.value ?: emptyList()
+		val proList = orderViewModel.cartInventories.value ?: emptyList()
 		itemsAdapter = CartItemAdapter(requireContext(), items, proList)
 		itemsAdapter.onClickListener = object : CartItemAdapter.OnClickListener {
 

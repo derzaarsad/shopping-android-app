@@ -70,7 +70,7 @@ class OrderDetailsFragment : Fragment() {
 				binding.orderDetailsConstraintGroup.visibility = View.VISIBLE
 				setAllViews(orderData)
 				val items = orderData.items
-				val prosList = viewModel.orderProducts.value ?: emptyList()
+				val prosList = viewModel.orderInventories.value ?: emptyList()
 				productsAdapter.apply {
 					data = items
 					proList = prosList
@@ -133,7 +133,7 @@ class OrderDetailsFragment : Fragment() {
 
 	private fun setProductsAdapter(itemsList: List<UserData.CartItem>?) {
 		val items = itemsList ?: emptyList()
-		val proList = viewModel.orderProducts.value ?: emptyList()
+		val proList = viewModel.orderInventories.value ?: emptyList()
 		productsAdapter = OrderInventoriesAdapter(requireContext(), items, proList)
 	}
 

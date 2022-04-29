@@ -21,11 +21,11 @@ import java.util.*
 
 private const val TAG = "InventoryViewModel"
 
-class InventoryViewModel(private val productId: String, application: Application) :
+class InventoryViewModel(private val inventoryId: String, application: Application) :
 	AndroidViewModel(application) {
 
-	private val _productData = MutableLiveData<Inventory?>()
-	val productData: LiveData<Inventory?> get() = _productData
+	private val _inventoryData = MutableLiveData<Inventory?>()
+	val inventoryData: LiveData<Inventory?> get() = _inventoryData
 
 	private val _dataStatus = MutableLiveData<StoreDataStatus>()
 	val dataStatus: LiveData<StoreDataStatus> get() = _dataStatus
@@ -47,7 +47,7 @@ class InventoryViewModel(private val productId: String, application: Application
 	init {
 		_errorStatus.value = emptyList()
 		viewModelScope.launch {
-			Log.d(TAG, "init: productId: $productId")
+			Log.d(TAG, "init: inventoryId: $inventoryId")
 			getProductDetails()
 			checkIfInCart()
 		}
@@ -59,15 +59,15 @@ class InventoryViewModel(private val productId: String, application: Application
 			_dataStatus.value = StoreDataStatus.LOADING
 			try {
 				Log.d(TAG, "getting product Data")
-				val res = inventoriesRepository.getInventoryById(productId)
+				val res = inventoriesRepository.getInventoryById(inventoryId)
 				if (res is Success) {
-					_productData.value = res.data
+					_inventoryData.value = res.data
 					_dataStatus.value = StoreDataStatus.DONE
 				} else if (res is Error) {
 					throw Exception("Error getting product")
 				}
 			} catch (e: Exception) {
-				_productData.value = Inventory()
+				_inventoryData.value = Inventory()
 				_dataStatus.value = StoreDataStatus.ERROR
 			}
 		}
@@ -81,7 +81,7 @@ class InventoryViewModel(private val productId: String, application: Application
 				val uData = userRes.data
 				if (uData != null) {
 					val cartList = uData.cart
-					val idx = cartList.indexOfFirst { it.productId == productId }
+					val idx = cartList.indexOfFirst { it.productId == inventoryId }
 					_isItemInCart.value = idx >= 0
 					Log.d(TAG, "Checking in Cart: Success, value = ${_isItemInCart.value}, ${cartList.size}")
 				} else {
@@ -102,7 +102,7 @@ class InventoryViewModel(private val productId: String, application: Application
 		if (errList.isEmpty()) {
 			val itemId = UUID.randomUUID().toString()
 			val newItem = UserData.CartItem(
-				itemId, productId, productData.value!!.owner, 1, color, size
+				itemId, inventoryId, inventoryData.value!!.owner, 1, color, size
 			)
 			insertCartItem(newItem)
 		}

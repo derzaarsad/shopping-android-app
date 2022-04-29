@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
 	private lateinit var binding: FragmentHomeBinding
 	private val viewModel: HomeViewModel by activityViewModels()
 	private val focusChangeListener = MyOnFocusChangeListener()
-	private lateinit var productAdapter: InventoryAdapter
+	private lateinit var inventoryAdapter: InventoryAdapter
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -62,25 +62,25 @@ class HomeFragment : Fragment() {
 	private fun setViews() {
 		setHomeTopAppBar()
 		if (context != null) {
-			setProductsAdapter(viewModel.products.value)
+			setProductsAdapter(viewModel.inventories.value)
 			binding.productsRecyclerView.apply {
 				val gridLayoutManager = GridLayoutManager(context, 2)
 				gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
 					override fun getSpanSize(position: Int): Int {
-						return when (productAdapter.getItemViewType(position)) {
+						return when (inventoryAdapter.getItemViewType(position)) {
 							2 -> 2 //ad
 							else -> {
-								val proCount = productAdapter.data.count { it is Inventory }
-								val adCount = productAdapter.data.size - proCount
+								val proCount = inventoryAdapter.data.count { it is Inventory }
+								val adCount = inventoryAdapter.data.size - proCount
 								val totalCount = proCount + (adCount * 2)
 								// product, full for last item
-								if (position + 1 == productAdapter.data.size && totalCount % 2 == 1) 2 else 1
+								if (position + 1 == inventoryAdapter.data.size && totalCount % 2 == 1) 2 else 1
 							}
 						}
 					}
 				}
 				layoutManager = gridLayoutManager
-				adapter = productAdapter
+				adapter = inventoryAdapter
 				val itemDecoration = RecyclerViewPaddingItemDecoration(requireContext())
 				if (itemDecorationCount == 0) {
 					addItemDecoration(itemDecoration)
@@ -116,13 +116,13 @@ class HomeFragment : Fragment() {
 				}
 			}
 			if (status != null && status != StoreDataStatus.LOADING) {
-				viewModel.products.observe(viewLifecycleOwner) { productsList ->
+				viewModel.inventories.observe(viewLifecycleOwner) { productsList ->
 					if (productsList.isNotEmpty()) {
 						binding.loaderLayout.circularLoader.hideAnimationBehavior
 						binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 						binding.productsRecyclerView.visibility = View.VISIBLE
 						binding.productsRecyclerView.adapter?.apply {
-							productAdapter.data =
+							inventoryAdapter.data =
 								getMixedDataList(productsList, getAdsList())
 							notifyDataSetChanged()
 						}
@@ -130,10 +130,10 @@ class HomeFragment : Fragment() {
 				}
 			}
 		}
-		viewModel.allProducts.observe(viewLifecycleOwner) {
+		viewModel.allInventories.observe(viewLifecycleOwner) {
 			if (it.isNotEmpty()) {
 				viewModel.setDataLoaded()
-				viewModel.filterProducts("All")
+				viewModel.filterInventories("All")
 			}
 		}
 	}
@@ -204,8 +204,8 @@ class HomeFragment : Fragment() {
 	}
 
 	private fun setProductsAdapter(productsList: List<Inventory>?) {
-		productAdapter = InventoryAdapter(productsList ?: emptyList(), requireContext())
-		productAdapter.onClickListener = object : InventoryAdapter.OnClickListener {
+		inventoryAdapter = InventoryAdapter(productsList ?: emptyList(), requireContext())
+		inventoryAdapter.onClickListener = object : InventoryAdapter.OnClickListener {
 			override fun onClick(productData: Inventory) {
 				findNavController().navigate(
 					R.id.action_seeInventory,
@@ -225,13 +225,13 @@ class HomeFragment : Fragment() {
 
 			override fun onAddToCartClick(productData: Inventory) {
 				Log.d(TAG, "onToggleCartAddition: initiated")
-				viewModel.toggleProductInCart(productData)
+				viewModel.toggleInventoryInCart(productData)
 			}
 		}
-		productAdapter.bindImageButtons = object : InventoryAdapter.BindImageButtons {
+		inventoryAdapter.bindImageButtons = object : InventoryAdapter.BindImageButtons {
 
 			override fun setCartButton(productId: String, imgView: ImageView) {
-				if (viewModel.isProductInCart(productId)) {
+				if (viewModel.isInventoryInCart(productId)) {
 					imgView.setImageResource(R.drawable.ic_remove_shopping_cart_24)
 				} else {
 					imgView.setImageResource(R.drawable.ic_add_shopping_cart_24)
@@ -250,7 +250,7 @@ class HomeFragment : Fragment() {
 					dialog.cancel()
 				}
 				.setPositiveButton(getString(R.string.delete_dialog_delete_btn_text)) { dialog, _ ->
-					viewModel.deleteProduct(productId)
+					viewModel.deleteInventory(productId)
 					dialog.cancel()
 				}
 				.show()
@@ -277,7 +277,7 @@ class HomeFragment : Fragment() {
 						dialog.cancel()
 					} else {
 						if (isFilter) {
-							viewModel.filterProducts(categoryItems[checkedItem])
+							viewModel.filterInventories(categoryItems[checkedItem])
 						} else {
 							navigateToAddEditInventoryFragment(
 								isEdit = false,

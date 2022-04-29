@@ -20,7 +20,7 @@ private const val TAG = "HomeViewModel"
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-	private val productsRepository =
+	private val inventoriesRepository =
 		(application.applicationContext as ShoppingApplication).inventoriesRepository
 	private val authRepository =
 		(application.applicationContext as ShoppingApplication).authRepository
@@ -29,14 +29,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	private val currentUser = sessionManager.getUserIdFromSession()
 	val isUserSeller = sessionManager.isUserSeller()
 
-	private var _products = MutableLiveData<List<Inventory>>()
-	val products: LiveData<List<Inventory>> get() = _products
+	private var _inventories = MutableLiveData<List<Inventory>>()
+	val inventories: LiveData<List<Inventory>> get() = _inventories
 
-	private lateinit var _allProducts: MutableLiveData<List<Inventory>>
-	val allProducts: LiveData<List<Inventory>> get() = _allProducts
+	private lateinit var _allInventories: MutableLiveData<List<Inventory>>
+	val allInventories: LiveData<List<Inventory>> get() = _allInventories
 
-	private var _userProducts = MutableLiveData<List<Inventory>>()
-	val userProducts: LiveData<List<Inventory>> get() = _userProducts
+	private var _userInventories = MutableLiveData<List<Inventory>>()
+	val userInventories: LiveData<List<Inventory>> get() = _userInventories
 
 	private var _userOrders = MutableLiveData<List<UserData.OrderItem>>()
 	val userOrders: LiveData<List<UserData.OrderItem>> get() = _userOrders
@@ -47,8 +47,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	private var _selectedOrder = MutableLiveData<UserData.OrderItem?>()
 	val selectedOrder: LiveData<UserData.OrderItem?> get() = _selectedOrder
 
-	private var _orderProducts = MutableLiveData<List<Inventory>>()
-	val orderProducts: LiveData<List<Inventory>> get() = _orderProducts
+	private var _orderInventories = MutableLiveData<List<Inventory>>()
+	val orderInventories: LiveData<List<Inventory>> get() = _orderInventories
 
 	private var _suppliers = MutableLiveData<List<String>>()
 	val suppliers: LiveData<List<String>> get() = _suppliers
@@ -74,18 +74,18 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			getSuppliers()
 		}
 
-		getProductsByOwner()
+		getInventoriesByOwner()
 	}
 
 	fun setDataLoaded() {
 		_storeDataStatus.value = StoreDataStatus.DONE
 	}
 
-	fun isProductInCart(productId: String): Boolean {
+	fun isInventoryInCart(inventoryId: String): Boolean {
 		return false
 	}
 
-	fun toggleProductInCart(product: Inventory) {
+	fun toggleInventoryInCart(inventory: Inventory) {
 
 	}
 
@@ -93,15 +93,15 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		_dataStatus.value = StoreDataStatus.LOADING
 	}
 
-	private fun getProducts() {
-		_allProducts = Transformations.switchMap(productsRepository.observeInventories()) {
-			getProductsLiveData(it)
+	private fun getInventories() {
+		_allInventories = Transformations.switchMap(inventoriesRepository.observeInventories()) {
+			getInventoriesLiveData(it)
 		} as MutableLiveData<List<Inventory>>
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { productsRepository.refreshInventories(currentUser!!) }
+			val res = async { inventoriesRepository.refreshInventories(currentUser!!) }
 			res.await()
-			Log.d(TAG, "getAllProducts: status = ${_storeDataStatus.value}")
+			Log.d(TAG, "getAllInventories: status = ${_storeDataStatus.value}")
 		}
 	}
 
@@ -119,7 +119,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
-	private fun getProductsLiveData(result: Result<List<Inventory>?>?): LiveData<List<Inventory>> {
+	private fun getInventoriesLiveData(result: Result<List<Inventory>?>?): LiveData<List<Inventory>> {
 		val res = MutableLiveData<List<Inventory>>()
 		if (result is Success) {
 			Log.d(TAG, "result is success")
@@ -130,52 +130,52 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			res.value = emptyList()
 			_storeDataStatus.value = StoreDataStatus.ERROR
 			if (result is Error)
-				Log.d(TAG, "getProductsLiveData: Error Occurred: ${result.exception}")
+				Log.d(TAG, "getInventoriesLiveData: Error Occurred: ${result.exception}")
 		}
 		return res
 	}
 
-	private fun getProductsByOwner() {
-		_allProducts =
-			Transformations.switchMap(productsRepository.observeInventoriesByOwner(currentUser!!)) {
+	private fun getInventoriesByOwner() {
+		_allInventories =
+			Transformations.switchMap(inventoriesRepository.observeInventoriesByOwner(currentUser!!)) {
 				Log.d(TAG, it.toString())
-				getProductsLiveData(it)
+				getInventoriesLiveData(it)
 			} as MutableLiveData<List<Inventory>>
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { productsRepository.refreshInventories(currentUser!!) }
+			val res = async { inventoriesRepository.refreshInventories(currentUser!!) }
 			res.await()
-			Log.d(TAG, "getProductsByOwner: status = ${_storeDataStatus.value}")
+			Log.d(TAG, "getInventoriesByOwner: status = ${_storeDataStatus.value}")
 		}
 	}
 
-	fun refreshProducts() {
-		getProducts()
+	fun refreshInventories() {
+		getInventories()
 	}
 
 	fun filterBySearch(queryText: String) {
-		filterProducts(_filterCategory.value!!)
-		_products.value = _products.value?.filter { product ->
-			product.name.contains(queryText, true) or
-					((queryText.toDoubleOrNull() ?: 0.0).compareTo(product.price) == 0)
+		filterInventories(_filterCategory.value!!)
+		_inventories.value = _inventories.value?.filter { inventory ->
+			inventory.name.contains(queryText, true) or
+					((queryText.toDoubleOrNull() ?: 0.0).compareTo(inventory.price) == 0)
 		}
 	}
 
-	fun filterProducts(filterType: String) {
+	fun filterInventories(filterType: String) {
 		Log.d(TAG, "filterType is $filterType")
 		_filterCategory.value = filterType
-		_products.value = when (filterType) {
+		_inventories.value = when (filterType) {
 			"None" -> emptyList()
-			"All" -> _allProducts.value
-			else -> _allProducts.value?.filter { product ->
-				product.category == filterType
+			"All" -> _allInventories.value
+			else -> _allInventories.value?.filter { inventory ->
+				inventory.category == filterType
 			}
 		}
 	}
 
-	fun deleteProduct(productId: String) {
+	fun deleteInventory(inventoryId: String) {
 		viewModelScope.launch {
-			val delRes = async { productsRepository.deleteInventoryById(productId) }
+			val delRes = async { inventoriesRepository.deleteInventoryById(inventoryId) }
 			when (val res = delRes.await()) {
 				is Success -> Log.d(TAG, "onDelete: Success")
 				is Error -> Log.d(TAG, "onDelete: Error, ${res.exception}")
@@ -216,9 +216,9 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 				val orderData = _userOrders.value!!.find { it.orderId == orderId }
 				if (orderData != null) {
 					_selectedOrder.value = orderData
-					_orderProducts.value =
+					_orderInventories.value =
 						orderData.items.map {
-							_allProducts.value?.find { pro -> pro.inventoryId == it.productId }
+							_allInventories.value?.find { pro -> pro.inventoryId == it.productId }
 								?: Inventory()
 						}
 					_storeDataStatus.value = StoreDataStatus.DONE
