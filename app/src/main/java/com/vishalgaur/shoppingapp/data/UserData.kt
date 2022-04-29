@@ -20,7 +20,6 @@ data class UserData(
 	var mobile: String = "",
 	var email: String = "",
 	var password: String = "",
-	var likes: List<String> = ArrayList(),
 	@TypeConverters(ObjectListTypeConvertor::class)
 	var addresses: List<Address> = ArrayList(),
 	@TypeConverters(ObjectListTypeConvertor::class)
@@ -36,7 +35,6 @@ data class UserData(
 			"email" to email,
 			"mobile" to mobile,
 			"password" to password,
-			"likes" to likes,
 			"addresses" to addresses.map { it.toHashMap() },
 			"userType" to userType
 		)

@@ -16,8 +16,6 @@ interface AuthRepoInterface {
 	suspend fun checkLogin(mobile: String, password: String): UserData?
 	suspend fun signOut()
 	suspend fun refreshUserDataFromRemote()
-	suspend fun insertProductToLikes(productId: String, userId: String): Result<Boolean>
-	suspend fun removeProductFromLikes(productId: String, userId: String): Result<Boolean>
 	suspend fun insertAddress(newAddress: UserData.Address, userId: String): Result<Boolean>
 	suspend fun updateAddress(newAddress: UserData.Address, userId: String): Result<Boolean>
 	suspend fun deleteAddressById(addressId: String, userId: String): Result<Boolean>
@@ -28,7 +26,6 @@ interface AuthRepoInterface {
 	suspend fun setStatusOfOrder(orderId: String, userId: String, status: String): Result<Boolean>
 	suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?>
 	suspend fun getAddressesByUserId(userId: String): Result<List<UserData.Address>?>
-	suspend fun getLikesByUserId(userId: String): Result<List<String>?>
 	suspend fun getSuppliers(): List<String>?
 	suspend fun getProductCategories(): List<String>?
 	suspend fun getUserData(userId: String): Result<UserData?>

@@ -200,49 +200,6 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun insertProductToLikes(productId: String, userId: String): Result<Boolean> {
-		return supervisorScope {
-			val remoteRes = async {
-				Log.d(TAG, "onLikeProduct: adding product to remote source")
-				authRemoteDataSource.likeProduct(productId, userId)
-			}
-			val localRes = async {
-				Log.d(TAG, "onLikeProduct: updating product to local source")
-				userLocalDataSource.likeProduct(productId, userId)
-			}
-			try {
-				localRes.await()
-				remoteRes.await()
-				Success(true)
-			} catch (e: Exception) {
-				Error(e)
-			}
-		}
-	}
-
-	override suspend fun removeProductFromLikes(
-		productId: String,
-		userId: String
-	): Result<Boolean> {
-		return supervisorScope {
-			val remoteRes = async {
-				Log.d(TAG, "onDislikeProduct: deleting product from remote source")
-				authRemoteDataSource.dislikeProduct(productId, userId)
-			}
-			val localRes = async {
-				Log.d(TAG, "onDislikeProduct: updating product to local source")
-				userLocalDataSource.dislikeProduct(productId, userId)
-			}
-			try {
-				localRes.await()
-				remoteRes.await()
-				Success(true)
-			} catch (e: Exception) {
-				Error(e)
-			}
-		}
-	}
-
 	override suspend fun insertAddress(
 		newAddress: UserData.Address,
 		userId: String
@@ -451,10 +408,6 @@ class AuthRepository(
 
 	override suspend fun getAddressesByUserId(userId: String): Result<List<UserData.Address>?> {
 		return userLocalDataSource.getAddressesByUserId(userId)
-	}
-
-	override suspend fun getLikesByUserId(userId: String): Result<List<String>?> {
-		return userLocalDataSource.getLikesByUserId(userId)
 	}
 
 	override suspend fun getSuppliers(): List<String>? {
