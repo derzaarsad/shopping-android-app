@@ -25,7 +25,7 @@ class OrderProductsAdapter(
 		RecyclerView.ViewHolder(binding.root) {
 		fun bind(itemData: UserData.CartItem) {
 			binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-			val proData = proList.find { it.productId == itemData.productId } ?: Product()
+			val proData = proList.find { it.productId == itemData.inventoryId } ?: Product()
 			binding.cartProductTitleTv.text = proData.name
 			binding.cartProductPriceTv.text =
 				context.getString(R.string.price_text, proData.price.toString())

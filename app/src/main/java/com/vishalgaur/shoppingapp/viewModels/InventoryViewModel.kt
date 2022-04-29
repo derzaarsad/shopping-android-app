@@ -81,7 +81,7 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 				val uData = userRes.data
 				if (uData != null) {
 					val cartList = uData.cart
-					val idx = cartList.indexOfFirst { it.productId == inventoryId }
+					val idx = cartList.indexOfFirst { it.inventoryId == inventoryId }
 					_isItemInCart.value = idx >= 0
 					Log.d(TAG, "Checking in Cart: Success, value = ${_isItemInCart.value}, ${cartList.size}")
 				} else {

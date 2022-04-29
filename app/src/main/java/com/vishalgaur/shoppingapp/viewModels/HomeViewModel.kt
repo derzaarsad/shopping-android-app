@@ -218,7 +218,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 					_selectedOrder.value = orderData
 					_orderInventories.value =
 						orderData.items.map {
-							_allInventories.value?.find { pro -> pro.inventoryId == it.productId }
+							_allInventories.value?.find { pro -> pro.inventoryId == it.inventoryId }
 								?: Inventory()
 						}
 					_storeDataStatus.value = StoreDataStatus.DONE

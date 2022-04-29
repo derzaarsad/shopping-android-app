@@ -265,7 +265,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 			_cartItems.value?.let { itemList ->
 				itemList.forEach label@{ item ->
 					val inventoryDeferredRes = async {
-						inventoriesRepository.getInventoryById(item.productId, true)
+						inventoriesRepository.getInventoryById(item.inventoryId, true)
 					}
 					val proRes = inventoryDeferredRes.await()
 					if (proRes is Success) {

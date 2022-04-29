@@ -97,7 +97,7 @@ data class UserData(
 	@Parcelize
 	data class CartItem(
 		var itemId: String = "",
-		var productId: String = "",
+		var inventoryId: String = "",
 		var ownerId: String = "",
 		var quantity: Int = 0,
 		var color: String?,
@@ -108,7 +108,7 @@ data class UserData(
 		fun toHashMap(): HashMap<String, Any> {
 			val hashMap = hashMapOf<String, Any>()
 			hashMap["itemId"] = itemId
-			hashMap["productId"] = productId
+			hashMap["inventoryId"] = inventoryId
 			hashMap["ownerId"] = ownerId
 			hashMap["quantity"] = quantity
 			if (color != null)
