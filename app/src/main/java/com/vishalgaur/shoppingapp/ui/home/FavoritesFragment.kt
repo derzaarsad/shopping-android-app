@@ -15,13 +15,13 @@ import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.databinding.FragmentFavoritesBinding
 import com.vishalgaur.shoppingapp.ui.RecyclerViewPaddingItemDecoration
-import com.vishalgaur.shoppingapp.viewModels.HomeViewModel
+import com.vishalgaur.shoppingapp.viewModels.HomeViewModelWithLike
 
 private const val TAG = "FavoritesFragment"
 
 class FavoritesFragment : Fragment() {
 	private lateinit var binding: FragmentFavoritesBinding
-	private val viewModel: HomeViewModel by activityViewModels()
+	private val viewModel: HomeViewModelWithLike by activityViewModels()
 	private lateinit var productsAdapter: LikedProductAdapter
 
 	override fun onCreateView(
