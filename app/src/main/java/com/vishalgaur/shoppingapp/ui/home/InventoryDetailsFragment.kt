@@ -183,6 +183,7 @@ class InventoryDetailsFragment : Fragment() {
 		setShoeSizeButtons()
 		setShoeColorsButtons()
 		binding.proDetailsSpecificsText.text = viewModel.productData.value?.description ?: ""
+		binding.proDetailsLikeBtn.visibility = View.GONE
 	}
 
 	private fun onAddToCart() {
