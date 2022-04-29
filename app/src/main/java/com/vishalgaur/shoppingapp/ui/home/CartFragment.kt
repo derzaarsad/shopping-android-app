@@ -43,7 +43,6 @@ class CartFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		orderViewModel.getUserLikes()
 		orderViewModel.getCartItems()
 	}
 
@@ -106,21 +105,14 @@ class CartFragment : Fragment() {
 				updateAdapter()
 			}
 		}
-		orderViewModel.userLikes.observe(viewLifecycleOwner) {
-			if (it.isNotEmpty()) {
-				updateAdapter()
-			}
-		}
 	}
 
 	private fun updateAdapter() {
 		val items = orderViewModel.cartItems.value ?: emptyList()
-		val likeList = orderViewModel.userLikes.value ?: emptyList()
 		val prosList = orderViewModel.cartProducts.value ?: emptyList()
 		itemsAdapter.apply {
 			data = items
 			proList = prosList
-			likesList = likeList
 		}
 		concatAdapter = ConcatAdapter(itemsAdapter, PriceCardAdapter())
 		binding.cartProductsRecyclerView.adapter = concatAdapter
@@ -129,14 +121,9 @@ class CartFragment : Fragment() {
 
 	private fun setItemsAdapter(itemList: List<UserData.CartItem>?) {
 		val items = itemList ?: emptyList()
-		val likesList = orderViewModel.userLikes.value ?: emptyList()
 		val proList = orderViewModel.cartProducts.value ?: emptyList()
-		itemsAdapter = CartItemAdapter(requireContext(), items, proList, likesList)
+		itemsAdapter = CartItemAdapter(requireContext(), items, proList)
 		itemsAdapter.onClickListener = object : CartItemAdapter.OnClickListener {
-			override fun onLikeClick(productId: String) {
-				Log.d(TAG, "onToggle Like Clicked")
-				orderViewModel.toggleLikeProduct(productId)
-			}
 
 			override fun onDeleteClick(itemId: String, itemBinding: LayoutCircularLoaderBinding) {
 				Log.d(TAG, "onDelete: initiated")

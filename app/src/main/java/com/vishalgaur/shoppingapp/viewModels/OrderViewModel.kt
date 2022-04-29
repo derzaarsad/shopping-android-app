@@ -31,9 +31,6 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 	private val _userAddresses = MutableLiveData<List<UserData.Address>>()
 	val userAddresses: LiveData<List<UserData.Address>> get() = _userAddresses
 
-	private val _userLikes = MutableLiveData<List<String>>()
-	val userLikes: LiveData<List<String>> get() = _userLikes
-
 	private val _cartItems = MutableLiveData<List<UserData.CartItem>>()
 	val cartItems: LiveData<List<UserData.CartItem>> get() = _cartItems
 
@@ -55,7 +52,6 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 
 	init {
 		viewModelScope.launch {
-			getUserLikes()
 		}
 	}
 
@@ -106,29 +102,6 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
-	fun getUserLikes() {
-		Log.d(TAG, "Getting Likes")
-//		_dataStatus.value = StoreDataStatus.LOADING
-		viewModelScope.launch {
-			val res = authRepository.getLikesByUserId(currentUser!!)
-			if (res is Success) {
-				val data = res.data ?: emptyList()
-				if (data[0] != "") {
-					_userLikes.value = data
-				} else {
-					_userLikes.value = emptyList()
-				}
-				_dataStatus.value = StoreDataStatus.DONE
-				Log.d(TAG, "Getting Likes: Success")
-			} else {
-				_userLikes.value = emptyList()
-				_dataStatus.value = StoreDataStatus.ERROR
-				if (res is Error)
-					Log.d(TAG, "Getting Likes: Error Occurred, ${res.exception.message}")
-			}
-		}
-	}
-
 	fun deleteAddress(addressId: String) {
 		viewModelScope.launch {
 			val delRes = async { authRepository.deleteAddressById(addressId, currentUser!!) }
@@ -156,36 +129,6 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 			totalPrice += price * (_cartItems.value?.find { it.itemId == itemId }?.quantity ?: 1)
 		}
 		return totalPrice
-	}
-
-	fun toggleLikeProduct(productId: String) {
-		Log.d(TAG, "toggling Like")
-		viewModelScope.launch {
-//			_dataStatus.value = StoreDataStatus.LOADING
-			val isLiked = _userLikes.value?.contains(productId) == true
-			val allLikes = _userLikes.value?.toMutableList() ?: mutableListOf()
-			val deferredRes = async {
-				if (isLiked) {
-					authRepository.removeProductFromLikes(productId, currentUser!!)
-				} else {
-					authRepository.insertProductToLikes(productId, currentUser!!)
-				}
-			}
-			val res = deferredRes.await()
-			if (res is Success) {
-				if (isLiked) {
-					allLikes.remove(productId)
-				} else {
-					allLikes.add(productId)
-				}
-				_userLikes.value = allLikes
-				_dataStatus.value = StoreDataStatus.DONE
-			} else {
-				_dataStatus.value = StoreDataStatus.ERROR
-				if (res is Error)
-					Log.d(TAG, "onUpdateQuantity: Error Occurred: ${res.exception.message}")
-			}
-		}
 	}
 
 	fun getItemsCount(): Int {

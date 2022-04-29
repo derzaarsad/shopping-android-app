@@ -15,13 +15,12 @@ import com.vishalgaur.shoppingapp.databinding.LayoutCircularLoaderBinding
 
 class CartItemAdapter(
 	private val context: Context, items: List<UserData.CartItem>,
-	products: List<Product>, userLikes: List<String>
+	products: List<Product>
 ) : RecyclerView.Adapter<CartItemAdapter.ViewHolder>() {
 
 	lateinit var onClickListener: OnClickListener
 	var data: List<UserData.CartItem> = items
 	var proList: List<Product> = products
-	var likesList: List<String> = userLikes
 
 	inner class ViewHolder(private val binding: CartListItemBinding) :
 		RecyclerView.ViewHolder(binding.root) {
@@ -40,22 +39,6 @@ class CartItemAdapter(
 				binding.productImageView.clipToOutline = true
 			}
 			binding.cartProductQuantityTextView.text = itemData.quantity.toString()
-
-			if (likesList.contains(proData.productId)) {
-				binding.cartProductLikeBtn.setImageResource(R.drawable.liked_heart_drawable)
-			} else {
-				binding.cartProductLikeBtn.setImageResource(R.drawable.heart_icon_drawable)
-			}
-
-			binding.cartProductLikeBtn.setOnClickListener {
-				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-				if (!likesList.contains(proData.productId)) {
-					binding.cartProductLikeBtn.setImageResource(R.drawable.liked_heart_drawable)
-				} else {
-					binding.cartProductLikeBtn.setImageResource(R.drawable.heart_icon_drawable)
-				}
-				onClickListener.onLikeClick(proData.productId)
-			}
 			binding.cartProductDeleteBtn.setOnClickListener {
 				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
 				onClickListener.onDeleteClick(itemData.itemId, binding.loaderLayout)
@@ -87,7 +70,6 @@ class CartItemAdapter(
 	override fun getItemCount() = data.size
 
 	interface OnClickListener {
-		fun onLikeClick(productId: String)
 		fun onDeleteClick(itemId: String, itemBinding: LayoutCircularLoaderBinding)
 		fun onPlusClick(itemId: String)
 		fun onMinusClick(itemId: String, currQuantity: Int, itemBinding: LayoutCircularLoaderBinding)
