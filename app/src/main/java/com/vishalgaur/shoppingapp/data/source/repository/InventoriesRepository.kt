@@ -23,11 +23,6 @@ class InventoriesRepository(
 		private const val TAG = "InventoriesRepository"
 	}
 
-	override suspend fun refreshInventories(ownerId: String): StoreDataStatus? {
-		Log.d(TAG, "Updating Inventories in Room")
-		return updateInventoriesFromRemoteSource(ownerId)
-	}
-
 	override fun observeInventories(): LiveData<Result<List<Inventory>>?> {
 		return inventoriesLocalSource.observeInventories()
 	}
@@ -154,7 +149,8 @@ class InventoriesRepository(
 		}
 	}
 
-	private suspend fun updateInventoriesFromRemoteSource(ownerId: String): StoreDataStatus? {
+	override suspend fun updateLocalInventoriesFromRemote(ownerId: String): StoreDataStatus? {
+		Log.d(TAG, "Updating Inventories in Room")
 		var res: StoreDataStatus? = null
 		try {
 			val remoteProducts = inventoriesRemoteSource.getAllInventoriesByStoreId(ownerId)
@@ -169,7 +165,7 @@ class InventoriesRepository(
 					throw remoteProducts.exception
 			}
 		} catch (e: Exception) {
-			Log.d(TAG, "onUpdateInventoriesFromRemoteSource: Exception occurred, ${e.message}")
+			Log.d(TAG, "onUpdateLocalInventoriesFromRemote: Exception occurred, ${e.message}")
 		}
 
 		return res

@@ -95,7 +95,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		} as MutableLiveData<List<Inventory>>
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { inventoriesRepository.refreshInventories(currentUser!!) }
+			val res = async { inventoriesRepository.updateLocalInventoriesFromRemote(currentUser!!) }
 			res.await()
 			Log.d(TAG, "getAllInventories: status = ${_storeDataStatus.value}")
 		}
@@ -132,7 +132,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			} as MutableLiveData<List<Inventory>>
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { inventoriesRepository.refreshInventories(currentUser!!) }
+			val res = async { inventoriesRepository.updateLocalInventoriesFromRemote(currentUser!!) }
 			res.await()
 			Log.d(TAG, "getInventoriesByOwner: status = ${_storeDataStatus.value}")
 		}
