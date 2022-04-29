@@ -24,7 +24,7 @@ class OrderDetailsFragment : Fragment() {
 	private lateinit var binding: FragmentOrderDetailsBinding
 	private val viewModel: HomeViewModel by activityViewModels()
 	private lateinit var orderId: String
-	private lateinit var productsAdapter: OrderProductsAdapter
+	private lateinit var productsAdapter: OrderInventoriesAdapter
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -137,7 +137,7 @@ class OrderDetailsFragment : Fragment() {
 		val items = itemsList ?: emptyList()
 		val likesList = viewModel.userLikes.value ?: emptyList()
 		val proList = viewModel.orderProducts.value ?: emptyList()
-		productsAdapter = OrderProductsAdapter(requireContext(), items, proList, likesList)
+		productsAdapter = OrderInventoriesAdapter(requireContext(), items, proList, likesList)
 	}
 
 	private fun showDialogWithItems(checkedOption: Int = 0, orderId: String) {
