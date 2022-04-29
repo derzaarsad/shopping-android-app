@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.vishalgaur.shoppingapp.ShoppingApplication
-import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
@@ -24,8 +24,8 @@ private const val TAG = "InventoryViewModel"
 class InventoryViewModel(private val productId: String, application: Application) :
 	AndroidViewModel(application) {
 
-	private val _productData = MutableLiveData<Product?>()
-	val productData: LiveData<Product?> get() = _productData
+	private val _productData = MutableLiveData<Inventory?>()
+	val productData: LiveData<Inventory?> get() = _productData
 
 	private val _dataStatus = MutableLiveData<StoreDataStatus>()
 	val dataStatus: LiveData<StoreDataStatus> get() = _dataStatus
@@ -39,7 +39,7 @@ class InventoryViewModel(private val productId: String, application: Application
 	private val _isItemInCart = MutableLiveData<Boolean>()
 	val isItemInCart: LiveData<Boolean> get() = _isItemInCart
 
-	private val productsRepository =(application as ShoppingApplication).productsRepository
+	private val inventoriesRepository =(application as ShoppingApplication).inventoriesRepository
 	private val authRepository = (application as ShoppingApplication).authRepository
 	private val sessionManager = ShoppingAppSessionManager(application.applicationContext)
 	private val currentUserId = sessionManager.getUserIdFromSession()
@@ -59,7 +59,7 @@ class InventoryViewModel(private val productId: String, application: Application
 			_dataStatus.value = StoreDataStatus.LOADING
 			try {
 				Log.d(TAG, "getting product Data")
-				val res = productsRepository.getProductById(productId)
+				val res = inventoriesRepository.getInventoryById(productId)
 				if (res is Success) {
 					_productData.value = res.data
 					_dataStatus.value = StoreDataStatus.DONE
@@ -67,7 +67,7 @@ class InventoryViewModel(private val productId: String, application: Application
 					throw Exception("Error getting product")
 				}
 			} catch (e: Exception) {
-				_productData.value = Product()
+				_productData.value = Inventory()
 				_dataStatus.value = StoreDataStatus.ERROR
 			}
 		}
