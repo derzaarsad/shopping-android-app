@@ -429,7 +429,7 @@ class AuthRepository(
 		var queryResult = listOf<String>()
 		try {
 			queryResult = authRemoteDataSource.getProductCategories()
-			Log.d(TAG,"getting product categories success: " + queryResult.size + " suppliers found")
+			Log.d(TAG,"getting product categories success: " + queryResult.size + " product categories found")
 		} catch (e: Exception) {
 			Log.d(TAG,"Error on getting product categories: " + e.toString())
 		}

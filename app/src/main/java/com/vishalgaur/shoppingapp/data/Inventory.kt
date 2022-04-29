@@ -11,7 +11,7 @@ data class Inventory @JvmOverloads constructor(
 	@PrimaryKey
 	var inventoryId: String = "",
 	var name: String = "",
-	var owner: String = "",
+	var storeId: String = "",
 	var description: String = "",
 	var category: String = "",
 	var price: Double = 0.0,
@@ -25,7 +25,7 @@ data class Inventory @JvmOverloads constructor(
 		return hashMapOf(
 			"inventoryId" to inventoryId,
 			"name" to name,
-			"owner" to owner,
+			"storeId" to storeId,
 			"description" to description,
 			"category" to category,
 			"price" to price,

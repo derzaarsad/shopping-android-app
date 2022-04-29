@@ -102,7 +102,7 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		if (errList.isEmpty()) {
 			val itemId = UUID.randomUUID().toString()
 			val newItem = UserData.CartItem(
-				itemId, inventoryId, inventoryData.value!!.owner, 1, color, size
+				itemId, inventoryId, inventoryData.value!!.storeId, 1, color, size
 			)
 			insertCartItem(newItem)
 		}

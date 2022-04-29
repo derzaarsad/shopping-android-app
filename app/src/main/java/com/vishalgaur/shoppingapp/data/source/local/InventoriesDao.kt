@@ -21,14 +21,14 @@ interface InventoriesDao {
 	@Query("SELECT * FROM inventories")
 	fun observeInventories(): LiveData<List<Inventory>>
 
-	@Query("SELECT * FROM inventories WHERE owner = :ownerId")
-	fun observeInventoriesByOwner(ownerId: String): LiveData<List<Inventory>>
+	@Query("SELECT * FROM inventories WHERE storeId = :store_id")
+	fun observeInventoriesByOwner(store_id: String): LiveData<List<Inventory>>
 
 	@Query("SELECT * FROM inventories WHERE inventoryId = :invId")
 	suspend fun getInventoryById(invId: String): Inventory?
 
-	@Query("SELECT * FROM inventories WHERE owner = :ownerId")
-	suspend fun getInventoriesByOwnerId(ownerId: String): List<Inventory>
+	@Query("SELECT * FROM inventories WHERE storeId = :store_id")
+	suspend fun getInventoriesByOwnerId(store_id: String): List<Inventory>
 
 	@Query("DELETE FROM inventories WHERE inventoryId = :invId")
 	suspend fun deleteInventoryById(invId: String): Int
