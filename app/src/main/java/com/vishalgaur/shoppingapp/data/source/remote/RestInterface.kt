@@ -15,7 +15,7 @@ data class LoginData(
 )
 
 data class AccessData(
-	val ownerId: String
+	val userId: String
 )
 
 data class CartItemData(
@@ -40,7 +40,7 @@ interface KomodiAPI {
 	suspend fun getAllProductsByOwner(@Body body: AccessData): List<Product>
 
 	@POST("getAllProductsByOwner")
-	suspend fun getAllInventoriesByOwner(@Body body: AccessData): List<Inventory>
+	suspend fun getAllInventoriesBySellerId(@Body body: AccessData): List<Inventory>
 
 	@POST("getProductById")
 	suspend fun getProductById(@Body body: ProductData): Product

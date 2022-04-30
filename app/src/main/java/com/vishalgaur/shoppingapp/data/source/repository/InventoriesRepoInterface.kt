@@ -7,10 +7,10 @@ import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 
 interface InventoriesRepoInterface {
-	suspend fun updateLocalInventoriesFromRemote(ownerId: String): StoreDataStatus?
+	suspend fun updateLocalInventoriesFromRemote(sellerId: String): StoreDataStatus?
 	fun observeInventories(): LiveData<Result<List<Inventory>>?>
-	fun observeInventoriesByStoreId(ownerId: String): LiveData<Result<List<Inventory>>?>
-	suspend fun getAllInventoriesByStoreId(ownerId: String): Result<List<Inventory>>
+	fun observeInventoriesBySellerId(sellerId: String): LiveData<Result<List<Inventory>>?>
+	suspend fun getAllInventoriesBySellerId(sellerId: String): Result<List<Inventory>>
 	suspend fun getInventoryById(inventoryId: String, forceUpdate: Boolean = false): Result<Inventory>
 	suspend fun insertInventory(newInventory: Inventory): Result<Boolean>
 	suspend fun insertImages(imgList: List<Uri>): List<String>

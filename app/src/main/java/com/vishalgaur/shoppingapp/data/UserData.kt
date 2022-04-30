@@ -98,7 +98,7 @@ data class UserData(
 	data class CartItem(
 		var itemId: String = "",
 		var inventoryId: String = "",
-		var ownerId: String = "",
+		var sellerId: String = "",
 		var quantity: Int = 0,
 		var color: String?,
 		var size: Int?
@@ -109,7 +109,7 @@ data class UserData(
 			val hashMap = hashMapOf<String, Any>()
 			hashMap["itemId"] = itemId
 			hashMap["inventoryId"] = inventoryId
-			hashMap["ownerId"] = ownerId
+			hashMap["sellerId"] = sellerId
 			hashMap["quantity"] = quantity
 			if (color != null)
 				hashMap["color"] = color!!
