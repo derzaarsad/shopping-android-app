@@ -27,7 +27,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val sessionManager = ShoppingAppSessionManager(application.applicationContext)
 	private val currentUser = sessionManager.getUserIdFromSession()
-	val isUserSeller = sessionManager.isUserSeller()
+	val isUserAdmin = sessionManager.isUserAdmin()
 
 	private var _inventories = MutableLiveData<List<Inventory>>()
 	val inventories: LiveData<List<Inventory>> get() = _inventories

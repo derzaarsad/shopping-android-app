@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
 			}
 		}
 
-		if (!viewModel.isUserSeller) {
+		if (!viewModel.isUserAdmin) {
 			binding.homeFabAddProduct.visibility = View.GONE
 		} else {
 			viewModel.getProductCategories()

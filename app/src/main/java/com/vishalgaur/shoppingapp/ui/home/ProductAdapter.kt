@@ -71,7 +71,7 @@ class ProductAdapter(proList: List<Any>, userLikes: List<String>, private val co
 
 			proLikeButton.isChecked = likesList.contains(productData.productId)
 
-			if (sessionManager.isUserSeller()) {
+			if (sessionManager.isUserAdmin()) {
 				proLikeButton.visibility = View.GONE
 				proEditBtn.setOnClickListener {
 					onClickListener.onEditClick(productData.productId)

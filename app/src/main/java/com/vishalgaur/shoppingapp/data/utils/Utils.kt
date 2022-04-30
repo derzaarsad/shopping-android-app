@@ -10,7 +10,7 @@ enum class AddInventoryErrors { NONE, ERR_ADD, ERR_ADD_IMG, ADDING }
 
 enum class AddObjectStatus { DONE, ERR_ADD, ADDING }
 
-enum class UserType { CUSTOMER, SELLER }
+enum class UserType { ADMIN, SELLER, CUSTOMER, SUPPLIER }
 
 enum class OrderStatus { CONFIRMED, PACKAGING, PACKED, SHIPPING, SHIPPED, ARRIVING, DELIVERED }
 

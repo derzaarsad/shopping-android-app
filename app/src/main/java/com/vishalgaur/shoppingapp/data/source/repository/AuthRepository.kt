@@ -50,14 +50,14 @@ class AuthRepository(
 	}
 
 	override suspend fun signUp(userData: UserData) {
-		val isSeller = userData.userType == UserType.SELLER.name
+		val isAdmin = userData.userType == UserType.ADMIN.name
 		sessionManager.createLoginSession(
 			userData.userId,
 			userData.name,
 			userData.mobile,
 			userData.password,
 			false,
-			isSeller
+			isAdmin
 		)
 		Log.d(TAG, "on SignUp: Updating user in Local Source")
 		userLocalDataSource.addUser(userData)
@@ -67,14 +67,14 @@ class AuthRepository(
 	}
 
 	override fun login(userData: UserData, rememberMe: Boolean) {
-		val isSeller = userData.userType == UserType.SELLER.name
+		val isAdmin = userData.userType == UserType.ADMIN.name
 		sessionManager.createLoginSession(
 			userData.userId,
 			userData.name,
 			userData.mobile,
 			userData.password,
 			rememberMe,
-			isSeller
+			isAdmin
 		)
 	}
 

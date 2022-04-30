@@ -66,7 +66,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 				productImage.clipToOutline = true
 			}
 
-			if (sessionManager.isUserSeller()) {
+			if (sessionManager.isUserAdmin()) {
 				proEditBtn.setOnClickListener {
 					onClickListener.onEditClick(productData.inventoryId)
 				}
