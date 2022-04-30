@@ -34,6 +34,11 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		return Success(resRef)
 	}
 
+	override suspend fun getAllInventories(userId: String): Result<List<Inventory>> {
+		val resRef = UserNetwork.retrofit.getAllInventories(AccessData(userId))
+		return Success(resRef)
+	}
+
 	override suspend fun insertInventory(newInventory: Inventory) {
 		inventoriesCollectionRef().add(newInventory.toHashMap()).await()
 	}

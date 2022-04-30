@@ -24,6 +24,10 @@ interface InventoryDataSource {
 		return Result.Success(emptyList())
 	}
 
+	suspend fun getAllInventories(userId: String): Result<List<Inventory>> {
+		return Result.Success(emptyList())
+	}
+
 	suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		return null
 	}
