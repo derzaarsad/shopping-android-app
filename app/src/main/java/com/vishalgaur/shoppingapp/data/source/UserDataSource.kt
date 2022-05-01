@@ -22,10 +22,6 @@ interface UserDataSource {
 		return mutableListOf()
 	}
 
-	suspend fun getSuppliers(): List<String> {
-		return listOf()
-	}
-
 	suspend fun insertAddress(newAddress: UserData.Address, userId: String) {}
 
 	suspend fun updateAddress(newAddress: UserData.Address, userId: String) {}
