@@ -16,7 +16,7 @@ import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.source.ProductDataSource
 import kotlinx.coroutines.tasks.await
 
-class ProductsRemoteRestDataSource : ProductDataSource {
+class ProductsRemoteDataSource : ProductDataSource {
 	private val firebaseDb: FirebaseFirestore = Firebase.firestore
 	private val firebaseStorage: FirebaseStorage = Firebase.storage
 
@@ -25,13 +25,21 @@ class ProductsRemoteRestDataSource : ProductDataSource {
 	private fun storageRef() = firebaseStorage.reference
 	private fun productsCollectionRef() = firebaseDb.collection(PRODUCT_COLLECTION)
 
+	override suspend fun refreshProducts() {
+		observableProducts.value = getAllProducts()
+	}
+
 	override fun observeProducts(): LiveData<Result<List<Product>>?> {
 		return observableProducts
 	}
 
-	override suspend fun getAllProductsByOwner(ownerId: String): Result<List<Product>> {
-		val resRef = UserNetwork.retrofit.getAllProductsByOwner(AccessData(ownerId))
-		return Success(resRef)
+	override suspend fun getAllProducts(): Result<List<Product>> {
+		val resRef = productsCollectionRef().get().await()
+		return if (!resRef.isEmpty) {
+			Success(resRef.toObjects(Product::class.java))
+		} else {
+			Error(Exception("Error getting Products!"))
+		}
 	}
 
 	override suspend fun insertProduct(newProduct: Product) {
@@ -50,11 +58,11 @@ class ProductsRemoteRestDataSource : ProductDataSource {
 	}
 
 	override suspend fun getProductById(productId: String): Result<Product> {
-		try {
-			val resRef = UserNetwork.retrofit.getProductById(ProductData(productId))
-			return Success(resRef)
-		} catch (e: Exception) {
-			return Error(Exception("Product with id: $productId Not Found!"))
+		val resRef = productsCollectionRef().whereEqualTo(PRODUCT_ID_FIELD, productId).get().await()
+		return if (!resRef.isEmpty) {
+			Success(resRef.toObjects(Product::class.java)[0])
+		} else {
+			Error(Exception("Product with id: $productId Not Found!"))
 		}
 	}
 

@@ -11,7 +11,7 @@ import com.vishalgaur.shoppingapp.data.source.local.ProductsLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.local.ShoppingAppDatabase
 import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
-import com.vishalgaur.shoppingapp.data.source.remote.ProductsRemoteRestDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.ProductsRemoteDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.InventoriesRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepoInterface
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepository
@@ -75,7 +75,7 @@ object ServiceLocator {
 
 	private fun createProductsRepository(context: Context): ProductsRepoInterface {
 		val newRepo =
-			ProductsRepository(ProductsRemoteRestDataSource(), createProductsLocalDataSource(context))
+			ProductsRepository(ProductsRemoteDataSource(), createProductsLocalDataSource(context))
 		productsRepository = newRepo
 		return newRepo
 	}

@@ -39,6 +39,14 @@ class ProductsLocalDataSource internal constructor(
 		}
 	}
 
+	override suspend fun getAllProducts(): Result<List<Product>> = withContext(ioDispatcher) {
+		return@withContext try {
+			Success(productsDao.getAllProducts())
+		} catch (e: Exception) {
+			Error(e)
+		}
+	}
+
 	override suspend fun getAllProductsByOwner(ownerId: String): Result<List<Product>> =
 		withContext(ioDispatcher) {
 			return@withContext try {

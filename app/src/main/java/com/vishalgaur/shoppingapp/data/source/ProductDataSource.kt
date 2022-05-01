@@ -10,6 +10,10 @@ interface ProductDataSource {
 
 	fun observeProducts(): LiveData<Result<List<Product>>?>
 
+	suspend fun getAllProducts(): Result<List<Product>>
+
+	suspend fun refreshProducts() {}
+
 	suspend fun getProductById(productId: String): Result<Product>
 
 	suspend fun insertProduct(newProduct: Product)

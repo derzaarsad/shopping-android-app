@@ -1,7 +1,6 @@
 package com.vishalgaur.shoppingapp.data.source.remote
 
 import com.vishalgaur.shoppingapp.data.Inventory
-import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.UserData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,10 +22,6 @@ data class CartItemData(
 	val userId: String
 )
 
-data class ProductData(
-	val productId: String
-)
-
 data class InventoryData(
 	val inventoryId: String
 )
@@ -37,16 +32,10 @@ interface KomodiAPI {
 	suspend fun getUserByMobileAndPassword(@Body body: LoginData): MutableList<UserData>
 
 	@POST("getAllProductsByOwner")
-	suspend fun getAllProductsByOwner(@Body body: AccessData): List<Product>
-
-	@POST("getAllProductsByOwner")
 	suspend fun getAllInventoriesBySellerId(@Body body: AccessData): List<Inventory>
 
 	@POST("getAllProductsByOwner")
 	suspend fun getAllInventories(@Body body: AccessData): List<Inventory>
-
-	@POST("getProductById")
-	suspend fun getProductById(@Body body: ProductData): Product
 
 	@POST("getProductById")
 	suspend fun getInventoryById(@Body body: InventoryData): Inventory
