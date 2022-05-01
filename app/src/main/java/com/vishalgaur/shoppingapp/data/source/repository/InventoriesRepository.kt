@@ -203,4 +203,21 @@ class InventoriesRepository(
 			null
 		}
 	}
+
+	override suspend fun insertProductCategory(
+		name: String
+	): Result<Boolean> {
+		return supervisorScope {
+			val remoteRes = async {
+				Log.d(InventoriesRepository.TAG, "onInsertProductCategory: adding product category to remote source")
+				inventoriesRemoteSource.insertProductCategory(name)
+			}
+			try {
+				remoteRes.await()
+				Success(true)
+			} catch (e: Exception) {
+				Error(e)
+			}
+		}
+	}
 }

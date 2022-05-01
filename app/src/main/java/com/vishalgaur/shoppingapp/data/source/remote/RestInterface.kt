@@ -7,6 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 data class LoginData(
 	val mobile: String,
@@ -24,6 +25,10 @@ data class CartItemData(
 
 data class InventoryData(
 	val inventoryId: String
+)
+
+data class ProductCategoryData(
+	val name: String
 )
 
 interface KomodiAPI {
@@ -48,6 +53,9 @@ interface KomodiAPI {
 
 	@GET("getProductCategories")
 	suspend fun getProductCategories(): List<String>
+
+	@PUT("insertProductCategory")
+	suspend fun insertProductCategory(@Body body: ProductCategoryData): String
 }
 
 object UserNetwork {

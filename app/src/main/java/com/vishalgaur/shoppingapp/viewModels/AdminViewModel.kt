@@ -239,8 +239,7 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 		viewModelScope.launch {
 			_addProductCategoryStatus.value = AddObjectStatus.ADDING
 				val deferredRes = async {
-					//authRepository.insertAddress(newAddressData.value!!, currentUser!!) // TODO: insert product category
-					inventoriesRepository.getAllInventoriesBySellerId(currentUser!!) // TODO: remove
+					inventoriesRepository.insertProductCategory(productCategory)
 				}
 				val res = deferredRes.await()
 				if (res is Success) {
