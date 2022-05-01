@@ -70,8 +70,7 @@ data class UserData(
 	@Parcelize
 	data class Address(
 		var addressId: String = "",
-		var fName: String = "",
-		var lName: String = "",
+		var name: String = "",
 		var streetAddress: String = "",
 		var streetAddress2: String = "",
 		var city: String = "",
@@ -82,8 +81,7 @@ data class UserData(
 		fun toHashMap(): HashMap<String, String> {
 			return hashMapOf(
 				"addressId" to addressId,
-				"fName" to fName,
-				"lName" to lName,
+				"name" to name,
 				"streetAddress" to streetAddress,
 				"streetAddress2" to streetAddress2,
 				"city" to city,

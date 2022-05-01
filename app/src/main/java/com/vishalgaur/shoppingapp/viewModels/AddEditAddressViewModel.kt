@@ -80,8 +80,7 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 	}
 
 	fun submitAddress(
-		firstName: String,
-		lastName: String,
+		name: String,
 		streetAdd: String,
 		streetAdd2: String,
 		city: String,
@@ -90,10 +89,9 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 		phoneNumber: String
 	) {
 		val errorsList = mutableListOf<AddAddressViewErrors>()
-		if (firstName.isBlank() || lastName.isBlank() || streetAdd.isBlank() || city.isBlank() || state.isBlank() || zipCode.isBlank() || phoneNumber.isBlank())
+		if (name.isBlank() || streetAdd.isBlank() || city.isBlank() || state.isBlank() || zipCode.isBlank() || phoneNumber.isBlank())
 			errorsList.add(AddAddressViewErrors.EMPTY)
-		if (firstName.isBlank()) errorsList.add(AddAddressViewErrors.ERR_FNAME_EMPTY)
-		if (lastName.isBlank()) errorsList.add(AddAddressViewErrors.ERR_LNAME_EMPTY)
+		if (name.isBlank()) errorsList.add(AddAddressViewErrors.ERR_NAME_EMPTY)
 		if (streetAdd.isBlank()) errorsList.add(AddAddressViewErrors.ERR_STR1_EMPTY)
 		if (city.isBlank()) errorsList.add(AddAddressViewErrors.ERR_CITY_EMPTY)
 		if (state.isBlank()) errorsList.add(AddAddressViewErrors.ERR_STATE_EMPTY)
@@ -109,8 +107,7 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 				getAddressId(currentUser!!)
 			val newAddress = UserData.Address(
 				addressId,
-				firstName.trim(),
-				lastName.trim(),
+				name.trim(),
 				streetAdd.trim(),
 				streetAdd2.trim(),
 				city.trim(),

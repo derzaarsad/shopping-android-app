@@ -293,7 +293,7 @@ class AdminFragment : Fragment() {
 
 	private fun onAddSupplierAddress() {
 		val supplierName = binding.supplierNameEditText.text.toString()
-		val lastName = binding.supplierCpEditText.text.toString()
+		val name = binding.supplierCpEditText.text.toString()
 		val streetAdd = binding.addressStreetAddEditText.text.toString()
 		val streetAdd2 = binding.addressStreetAdd2EditText.text.toString()
 		val city = binding.addressCityEditText.text.toString()
@@ -303,8 +303,7 @@ class AdminFragment : Fragment() {
 
 		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
 		addEditAddressViewModel.submitAddress(
-			supplierName,
-			lastName,
+			name,
 			streetAdd,
 			streetAdd2,
 			city,
@@ -326,7 +325,7 @@ class AdminFragment : Fragment() {
 			if (errList.isEmpty()) {
 				binding.addSupErrorTextView.visibility = View.GONE
 			} else {
-				modifyAddSupplierErrors(errList)
+				modifyAddAddressErrors(errList)
 			}
 		}
 
@@ -365,8 +364,7 @@ class AdminFragment : Fragment() {
 		}
 	}
 
-	private fun modifyAddSupplierErrors(errList: List<AddAddressViewErrors>) {
-		binding.supplierNameOutlinedTextField.error = null
+	private fun modifyAddAddressErrors(errList: List<AddAddressViewErrors>) {
 		binding.cpOutlinedTextField.error = null
 		binding.streetAddOutlinedTextField.error = null
 		binding.cityOutlinedTextField.error = null
@@ -375,30 +373,28 @@ class AdminFragment : Fragment() {
 		binding.phoneOutlinedTextField.error = null
 		errList.forEach { err ->
 			when (err) {
-				AddAddressViewErrors.EMPTY -> setAddSupplierEditTextsError(true)
-				AddAddressViewErrors.ERR_FNAME_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.supplierNameOutlinedTextField)
-				AddAddressViewErrors.ERR_LNAME_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.cpOutlinedTextField)
+				AddAddressViewErrors.EMPTY -> setEditTextsError(true)
+				AddAddressViewErrors.ERR_NAME_EMPTY ->
+					setEditTextsError(true, binding.cpOutlinedTextField)
 				AddAddressViewErrors.ERR_STR1_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.streetAddOutlinedTextField)
+					setEditTextsError(true, binding.streetAddOutlinedTextField)
 				AddAddressViewErrors.ERR_CITY_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.cityOutlinedTextField)
+					setEditTextsError(true, binding.cityOutlinedTextField)
 				AddAddressViewErrors.ERR_STATE_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.stateOutlinedTextField)
+					setEditTextsError(true, binding.stateOutlinedTextField)
 				AddAddressViewErrors.ERR_ZIP_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.zipCodeOutlinedTextField)
+					setEditTextsError(true, binding.zipCodeOutlinedTextField)
 				AddAddressViewErrors.ERR_ZIP_INVALID ->
-					setAddSupplierEditTextsError(false, binding.zipCodeOutlinedTextField)
+					setEditTextsError(false, binding.zipCodeOutlinedTextField)
 				AddAddressViewErrors.ERR_PHONE_INVALID ->
-					setAddSupplierEditTextsError(false, binding.phoneOutlinedTextField)
+					setEditTextsError(false, binding.phoneOutlinedTextField)
 				AddAddressViewErrors.ERR_PHONE_EMPTY ->
-					setAddSupplierEditTextsError(true, binding.phoneOutlinedTextField)
+					setEditTextsError(true, binding.phoneOutlinedTextField)
 			}
 		}
 	}
 
-	private fun setAddSupplierEditTextsError(isEmpty: Boolean, editText: TextInputLayout? = null) {
+	private fun setEditTextsError(isEmpty: Boolean, editText: TextInputLayout? = null) {
 		if (isEmpty) {
 			binding.addSupErrorTextView.visibility = View.VISIBLE
 			if (editText != null) {
@@ -414,8 +410,7 @@ class AdminFragment : Fragment() {
 
 	private fun fillSupplierAddressDataInViews() {
 		addEditAddressViewModel.addressData.value?.let { address ->
-			binding.supplierNameEditText.setText(address.fName)
-			binding.supplierCpEditText.setText(address.lName)
+			binding.supplierCpEditText.setText(address.name)
 			binding.addressStreetAddEditText.setText(address.streetAddress)
 			binding.addressStreetAdd2EditText.setText(address.streetAddress2)
 			binding.addressCityEditText.setText(address.city)

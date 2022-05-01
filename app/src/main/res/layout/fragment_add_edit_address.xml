@@ -33,13 +33,13 @@
             android:layout_marginBottom="80dp">
 
             <TextView
-                android:id="@+id/add_address_last_name_label"
+                android:id="@+id/add_address_name_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/add_address_last_name_label_text"
+                android:text="@string/add_address_name_label_text"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/lNameOutlinedTextField"
+                android:id="@+id/nameOutlinedTextField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,10 +59,10 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_address_last_name_label">
+                app:layout_constraintTop_toBottomOf="@id/add_address_name_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/address_last_name_edit_text"
+                    android:id="@+id/address_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -87,7 +87,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lNameOutlinedTextField" />
+                app:layout_constraintTop_toBottomOf="@id/nameOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/streetAddOutlinedTextField"

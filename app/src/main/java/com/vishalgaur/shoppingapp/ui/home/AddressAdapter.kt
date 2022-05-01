@@ -33,7 +33,7 @@ class AddressAdapter(
 		fun bind(address: UserData.Address, position: Int) {
 			binding.addressCard.isChecked = position == selectedAddressPos
 			binding.addressPersonNameTv.text =
-				context.getString(R.string.person_name, address.fName, address.lName)
+				context.getString(R.string.person_name, address.name)
 			binding.addressCompleteAddressTv.text = getCompleteAddress(address)
 			binding.addressMobileTv.text = address.phoneNumber
 			if (isSelect) {

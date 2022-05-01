@@ -87,7 +87,7 @@
                 app:layout_constraintTop_toBottomOf="@id/addProCatOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/nameOutlinedTextField"
+                android:id="@+id/proNameOutlinedTextField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nameOutlinedTextField" />
+                app:layout_constraintTop_toBottomOf="@id/proNameOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mrpOutlinedTextField"

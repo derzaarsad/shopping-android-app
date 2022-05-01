@@ -67,7 +67,7 @@ class AddEditAddressFragment : Fragment() {
 			findNavController().navigateUp()
 		}
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-		binding.addressLastNameEditText.onFocusChangeListener = focusChangeListener
+		binding.addressNameEditText.onFocusChangeListener = focusChangeListener
 		binding.addressStreetAddEditText.onFocusChangeListener = focusChangeListener
 		binding.addressStreetAdd2EditText.onFocusChangeListener = focusChangeListener
 		binding.addressCityEditText.onFocusChangeListener = focusChangeListener
@@ -94,7 +94,7 @@ class AddEditAddressFragment : Fragment() {
 			if (errList.isEmpty()) {
 				binding.addAddressErrorTextView.visibility = View.GONE
 			} else {
-				modifyErrors(errList)
+				modifyAddAddressErrors(errList)
 			}
 		}
 
@@ -136,7 +136,7 @@ class AddEditAddressFragment : Fragment() {
 	private fun fillDataInViews() {
 		viewModel.addressData.value?.let { address ->
 			binding.addAddressTopAppBar.topAppBar.title = "Edit Address"
-			binding.addressLastNameEditText.setText(address.lName)
+			binding.addressNameEditText.setText(address.name)
 			binding.addressStreetAddEditText.setText(address.streetAddress)
 			binding.addressStreetAdd2EditText.setText(address.streetAddress2)
 			binding.addressCityEditText.setText(address.city)
@@ -161,8 +161,7 @@ class AddEditAddressFragment : Fragment() {
 	}
 
 	private fun onAddAddress() {
-		val firstName = "" // TODO: make this more elegant. first name is unused for a normal user
-		val lastName = binding.addressLastNameEditText.text.toString()
+		val name = binding.addressNameEditText.text.toString()
 		val streetAdd = binding.addressStreetAddEditText.text.toString()
 		val streetAdd2 = binding.addressStreetAdd2EditText.text.toString()
 		val city = binding.addressCityEditText.text.toString()
@@ -172,8 +171,7 @@ class AddEditAddressFragment : Fragment() {
 
 		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
 		viewModel.submitAddress(
-			firstName,
-			lastName,
+			name,
 			streetAdd,
 			streetAdd2,
 			city,
@@ -193,8 +191,8 @@ class AddEditAddressFragment : Fragment() {
 		}
 	}
 
-	private fun modifyErrors(errList: List<AddAddressViewErrors>) {
-		binding.lNameOutlinedTextField.error = null
+	private fun modifyAddAddressErrors(errList: List<AddAddressViewErrors>) {
+		binding.nameOutlinedTextField.error = null
 		binding.streetAddOutlinedTextField.error = null
 		binding.cityOutlinedTextField.error = null
 		binding.stateOutlinedTextField.error = null
@@ -203,8 +201,8 @@ class AddEditAddressFragment : Fragment() {
 		errList.forEach { err ->
 			when (err) {
 				AddAddressViewErrors.EMPTY -> setEditTextsError(true)
-				AddAddressViewErrors.ERR_LNAME_EMPTY ->
-					setEditTextsError(true, binding.lNameOutlinedTextField)
+				AddAddressViewErrors.ERR_NAME_EMPTY ->
+					setEditTextsError(true, binding.nameOutlinedTextField)
 				AddAddressViewErrors.ERR_STR1_EMPTY ->
 					setEditTextsError(true, binding.streetAddOutlinedTextField)
 				AddAddressViewErrors.ERR_CITY_EMPTY ->
