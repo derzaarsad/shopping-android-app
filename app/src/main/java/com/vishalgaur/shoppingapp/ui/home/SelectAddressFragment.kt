@@ -124,7 +124,7 @@ class SelectAddressFragment : Fragment() {
 					dialog.cancel()
 				}
 				.setPositiveButton(getString(R.string.delete_dialog_delete_btn_text)) { dialog, _ ->
-					orderViewModel.deleteAddress(addressId)
+					orderViewModel.deleteAddressOfCurrentUser(addressId)
 					dialog.cancel()
 				}
 				.show()

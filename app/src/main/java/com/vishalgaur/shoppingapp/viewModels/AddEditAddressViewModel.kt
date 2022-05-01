@@ -117,19 +117,19 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 			)
 			newAddressData.value = newAddress
 			if (_isEdit.value == true) {
-				updateAddress()
+				updateAddressOfCurrentUser()
 			} else {
-				insertAddress()
+				insertAddressToCurrentUser()
 			}
 		}
 	}
 
-	private fun updateAddress() {
+	private fun updateAddressOfCurrentUser() {
 		viewModelScope.launch {
 			if (newAddressData.value != null && _addressData.value != null) {
 				_addAddressStatus.value = AddObjectStatus.ADDING
 				val updateRes = async {
-					authRepository.updateAddress(newAddressData.value!!, currentUser!!)
+					authRepository.updateAddressOfUser(newAddressData.value!!, currentUser!!)
 				}
 				val res = updateRes.await()
 				if (res is Success) {
@@ -148,12 +148,12 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 		}
 	}
 
-	private fun insertAddress() {
+	private fun insertAddressToCurrentUser() {
 		viewModelScope.launch {
 			if (newAddressData.value != null) {
 				_addAddressStatus.value = AddObjectStatus.ADDING
 				val deferredRes = async {
-					authRepository.insertAddress(newAddressData.value!!, currentUser!!)
+					authRepository.insertAddressToUser(newAddressData.value!!, currentUser!!)
 				}
 				val res = deferredRes.await()
 				if (res is Success) {

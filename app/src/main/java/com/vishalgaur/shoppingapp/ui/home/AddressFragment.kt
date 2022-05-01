@@ -107,7 +107,7 @@ class AddressFragment : Fragment() {
 					dialog.cancel()
 				}
 				.setPositiveButton(getString(R.string.delete_dialog_delete_btn_text)) { dialog, _ ->
-					viewModel.deleteAddress(addressId)
+					viewModel.deleteAddressOfCurrentUser(addressId)
 					dialog.cancel()
 				}
 				.show()

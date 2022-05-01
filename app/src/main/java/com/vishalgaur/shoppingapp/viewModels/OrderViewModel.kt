@@ -102,9 +102,9 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
-	fun deleteAddress(addressId: String) {
+	fun deleteAddressOfCurrentUser(addressId: String) {
 		viewModelScope.launch {
-			val delRes = async { authRepository.deleteAddressById(addressId, currentUser!!) }
+			val delRes = async { authRepository.deleteAddressOfUser(addressId, currentUser!!) }
 			when (val res = delRes.await()) {
 				is Success -> {
 					Log.d(TAG, "onDeleteAddress: Success")

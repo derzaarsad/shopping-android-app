@@ -200,17 +200,17 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun insertAddress(
+	override suspend fun insertAddressToUser(
 		newAddress: UserData.Address,
 		userId: String
 	): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
-				Log.d(TAG, "onInsertAddress: adding address to remote source")
-				authRemoteDataSource.insertAddress(newAddress, userId)
+				Log.d(TAG, "onInsertAddressToUser: adding address to remote source")
+				authRemoteDataSource.insertAddressToUser(newAddress, userId)
 			}
 			val localRes = async {
-				Log.d(TAG, "onInsertAddress: updating address to local source")
+				Log.d(TAG, "onInsertAddressToUser: updating address to local source")
 				val userRes = authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {
 					userLocalDataSource.clearUser()
@@ -229,17 +229,17 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun updateAddress(
+	override suspend fun updateAddressOfUser(
 		newAddress: UserData.Address,
 		userId: String
 	): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
-				Log.d(TAG, "onUpdateAddress: updating address on remote source")
-				authRemoteDataSource.updateAddress(newAddress, userId)
+				Log.d(TAG, "onUpdateAddressOfUser: updating address on remote source")
+				authRemoteDataSource.updateAddressOfUser(newAddress, userId)
 			}
 			val localRes = async {
-				Log.d(TAG, "onUpdateAddress: updating address on local source")
+				Log.d(TAG, "onUpdateAddressOfUser: updating address on local source")
 				val userRes =
 					authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {
@@ -259,14 +259,14 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun deleteAddressById(addressId: String, userId: String): Result<Boolean> {
+	override suspend fun deleteAddressOfUser(addressId: String, userId: String): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
-				Log.d(TAG, "onDelete: deleting address from remote source")
-				authRemoteDataSource.deleteAddress(addressId, userId)
+				Log.d(TAG, "onDeleteAddressOfUser: deleting address from remote source")
+				authRemoteDataSource.deleteAddressOfUser(addressId, userId)
 			}
 			val localRes = async {
-				Log.d(TAG, "onDelete: deleting address from local source")
+				Log.d(TAG, "onDeleteAddressOfUser: deleting address from local source")
 				val userRes =
 					authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {

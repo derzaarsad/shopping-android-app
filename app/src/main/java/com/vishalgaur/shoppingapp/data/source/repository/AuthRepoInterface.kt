@@ -16,9 +16,9 @@ interface AuthRepoInterface {
 	suspend fun checkLogin(mobile: String, password: String): UserData?
 	suspend fun signOut()
 	suspend fun refreshUserDataFromRemote()
-	suspend fun insertAddress(newAddress: UserData.Address, userId: String): Result<Boolean>
-	suspend fun updateAddress(newAddress: UserData.Address, userId: String): Result<Boolean>
-	suspend fun deleteAddressById(addressId: String, userId: String): Result<Boolean>
+	suspend fun insertAddressToUser(newAddress: UserData.Address, userId: String): Result<Boolean>
+	suspend fun updateAddressOfUser(newAddress: UserData.Address, userId: String): Result<Boolean>
+	suspend fun deleteAddressOfUser(addressId: String, userId: String): Result<Boolean>
 	suspend fun insertCartItemByUserId(cartItem: UserData.CartItem, userId: String): Result<Boolean>
 	suspend fun updateCartItemByUserId(cartItem: UserData.CartItem, userId: String): Result<Boolean>
 	suspend fun deleteCartItemByUserId(itemId: String, userId: String): Result<Boolean>
