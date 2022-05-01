@@ -87,6 +87,8 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		}
 	}
 
+	override suspend fun getProductCategories(): List<String> = UserNetwork.retrofit.getProductCategories()
+
 	override suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		val imgRef = storageRef().child("$SHOES_STORAGE_PATH/$fileName")
 		val uploadTask = imgRef.putFile(uri)

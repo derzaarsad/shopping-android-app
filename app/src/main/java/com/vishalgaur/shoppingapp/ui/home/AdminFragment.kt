@@ -25,6 +25,7 @@ import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.*
 import com.vishalgaur.shoppingapp.databinding.FragmentAdminBinding
 import com.vishalgaur.shoppingapp.ui.AddAddressViewErrors
+import com.vishalgaur.shoppingapp.ui.AddProductCategoryViewErrors
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
 import com.vishalgaur.shoppingapp.viewModels.AddEditAddressViewModel
@@ -78,6 +79,8 @@ class AdminFragment : Fragment() {
 		}
 
 		addEditAddressViewModel.setIsEdit(false)
+
+		viewModel.getProductCategoriesForAddProduct()
 	}
 
 	private fun setObservers() {
@@ -119,6 +122,38 @@ class AdminFragment : Fragment() {
 					binding.loaderLayout.circularLoader.hideAnimationBehavior
 				}
 			}
+		}
+
+		viewModel.addProductCategoryErrorStatus.observe(viewLifecycleOwner) { err ->
+			if (err == AddProductCategoryViewErrors.EMPTY) {
+				binding.addCatErrorTextView.visibility = View.VISIBLE
+			} else {
+				binding.addCatErrorTextView.visibility = View.GONE
+			}
+		}
+
+		viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
+			when (status) {
+				AddObjectStatus.DONE -> setLoaderState()
+				AddObjectStatus.ERR_ADD -> {
+					setLoaderState()
+					binding.addCatErrorTextView.visibility = View.VISIBLE
+					binding.addCatErrorTextView.text =
+						getString(R.string.save_category_error_text)
+					makeToast(getString(R.string.save_category_error_text))
+				}
+				AddObjectStatus.ADDING -> {
+					setLoaderState(View.VISIBLE)
+				}
+				else -> setLoaderState()
+			}
+		}
+
+		viewModel.productCategoriesForAddProduct.observe(viewLifecycleOwner) {
+			if(it.size > 0) {
+				binding.addProCatEditText.setText(it[0],false)
+			}
+			binding.addProCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
 		}
 
 		setSupplierObservers()
@@ -242,6 +277,18 @@ class AdminFragment : Fragment() {
 				}
 			}
 		}
+
+		binding.addCatBtn.setOnClickListener {
+			onAddProductCategory()
+			if (viewModel.addProductCategoryErrorStatus.value == AddProductCategoryViewErrors.NONE) {
+				viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
+					if (status == AddObjectStatus.DONE) {
+						makeToast("Category Saved!")
+						findNavController().navigateUp()
+					}
+				}
+			}
+		}
 	}
 
 	private fun onAddSupplierAddress() {
@@ -265,6 +312,13 @@ class AdminFragment : Fragment() {
 			zipCode,
 			phoneNumber
 		)
+	}
+
+	private fun onAddProductCategory() {
+		val productCategory = binding.catNameEditText.text.toString()
+
+		Log.d(TAG, "onAddProductCategory: Add Product Category Initiated")
+		viewModel.submitProductCategory(productCategory)
 	}
 
 	private fun setSupplierObservers() {

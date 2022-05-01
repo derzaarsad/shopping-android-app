@@ -27,7 +27,6 @@ interface AuthRepoInterface {
 	suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?>
 	suspend fun getAddressesByUserId(userId: String): Result<List<UserData.Address>?>
 	suspend fun getSuppliers(): List<String>?
-	suspend fun getProductCategories(): List<String>?
 	suspend fun getUserData(userId: String): Result<UserData?>
 	fun getFirebaseAuth(): FirebaseAuth
 	fun signInWithPhoneAuthCredential(

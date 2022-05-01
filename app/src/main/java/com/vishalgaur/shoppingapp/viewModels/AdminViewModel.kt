@@ -15,8 +15,10 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
+import com.vishalgaur.shoppingapp.data.utils.AddObjectStatus
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getProductId
+import com.vishalgaur.shoppingapp.ui.AddProductCategoryViewErrors
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -53,15 +55,32 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 	private val _inventoryData = MutableLiveData<Inventory>()
 	val inventoryData: LiveData<Inventory> get() = _inventoryData
 
+	private val _addProductCategoryErrorStatus = MutableLiveData<AddProductCategoryViewErrors>()
+	val addProductCategoryErrorStatus: LiveData<AddProductCategoryViewErrors> get() = _addProductCategoryErrorStatus
+
+	private val _addProductCategoryStatus = MutableLiveData<AddObjectStatus?>()
+	val addProductCategoryStatus: LiveData<AddObjectStatus?> get() = _addProductCategoryStatus
+
+	private var _productCategoriesForAddProduct = MutableLiveData<List<String>>()
+	val productCategoriesForAddProduct: LiveData<List<String>> get() = _productCategoriesForAddProduct
+
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	val newProductData = MutableLiveData<Inventory>()
 
 	init {
 		_addProductErrorStatus.value = AddProductViewErrors.NONE
+		_addProductCategoryErrorStatus.value = AddProductCategoryViewErrors.NONE
 	}
 
 	fun setIsEdit(state: Boolean) {
 		_isEdit.value = state
+	}
+
+	fun getProductCategoriesForAddProduct() {
+		viewModelScope.launch {
+			val res = inventoriesRepository.getProductCategories()
+			_productCategoriesForAddProduct.value = res ?: emptyList()
+		}
 	}
 
 	fun setCategory(catName: String) {
@@ -201,4 +220,42 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
+	fun submitProductCategory(
+		productCategory: String
+	) {
+		var err = AddProductCategoryViewErrors.NONE
+		if (productCategory.isBlank()) {
+			err = AddProductCategoryViewErrors.EMPTY
+		}
+
+		_addProductCategoryErrorStatus.value = err
+
+		if (err == AddProductCategoryViewErrors.NONE) {
+			insertProductCategory(productCategory)
+		}
+	}
+
+	private fun insertProductCategory(productCategory: String) {
+		viewModelScope.launch {
+			_addProductCategoryStatus.value = AddObjectStatus.ADDING
+				val deferredRes = async {
+					//authRepository.insertAddress(newAddressData.value!!, currentUser!!) // TODO: insert product category
+					inventoriesRepository.getAllInventoriesBySellerId(currentUser!!) // TODO: remove
+				}
+				val res = deferredRes.await()
+				if (res is Success) {
+					Log.d(AdminViewModel.TAG, "onInsertProductCategory: Success")
+					_addProductCategoryStatus.value = AddObjectStatus.DONE
+				} else {
+					_addProductCategoryStatus.value = AddObjectStatus.ERR_ADD
+					if (res is Error) {
+						Log.d(AdminViewModel.TAG, "onInsertProductCategory: Error, ${res.exception.message}")
+					}
+				}
+		}
+	}
+
+	companion object {
+		private const val TAG = "AdminViewModel"
+	}
 }

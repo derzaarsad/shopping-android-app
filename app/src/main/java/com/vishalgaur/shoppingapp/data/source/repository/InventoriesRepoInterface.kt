@@ -17,4 +17,5 @@ interface InventoriesRepoInterface {
 	suspend fun updateInventory(inventory: Inventory): Result<Boolean>
 	suspend fun updateImages(newList: List<Uri>, oldList: List<String>): List<String>
 	suspend fun deleteInventoryById(inventoryId: String): Result<Boolean>
+	suspend fun getProductCategories(): List<String>?
 }

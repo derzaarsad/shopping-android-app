@@ -117,6 +117,7 @@
     <string name="add_address_zipcode_label_text">Zip Code</string>
     <string name="person_name">%s %s</string>
     <string name="save_address_error_text">Error Saving Address!</string>
+    <string name="save_category_error_text">Error Saving Product Category!</string>
     <string name="ship_to_error_empty">Please select an address!</string>
     <string name="delete_address_message_text">On clicking Delete, Address will be deleted premanently!</string>
     <string name="plus_btn_desc">Increase Button</string>

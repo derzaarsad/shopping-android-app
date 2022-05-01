@@ -28,6 +28,10 @@ interface InventoryDataSource {
 		return Result.Success(emptyList())
 	}
 
+	suspend fun getProductCategories(): List<String> {
+		return listOf()
+	}
+
 	suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		return null
 	}

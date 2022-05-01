@@ -103,7 +103,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
 	fun getProductCategories() {
 		viewModelScope.launch {
-			val res = authRepository.getProductCategories()
+			val res = inventoriesRepository.getProductCategories()
 			_productCategories.value = res ?: emptyList()
 		}
 	}

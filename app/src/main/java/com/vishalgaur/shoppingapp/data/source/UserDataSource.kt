@@ -26,10 +26,6 @@ interface UserDataSource {
 		return listOf()
 	}
 
-	suspend fun getProductCategories(): List<String> {
-		return listOf()
-	}
-
 	suspend fun insertAddress(newAddress: UserData.Address, userId: String) {}
 
 	suspend fun updateAddress(newAddress: UserData.Address, userId: String) {}

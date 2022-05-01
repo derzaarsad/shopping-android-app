@@ -188,4 +188,19 @@ class InventoriesRepository(
 		}
 		return res
 	}
+
+	override suspend fun getProductCategories(): List<String>? {
+		var queryResult = listOf<String>()
+		try {
+			queryResult = inventoriesRemoteSource.getProductCategories()
+			Log.d(InventoriesRepository.TAG,"getting product categories success: " + queryResult.size + " product categories found")
+		} catch (e: Exception) {
+			Log.d(InventoriesRepository.TAG,"Error on getting product categories: " + e.toString())
+		}
+		return if (queryResult.size > 0) {
+			queryResult
+		} else {
+			null
+		}
+	}
 }
