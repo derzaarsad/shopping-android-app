@@ -144,7 +144,7 @@ class AdminFragment : Fragment() {
 	private fun fillDataInAllViews() {
 		viewModel.inventoryData.value?.let { inventory ->
 			Log.d(TAG, "fill data in views")
-			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
+			//binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			binding.proNameEditText.setText(inventory.name)
 			//binding.proPriceEditText.setText(inventory.price.toString())
 			binding.proMrpEditText.setText(inventory.mrp.toString())
@@ -158,11 +158,7 @@ class AdminFragment : Fragment() {
 	private fun setViews() {
 		Log.d(TAG, "set views")
 
-		binding.addProAppBar.topAppBar.title = "Tambah Produk"
-
-		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
-			findNavController().navigateUp()
-		}
+		binding.adminTopAppBar.topAppBar.title = "Halaman Admin"
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 
