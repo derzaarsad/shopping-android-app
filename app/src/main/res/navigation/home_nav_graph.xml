@@ -16,9 +16,6 @@
         <action
             android:id="@+id/action_seeInventory"
             app:destination="@id/inventoryDetailsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditInventoryFragment"
@@ -93,15 +90,6 @@
             android:name="addressId"
             app:argType="string"
             app:nullable="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/favoritesFragment"
-        android:name="com.vishalgaur.shoppingapp.ui.home.FavoritesFragment"
-        android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favorites" >
-        <action
-            android:id="@+id/action_favoritesFragment_to_inventoryDetailsFragment"
-            app:destination="@id/inventoryDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/selectPaymentFragment"
