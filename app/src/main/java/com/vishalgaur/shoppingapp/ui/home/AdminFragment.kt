@@ -24,11 +24,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.*
 import com.vishalgaur.shoppingapp.databinding.FragmentAdminBinding
-import com.vishalgaur.shoppingapp.ui.AddAddressViewErrors
-import com.vishalgaur.shoppingapp.ui.AddProductCategoryViewErrors
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
-import com.vishalgaur.shoppingapp.viewModels.AddEditAddressViewModel
 import com.vishalgaur.shoppingapp.viewModels.AdminViewModel
 import java.util.*
 import kotlin.properties.Delegates
@@ -175,12 +172,6 @@ class AdminFragment : Fragment() {
 		binding.proMrpEditText.onFocusChangeListener = focusChangeListener
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
 
-		binding.addSupAddressBtn.setOnClickListener {
-			findNavController().navigate(R.id.action_adminFragment_to_selectAddressFragment,
-				bundleOf("supplierArg" to Klaxon().toJsonString(AdminToSelectAddressArg(binding.supplierNameEditText.text.toString())))
-			)
-		}
-
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
 			if (viewModel.addProductErrorStatus.value == AddProductViewErrors.NONE) {
@@ -192,19 +183,25 @@ class AdminFragment : Fragment() {
 			}
 		}
 
+		setAddSupplierViews()
+
+		binding.addCatBtn.setOnClickListener {
+			findNavController().navigate(R.id.action_adminFragment_to_addProductCategoryFragment)
+		}
+	}
+
+	private fun setAddSupplierViews() {
+		binding.addSupAddressBtn.setOnClickListener {
+			findNavController().navigate(R.id.action_adminFragment_to_selectAddressFragment,
+				bundleOf("supplierArg" to Klaxon().toJsonString(AdminToSelectAddressArg(binding.supplierNameEditText.text.toString())))
+			)
+		}
+
 		if(supplierArg != "null") {
 			val result = Klaxon().parse<SelectAddressToAdminArg>(supplierArg)
 			if (result != null) {
 				binding.supplierNameEditText.setText(result.supplierName)
 			}
-		}
-
-		setAddProductCategoryViews()
-	}
-
-	private fun setAddProductCategoryViews() {
-		binding.addCatBtn.setOnClickListener {
-			findNavController().navigate(R.id.action_adminFragment_to_addProductCategoryFragment)
 		}
 	}
 
