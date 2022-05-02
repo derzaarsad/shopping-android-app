@@ -9,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.beust.klaxon.Klaxon
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
@@ -23,12 +24,16 @@ class SelectAddressFragment : Fragment() {
 	private val orderViewModel: OrderViewModel by activityViewModels()
 	private lateinit var addressAdapter: AddressAdapter
 
+	private lateinit var supplierArg: String
+
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
 		binding = FragmentSelectAddressBinding.inflate(layoutInflater)
+
+		supplierArg = arguments?.getString("supplierArg").toString()
 
 		setViews()
 		setObservers()
@@ -110,8 +115,21 @@ class SelectAddressFragment : Fragment() {
 			binding.shipToAddressesRecyclerView.adapter = addressAdapter
 		}
 
-		binding.shipToNextBtn.setOnClickListener {
-			navigateToPaymentFragment(addressAdapter.lastCheckedAddress)
+		if(supplierArg == "null") {
+			binding.shipToNextBtn.setOnClickListener {
+				navigateToPaymentFragment(addressAdapter.lastCheckedAddress)
+			}
+		} else {
+			val result = Klaxon().parse<AdminToSelectAddressArg>(supplierArg)
+			binding.shipToNextBtn.setOnClickListener {
+				if (result != null) {
+					findNavController().navigate(R.id.action_selectAddressFragment_to_adminFragment,
+						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName)))
+					)
+				}
+			}
+
+			binding.shipToNextBtn.setText("Pilih Kontak Person")
 		}
 	}
 

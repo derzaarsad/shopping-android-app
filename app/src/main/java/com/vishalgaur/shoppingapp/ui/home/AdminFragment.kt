@@ -32,6 +32,7 @@ import com.vishalgaur.shoppingapp.viewModels.AddEditAddressViewModel
 import com.vishalgaur.shoppingapp.viewModels.AdminViewModel
 import java.util.*
 import kotlin.properties.Delegates
+import com.beust.klaxon.Klaxon
 
 private const val TAG = "AdminFragment"
 
@@ -46,6 +47,8 @@ class AdminFragment : Fragment() {
 	private lateinit var catName: String
 	private lateinit var productId: String
 
+	private lateinit var supplierArg: String
+
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
@@ -56,6 +59,8 @@ class AdminFragment : Fragment() {
 		isEdit = arguments?.getBoolean("isEdit") == true
 		catName = arguments?.getString("categoryName").toString()
 		productId = arguments?.getString("productId").toString()
+
+		supplierArg = arguments?.getString("supplierArg").toString()
 
 		initViewModel()
 
@@ -166,7 +171,9 @@ class AdminFragment : Fragment() {
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
 
 		binding.addSupAddressBtn.setOnClickListener {
-			findNavController().navigate(R.id.action_adminFragment_to_selectAddressFragment)
+			findNavController().navigate(R.id.action_adminFragment_to_selectAddressFragment,
+				bundleOf("supplierArg" to Klaxon().toJsonString(AdminToSelectAddressArg(binding.supplierNameEditText.text.toString())))
+			)
 		}
 
 		binding.addProBtn.setOnClickListener {
@@ -177,6 +184,13 @@ class AdminFragment : Fragment() {
 						findNavController().navigate(R.id.action_addInventoryFragment_to_homeFragment)
 					}
 				}
+			}
+		}
+
+		if(supplierArg != "null") {
+			val result = Klaxon().parse<SelectAddressToAdminArg>(supplierArg)
+			if (result != null) {
+				binding.supplierNameEditText.setText(result.supplierName)
 			}
 		}
 	}
