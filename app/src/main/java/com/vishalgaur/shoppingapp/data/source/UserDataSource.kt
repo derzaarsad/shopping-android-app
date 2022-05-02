@@ -38,7 +38,7 @@ interface UserDataSource {
 
 	suspend fun setStatusOfOrderByUserId(orderId: String, userId: String, status: String) {}
 
-	suspend fun clearUser() {}
+	suspend fun clearAllUsers() {}
 
 	suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?>
 

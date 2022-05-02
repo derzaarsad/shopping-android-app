@@ -45,7 +45,7 @@ class AuthRepository(
 			updateUserInLocalSource(sessionManager.getPhoneNumber(),sessionManager.getPassword())
 		} else {
 			sessionManager.logoutFromSession()
-			deleteUserFromLocalSource()
+			deleteAllUsersFromLocalSource()
 		}
 	}
 
@@ -160,15 +160,15 @@ class AuthRepository(
 	override suspend fun signOut() {
 		sessionManager.logoutFromSession()
 		firebaseAuth.signOut()
-		userLocalDataSource.clearUser()
+		userLocalDataSource.clearAllUsers()
 	}
 
 	private fun makeErrToast(text: String, context: Context) {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 	}
 
-	private suspend fun deleteUserFromLocalSource() {
-		userLocalDataSource.clearUser()
+	private suspend fun deleteAllUsersFromLocalSource() {
+		userLocalDataSource.clearAllUsers()
 	}
 
 	private suspend fun updateUserInLocalSource(phoneNumber: String?,password: String?) {
@@ -177,7 +177,7 @@ class AuthRepository(
 				if (phoneNumber != null && password != null) {
 					val getUser = userLocalDataSource.getUserByMobile(phoneNumber)
 					if (getUser == null) {
-						userLocalDataSource.clearUser()
+						userLocalDataSource.clearAllUsers()
 						val uData = checkLogin(phoneNumber,password)
 						if (uData != null) {
 							userLocalDataSource.addUser(uData)
@@ -189,7 +189,7 @@ class AuthRepository(
 	}
 
 	override suspend fun refreshUserDataFromRemote() {
-		userLocalDataSource.clearUser()
+		userLocalDataSource.clearAllUsers()
 		val mobile = sessionManager.getPhoneNumber()
 		val password = sessionManager.getPassword()
 		if (mobile != null && password != null) {
@@ -213,7 +213,7 @@ class AuthRepository(
 				Log.d(TAG, "onInsertAddressToUser: updating address to local source")
 				val userRes = authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {
-					userLocalDataSource.clearUser()
+					userLocalDataSource.clearAllUsers()
 					userLocalDataSource.addUser(userRes.data!!)
 				} else if (userRes is Error) {
 					throw userRes.exception
@@ -243,7 +243,7 @@ class AuthRepository(
 				val userRes =
 					authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {
-					userLocalDataSource.clearUser()
+					userLocalDataSource.clearAllUsers()
 					userLocalDataSource.addUser(userRes.data!!)
 				} else if (userRes is Error) {
 					throw userRes.exception
@@ -270,7 +270,7 @@ class AuthRepository(
 				val userRes =
 					authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {
-					userLocalDataSource.clearUser()
+					userLocalDataSource.clearAllUsers()
 					userLocalDataSource.addUser(userRes.data!!)
 				} else if (userRes is Error) {
 					throw userRes.exception
@@ -362,7 +362,7 @@ class AuthRepository(
 				Log.d(TAG, "onPlaceOrder: adding item to local source")
 				val userRes = authRemoteDataSource.getUserById(userId)
 				if (userRes is Success) {
-					userLocalDataSource.clearUser()
+					userLocalDataSource.clearAllUsers()
 					userLocalDataSource.addUser(userRes.data!!)
 				} else if (userRes is Error) {
 					throw userRes.exception

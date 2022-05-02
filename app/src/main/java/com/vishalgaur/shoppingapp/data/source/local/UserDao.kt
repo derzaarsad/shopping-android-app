@@ -18,5 +18,5 @@ interface UserDao {
 	suspend fun updateUser(obj: UserData)
 
 	@Query("DELETE FROM users")
-	suspend fun clear()
+	suspend fun clearAllUsers()
 }
