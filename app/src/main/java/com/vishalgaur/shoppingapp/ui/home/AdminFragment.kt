@@ -39,7 +39,6 @@ class AdminFragment : Fragment() {
 
 	private lateinit var binding: FragmentAdminBinding
 	private val viewModel by viewModels<AdminViewModel>()
-	private val addEditAddressViewModel by viewModels<AddEditAddressViewModel>()
 	private val focusChangeListener = MyOnFocusChangeListener()
 
 	// arguments
@@ -77,8 +76,6 @@ class AdminFragment : Fragment() {
 			Log.d(TAG, "init view model, isedit = false, $catName")
 			viewModel.setCategory(catName)
 		}
-
-		addEditAddressViewModel.setIsEdit(false)
 
 		viewModel.getProductCategoriesForAddProduct()
 	}
@@ -124,39 +121,9 @@ class AdminFragment : Fragment() {
 			}
 		}
 
-		viewModel.addProductCategoryErrorStatus.observe(viewLifecycleOwner) { err ->
-			if (err == AddProductCategoryViewErrors.EMPTY) {
-				binding.addCatErrorTextView.visibility = View.VISIBLE
-			} else {
-				binding.addCatErrorTextView.visibility = View.GONE
-			}
-		}
+		setAddProductCategoryObservers()
 
-		viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
-			when (status) {
-				AddObjectStatus.DONE -> setLoaderState()
-				AddObjectStatus.ERR_ADD -> {
-					setLoaderState()
-					binding.addCatErrorTextView.visibility = View.VISIBLE
-					binding.addCatErrorTextView.text =
-						getString(R.string.save_category_error_text)
-					makeToast(getString(R.string.save_category_error_text))
-				}
-				AddObjectStatus.ADDING -> {
-					setLoaderState(View.VISIBLE)
-				}
-				else -> setLoaderState()
-			}
-		}
-
-		viewModel.productCategoriesForAddProduct.observe(viewLifecycleOwner) {
-			if(it.size > 0) {
-				binding.addProCatEditText.setText(it[0],false)
-			}
-			binding.addProCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
-		}
-
-		setSupplierObservers()
+		setAddSupplierObservers()
 	}
 
 	private fun setAddInventoryErrors(errText: String) {
@@ -198,6 +165,10 @@ class AdminFragment : Fragment() {
 		binding.proMrpEditText.onFocusChangeListener = focusChangeListener
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
 
+		binding.addSupAddressBtn.setOnClickListener {
+			findNavController().navigate(R.id.action_adminFragment_to_selectAddressFragment)
+		}
+
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
 			if (viewModel.addProductErrorStatus.value == AddProductViewErrors.NONE) {
@@ -208,8 +179,6 @@ class AdminFragment : Fragment() {
 				}
 			}
 		}
-
-		setSupplierAddressViews()
 	}
 
 	private fun onAddProduct() {
@@ -244,75 +213,6 @@ class AdminFragment : Fragment() {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 	}
 
-	private fun setSupplierStateSelectTextField() {
-		val states = getProvinces()
-		val defaultState = getDefaultProvince()
-		val stateAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, states)
-		(binding.addressStateEditText as? AutoCompleteTextView)?.let {
-			it.setText(defaultState, false)
-			it.setAdapter(stateAdapter)
-		}
-	}
-
-	private fun setSupplierAddressViews() {
-		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-		binding.supplierNameEditText.onFocusChangeListener = focusChangeListener
-		binding.supplierCpEditText.onFocusChangeListener = focusChangeListener
-		binding.addressStreetAddEditText.onFocusChangeListener = focusChangeListener
-		binding.addressStreetAdd2EditText.onFocusChangeListener = focusChangeListener
-		binding.addressCityEditText.onFocusChangeListener = focusChangeListener
-		binding.addressStateEditText.onFocusChangeListener = focusChangeListener
-		binding.addressZipcodeEditText.onFocusChangeListener = focusChangeListener
-		binding.addressPhoneEditText.onFocusChangeListener = focusChangeListener
-		setSupplierStateSelectTextField()
-
-		binding.addSupSaveBtn.setOnClickListener {
-			onAddSupplierAddress()
-			if (addEditAddressViewModel.errorStatus.value?.isEmpty() == true) {
-				addEditAddressViewModel.addAddressStatus.observe(viewLifecycleOwner) { status ->
-					if (status == AddObjectStatus.DONE) {
-						makeToast("Address Saved!")
-						findNavController().navigateUp()
-					}
-				}
-			}
-		}
-
-		binding.addCatBtn.setOnClickListener {
-			onAddProductCategory()
-			if (viewModel.addProductCategoryErrorStatus.value == AddProductCategoryViewErrors.NONE) {
-				viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
-					if (status == AddObjectStatus.DONE) {
-						makeToast("Category Saved!")
-						findNavController().navigateUp()
-					}
-				}
-			}
-		}
-	}
-
-	private fun onAddSupplierAddress() {
-		val supplierName = binding.supplierNameEditText.text.toString()
-		val name = binding.supplierCpEditText.text.toString()
-		val streetAdd = binding.addressStreetAddEditText.text.toString()
-		val streetAdd2 = binding.addressStreetAdd2EditText.text.toString()
-		val city = binding.addressCityEditText.text.toString()
-		val state = binding.addressStateEditText.text.toString()
-		val zipCode = binding.addressZipcodeEditText.text.toString()
-		val phoneNumber = binding.addressPhoneEditText.text.toString()
-
-		Log.d(TAG, "onAddAddress: Add/Edit Address Initiated")
-		addEditAddressViewModel.submitAddress(
-			name,
-			streetAdd,
-			streetAdd2,
-			city,
-			state,
-			zipCode,
-			phoneNumber
-		)
-	}
-
 	private fun onAddProductCategory() {
 		val productCategory = binding.catNameEditText.text.toString()
 
@@ -320,41 +220,26 @@ class AdminFragment : Fragment() {
 		viewModel.submitProductCategory(productCategory)
 	}
 
-	private fun setSupplierObservers() {
-		addEditAddressViewModel.errorStatus.observe(viewLifecycleOwner) { errList ->
-			if (errList.isEmpty()) {
-				binding.addSupErrorTextView.visibility = View.GONE
+	private fun setAddSupplierObservers() {}
+
+	private fun setAddProductCategoryObservers() {
+		viewModel.addProductCategoryErrorStatus.observe(viewLifecycleOwner) { err ->
+			if (err == AddProductCategoryViewErrors.EMPTY) {
+				binding.addCatErrorTextView.visibility = View.VISIBLE
 			} else {
-				modifyAddAddressErrors(errList)
+				binding.addCatErrorTextView.visibility = View.GONE
 			}
 		}
 
-		addEditAddressViewModel.dataStatus.observe(viewLifecycleOwner) { status ->
-			when (status) {
-				StoreDataStatus.LOADING -> setLoaderState(View.VISIBLE)
-				StoreDataStatus.ERROR -> {
-					setLoaderState()
-					makeToast("Error getting Data, Try Again!")
-				}
-				StoreDataStatus.DONE -> {
-					fillSupplierAddressDataInViews()
-					setLoaderState()
-				}
-				else -> {
-					setLoaderState()
-				}
-			}
-		}
-
-		addEditAddressViewModel.addAddressStatus.observe(viewLifecycleOwner) { status ->
+		viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
 			when (status) {
 				AddObjectStatus.DONE -> setLoaderState()
 				AddObjectStatus.ERR_ADD -> {
 					setLoaderState()
-					binding.addSupErrorTextView.visibility = View.VISIBLE
-					binding.addSupErrorTextView.text =
-						getString(R.string.save_address_error_text)
-					makeToast(getString(R.string.save_address_error_text))
+					binding.addCatErrorTextView.visibility = View.VISIBLE
+					binding.addCatErrorTextView.text =
+						getString(R.string.save_category_error_text)
+					makeToast(getString(R.string.save_category_error_text))
 				}
 				AddObjectStatus.ADDING -> {
 					setLoaderState(View.VISIBLE)
@@ -362,62 +247,12 @@ class AdminFragment : Fragment() {
 				else -> setLoaderState()
 			}
 		}
-	}
 
-	private fun modifyAddAddressErrors(errList: List<AddAddressViewErrors>) {
-		binding.cpOutlinedTextField.error = null
-		binding.streetAddOutlinedTextField.error = null
-		binding.cityOutlinedTextField.error = null
-		binding.stateOutlinedTextField.error = null
-		binding.zipCodeOutlinedTextField.error = null
-		binding.phoneOutlinedTextField.error = null
-		errList.forEach { err ->
-			when (err) {
-				AddAddressViewErrors.EMPTY -> setEditTextsError(true)
-				AddAddressViewErrors.ERR_NAME_EMPTY ->
-					setEditTextsError(true, binding.cpOutlinedTextField)
-				AddAddressViewErrors.ERR_STR1_EMPTY ->
-					setEditTextsError(true, binding.streetAddOutlinedTextField)
-				AddAddressViewErrors.ERR_CITY_EMPTY ->
-					setEditTextsError(true, binding.cityOutlinedTextField)
-				AddAddressViewErrors.ERR_STATE_EMPTY ->
-					setEditTextsError(true, binding.stateOutlinedTextField)
-				AddAddressViewErrors.ERR_ZIP_EMPTY ->
-					setEditTextsError(true, binding.zipCodeOutlinedTextField)
-				AddAddressViewErrors.ERR_ZIP_INVALID ->
-					setEditTextsError(false, binding.zipCodeOutlinedTextField)
-				AddAddressViewErrors.ERR_PHONE_INVALID ->
-					setEditTextsError(false, binding.phoneOutlinedTextField)
-				AddAddressViewErrors.ERR_PHONE_EMPTY ->
-					setEditTextsError(true, binding.phoneOutlinedTextField)
+		viewModel.productCategoriesForAddProduct.observe(viewLifecycleOwner) {
+			if(it.size > 0) {
+				binding.addProCatEditText.setText(it[0],false)
 			}
-		}
-	}
-
-	private fun setEditTextsError(isEmpty: Boolean, editText: TextInputLayout? = null) {
-		if (isEmpty) {
-			binding.addSupErrorTextView.visibility = View.VISIBLE
-			if (editText != null) {
-				editText.error = "Please Fill the Form"
-				editText.errorIconDrawable = null
-			}
-		} else {
-			binding.addSupErrorTextView.visibility = View.GONE
-			editText!!.error = "Invalid!"
-			editText.errorIconDrawable = null
-		}
-	}
-
-	private fun fillSupplierAddressDataInViews() {
-		addEditAddressViewModel.addressData.value?.let { address ->
-			binding.supplierCpEditText.setText(address.name)
-			binding.addressStreetAddEditText.setText(address.streetAddress)
-			binding.addressStreetAdd2EditText.setText(address.streetAddress2)
-			binding.addressCityEditText.setText(address.city)
-			binding.addressStateEditText.setText(address.state)
-			binding.addressZipcodeEditText.setText(address.zipCode)
-			binding.addressPhoneEditText.setText(address.phoneNumber.substringAfter("+62"))
-			binding.addSupSaveBtn.setText(R.string.save_address_btn_text)
+			binding.addProCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
 		}
 	}
 

@@ -106,7 +106,8 @@
     <string name="price_text">$%s</string>
     <string name="add_address_country_label_text">Country or region</string>
     <string name="add_address_name_label_text">Nama</string>
-    <string name="add_supplier_cp_label_text">Kontak Person</string>
+    <string name="add_supplier_address_btn_text">Pilih Kontak Person</string>
+    <string name="add_supplier_btn_text">Tambah Pemasok</string>
     <string name="add_address_street_add_label_text">Street Address</string>
     <string name="add_address_street_add2_label_text">Street Address 2 (Optional)</string>
     <string name="add_address_city_label_text">City</string>
