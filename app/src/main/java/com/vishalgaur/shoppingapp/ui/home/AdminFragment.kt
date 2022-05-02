@@ -193,6 +193,22 @@ class AdminFragment : Fragment() {
 				binding.supplierNameEditText.setText(result.supplierName)
 			}
 		}
+
+		setAddProductCategoryViews()
+	}
+
+	private fun setAddProductCategoryViews() {
+		binding.addCatBtn.setOnClickListener {
+			onAddProductCategory()
+			if (viewModel.addProductCategoryErrorStatus.value == AddProductCategoryViewErrors.NONE) {
+				viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
+					if (status == AddObjectStatus.DONE) {
+						makeToast("Category Saved!")
+						findNavController().navigateUp()
+					}
+				}
+			}
+		}
 	}
 
 	private fun onAddProduct() {
