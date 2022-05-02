@@ -55,12 +55,6 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 	private val _inventoryData = MutableLiveData<Inventory>()
 	val inventoryData: LiveData<Inventory> get() = _inventoryData
 
-	private val _addProductCategoryErrorStatus = MutableLiveData<AddProductCategoryViewErrors>()
-	val addProductCategoryErrorStatus: LiveData<AddProductCategoryViewErrors> get() = _addProductCategoryErrorStatus
-
-	private val _addProductCategoryStatus = MutableLiveData<AddObjectStatus?>()
-	val addProductCategoryStatus: LiveData<AddObjectStatus?> get() = _addProductCategoryStatus
-
 	private var _productCategoriesForAddProduct = MutableLiveData<List<String>>()
 	val productCategoriesForAddProduct: LiveData<List<String>> get() = _productCategoriesForAddProduct
 
@@ -69,7 +63,6 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
 	init {
 		_addProductErrorStatus.value = AddProductViewErrors.NONE
-		_addProductCategoryErrorStatus.value = AddProductCategoryViewErrors.NONE
 	}
 
 	fun setIsEdit(state: Boolean) {
@@ -217,40 +210,6 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 			} else {
 				Log.d(TAG, "Product is Null, Cannot Add Product")
 			}
-		}
-	}
-
-	fun submitProductCategory(
-		productCategory: String
-	) {
-		var err = AddProductCategoryViewErrors.NONE
-		if (productCategory.isBlank()) {
-			err = AddProductCategoryViewErrors.EMPTY
-		}
-
-		_addProductCategoryErrorStatus.value = err
-
-		if (err == AddProductCategoryViewErrors.NONE) {
-			insertProductCategory(productCategory)
-		}
-	}
-
-	private fun insertProductCategory(productCategory: String) {
-		viewModelScope.launch {
-			_addProductCategoryStatus.value = AddObjectStatus.ADDING
-				val deferredRes = async {
-					inventoriesRepository.insertProductCategory(productCategory)
-				}
-				val res = deferredRes.await()
-				if (res is Success) {
-					Log.d(AdminViewModel.TAG, "onInsertProductCategory: Success")
-					_addProductCategoryStatus.value = AddObjectStatus.DONE
-				} else {
-					_addProductCategoryStatus.value = AddObjectStatus.ERR_ADD
-					if (res is Error) {
-						Log.d(AdminViewModel.TAG, "onInsertProductCategory: Error, ${res.exception.message}")
-					}
-				}
 		}
 	}
 

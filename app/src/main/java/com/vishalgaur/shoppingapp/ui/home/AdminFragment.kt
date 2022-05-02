@@ -126,7 +126,12 @@ class AdminFragment : Fragment() {
 			}
 		}
 
-		setAddProductCategoryObservers()
+		viewModel.productCategoriesForAddProduct.observe(viewLifecycleOwner) {
+			if(it.size > 0) {
+				binding.addProCatEditText.setText(it[0],false)
+			}
+			binding.addProCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
+		}
 
 		setAddSupplierObservers()
 	}
@@ -199,15 +204,7 @@ class AdminFragment : Fragment() {
 
 	private fun setAddProductCategoryViews() {
 		binding.addCatBtn.setOnClickListener {
-			onAddProductCategory()
-			if (viewModel.addProductCategoryErrorStatus.value == AddProductCategoryViewErrors.NONE) {
-				viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
-					if (status == AddObjectStatus.DONE) {
-						makeToast("Category Saved!")
-						findNavController().navigateUp()
-					}
-				}
-			}
+			findNavController().navigate(R.id.action_adminFragment_to_addProductCategoryFragment)
 		}
 	}
 
@@ -243,48 +240,7 @@ class AdminFragment : Fragment() {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 	}
 
-	private fun onAddProductCategory() {
-		val productCategory = binding.catNameEditText.text.toString()
-
-		Log.d(TAG, "onAddProductCategory: Add Product Category Initiated")
-		viewModel.submitProductCategory(productCategory)
-	}
-
 	private fun setAddSupplierObservers() {}
-
-	private fun setAddProductCategoryObservers() {
-		viewModel.addProductCategoryErrorStatus.observe(viewLifecycleOwner) { err ->
-			if (err == AddProductCategoryViewErrors.EMPTY) {
-				binding.addCatErrorTextView.visibility = View.VISIBLE
-			} else {
-				binding.addCatErrorTextView.visibility = View.GONE
-			}
-		}
-
-		viewModel.addProductCategoryStatus.observe(viewLifecycleOwner) { status ->
-			when (status) {
-				AddObjectStatus.DONE -> setLoaderState()
-				AddObjectStatus.ERR_ADD -> {
-					setLoaderState()
-					binding.addCatErrorTextView.visibility = View.VISIBLE
-					binding.addCatErrorTextView.text =
-						getString(R.string.save_category_error_text)
-					makeToast(getString(R.string.save_category_error_text))
-				}
-				AddObjectStatus.ADDING -> {
-					setLoaderState(View.VISIBLE)
-				}
-				else -> setLoaderState()
-			}
-		}
-
-		viewModel.productCategoriesForAddProduct.observe(viewLifecycleOwner) {
-			if(it.size > 0) {
-				binding.addProCatEditText.setText(it[0],false)
-			}
-			binding.addProCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
-		}
-	}
 
 	private fun setLoaderState(isVisible: Int = View.GONE) {
 		binding.loaderLayout.loaderFrameLayout.visibility = isVisible

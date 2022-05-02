@@ -161,6 +161,15 @@
         <action
             android:id="@+id/action_adminFragment_to_selectAddressFragment"
             app:destination="@id/selectAddressFragment" />
+        <action
+            android:id="@+id/action_adminFragment_to_addProductCategoryFragment"
+            app:destination="@id/addProductCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addProductCategoryFragment"
+        android:name="com.vishalgaur.shoppingapp.ui.home.AddProductCategoryFragment"
+        android:label="fragment_admin"
+        tools:layout="@layout/fragment_add_product_category" >
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
