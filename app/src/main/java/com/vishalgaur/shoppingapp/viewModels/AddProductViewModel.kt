@@ -23,7 +23,7 @@ import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class AdminViewModel(application: Application) : AndroidViewModel(application) {
+class AddProductViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val inventoriesRepository =
 		(application.applicationContext as ShoppingApplication).inventoriesRepository
@@ -212,6 +212,6 @@ class AdminViewModel(application: Application) : AndroidViewModel(application) {
 	}
 
 	companion object {
-		private const val TAG = "AdminViewModel"
+		private const val TAG = "AddProductViewModel"
 	}
 }

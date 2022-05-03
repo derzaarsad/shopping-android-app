@@ -84,7 +84,7 @@ class AddProductCategoryFragment : Fragment() {
 		binding.addProAppBar.topAppBar.title = "Tambah Kategori Produk"
 
 		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
-			findNavController().navigateUp()
+			findNavController().navigate(R.id.action_addProductCategoryFragment_to_adminFragment)
 		}
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
