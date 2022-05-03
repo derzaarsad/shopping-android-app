@@ -23,8 +23,6 @@ import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-private const val TAG = "AdminViewModel"
-
 class AdminViewModel(application: Application) : AndroidViewModel(application) {
 
 	private val inventoriesRepository =

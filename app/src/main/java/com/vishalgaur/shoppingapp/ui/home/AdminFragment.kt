@@ -44,8 +44,6 @@ class AdminFragment : Fragment() {
 	private lateinit var catName: String
 	private lateinit var productId: String
 
-	private lateinit var supplierArg: String
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
@@ -56,8 +54,6 @@ class AdminFragment : Fragment() {
 		isEdit = arguments?.getBoolean("isEdit") == true
 		catName = arguments?.getString("categoryName").toString()
 		productId = arguments?.getString("productId").toString()
-
-		supplierArg = arguments?.getString("supplierArg").toString()
 
 		initViewModel()
 
@@ -179,25 +175,12 @@ class AdminFragment : Fragment() {
 			}
 		}
 
-		setAddSupplierViews()
+		binding.addSupBtn.setOnClickListener {
+			findNavController().navigate(R.id.action_adminFragment_to_addSupplierFragment)
+		}
 
 		binding.addCatBtn.setOnClickListener {
 			findNavController().navigate(R.id.action_adminFragment_to_addProductCategoryFragment)
-		}
-	}
-
-	private fun setAddSupplierViews() {
-		binding.addSupAddressBtn.setOnClickListener {
-			findNavController().navigate(R.id.action_adminFragment_to_selectAddressFragment,
-				bundleOf("supplierArg" to Klaxon().toJsonString(AdminToSelectAddressArg(binding.supplierNameEditText.text.toString())))
-			)
-		}
-
-		if(supplierArg != "null") {
-			val result = Klaxon().parse<SelectAddressToAdminArg>(supplierArg)
-			if (result != null) {
-				binding.supplierNameEditText.setText(result.supplierName)
-			}
 		}
 	}
 

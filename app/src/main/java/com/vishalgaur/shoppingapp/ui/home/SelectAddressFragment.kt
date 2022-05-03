@@ -80,7 +80,7 @@ class SelectAddressFragment : Fragment() {
 		binding.shipToAppBar.topAppBar.title = getString(R.string.ship_to_title)
 		binding.shipToAppBar.topAppBar.inflateMenu(R.menu.menu_with_add_only)
 		binding.shipToAppBar.topAppBar.setNavigationOnClickListener {
-			findNavController().navigateUp()
+			findNavController().navigate(R.id.action_selectAddressFragment_to_adminFragment)
 		}
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 		binding.shipToErrorTextView.visibility = View.GONE
@@ -123,7 +123,7 @@ class SelectAddressFragment : Fragment() {
 			val result = Klaxon().parse<AdminToSelectAddressArg>(supplierArg)
 			binding.shipToNextBtn.setOnClickListener {
 				if (result != null) {
-					findNavController().navigate(R.id.action_selectAddressFragment_to_adminFragment,
+					findNavController().navigate(R.id.action_selectAddressFragment_to_addSupplierFragment,
 						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName)))
 					)
 				}

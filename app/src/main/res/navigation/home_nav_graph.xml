@@ -84,6 +84,9 @@
         <action
             android:id="@+id/action_selectAddressFragment_to_adminFragment"
             app:destination="@id/adminFragment" />
+        <action
+            android:id="@+id/action_selectAddressFragment_to_addSupplierFragment"
+            app:destination="@id/addSupplierFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditAddressFragment"
@@ -159,8 +162,8 @@
             app:argType="string"
             app:nullable="true" />
         <action
-            android:id="@+id/action_adminFragment_to_selectAddressFragment"
-            app:destination="@id/selectAddressFragment" />
+            android:id="@+id/action_adminFragment_to_addSupplierFragment"
+            app:destination="@id/addSupplierFragment" />
         <action
             android:id="@+id/action_adminFragment_to_addProductCategoryFragment"
             app:destination="@id/addProductCategoryFragment" />
@@ -168,8 +171,20 @@
     <fragment
         android:id="@+id/addProductCategoryFragment"
         android:name="com.vishalgaur.shoppingapp.ui.home.AddProductCategoryFragment"
-        android:label="fragment_admin"
+        android:label="fragment_add_product_category"
         tools:layout="@layout/fragment_add_product_category" >
+    </fragment>
+    <fragment
+        android:id="@+id/addSupplierFragment"
+        android:name="com.vishalgaur.shoppingapp.ui.home.AddSupplierFragment"
+        android:label="fragment_add_supplier"
+        tools:layout="@layout/fragment_add_supplier" >
+        <action
+            android:id="@+id/action_addSupplierFragment_to_selectAddressFragment"
+            app:destination="@id/selectAddressFragment" />
+        <action
+            android:id="@+id/action_addSupplierFragment_to_adminFragment"
+            app:destination="@id/adminFragment" />
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
