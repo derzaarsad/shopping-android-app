@@ -77,10 +77,9 @@ class SelectAddressFragment : Fragment() {
 	}
 
 	private fun setViews() {
-		binding.shipToAppBar.topAppBar.title = getString(R.string.ship_to_title)
 		binding.shipToAppBar.topAppBar.inflateMenu(R.menu.menu_with_add_only)
 		binding.shipToAppBar.topAppBar.setNavigationOnClickListener {
-			findNavController().navigate(R.id.action_selectAddressFragment_to_adminFragment)
+			findNavController().navigateUp()
 		}
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 		binding.shipToErrorTextView.visibility = View.GONE
@@ -116,10 +115,12 @@ class SelectAddressFragment : Fragment() {
 		}
 
 		if(supplierArg == "null") {
+			binding.shipToAppBar.topAppBar.title = getString(R.string.ship_to_title)
 			binding.shipToNextBtn.setOnClickListener {
 				navigateToPaymentFragment(addressAdapter.lastCheckedAddress)
 			}
 		} else {
+			binding.shipToAppBar.topAppBar.title = "Kontak Person"
 			val result = Klaxon().parse<AdminToSelectAddressArg>(supplierArg)
 			binding.shipToNextBtn.setOnClickListener {
 				if (result != null) {

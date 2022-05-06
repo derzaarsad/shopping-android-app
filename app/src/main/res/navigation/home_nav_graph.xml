@@ -82,9 +82,6 @@
             android:id="@+id/action_selectAddressFragment_to_selectPaymentFragment"
             app:destination="@id/selectPaymentFragment" />
         <action
-            android:id="@+id/action_selectAddressFragment_to_adminFragment"
-            app:destination="@id/adminFragment" />
-        <action
             android:id="@+id/action_selectAddressFragment_to_addSupplierFragment"
             app:destination="@id/addSupplierFragment" />
     </fragment>
