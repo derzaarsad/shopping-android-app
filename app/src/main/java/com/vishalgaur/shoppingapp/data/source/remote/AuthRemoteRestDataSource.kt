@@ -66,13 +66,8 @@ class AuthRemoteRestDataSource : UserDataSource {
 		password: String
 	): MutableList<UserData> = UserNetwork.retrofit.getUserByMobileAndPassword(LoginData(mobile,password))
 
-	override suspend fun insertAddressToUser(newAddress: UserData.Address, userId: String) {
-		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
-		if (!userRef.isEmpty) {
-			val docId = userRef.documents[0].id
-			usersCollectionRef().document(docId)
-				.update(USERS_ADDRESSES_FIELD, FieldValue.arrayUnion(newAddress.toHashMap()))
-		}
+	override suspend fun insertAddress(newAddress: UserData.Address) {
+		UserNetwork.retrofit.insertAddress(newAddress)
 	}
 
 	override suspend fun updateAddressOfUser(newAddress: UserData.Address, userId: String) {

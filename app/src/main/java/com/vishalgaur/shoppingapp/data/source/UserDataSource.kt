@@ -22,7 +22,7 @@ interface UserDataSource {
 		return mutableListOf()
 	}
 
-	suspend fun insertAddressToUser(newAddress: UserData.Address, userId: String) {}
+	suspend fun insertAddress(newAddress: UserData.Address) {}
 
 	suspend fun updateAddressOfUser(newAddress: UserData.Address, userId: String) {}
 

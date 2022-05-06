@@ -207,7 +207,7 @@ class AuthRepository(
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onInsertAddressToUser: adding address to remote source")
-				authRemoteDataSource.insertAddressToUser(newAddress, userId)
+				authRemoteDataSource.insertAddress(newAddress)
 			}
 			val localRes = async {
 				Log.d(TAG, "onInsertAddressToUser: updating address to local source")
