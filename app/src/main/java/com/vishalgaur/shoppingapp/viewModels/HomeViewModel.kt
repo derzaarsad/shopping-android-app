@@ -293,8 +293,8 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 			_dataStatus.value = StoreDataStatus.LOADING
 			val deferredRes = async { authRepository.getUserDataFromLocalSource(currentUser!!) }
 			val res = deferredRes.await()
-			if (res is Success) {
-				val uData = res.data
+			if (res != null) {
+				val uData = res
 				_userData.value = uData
 				_dataStatus.value = StoreDataStatus.DONE
 			} else {

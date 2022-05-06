@@ -77,8 +77,8 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		viewModelScope.launch {
 			val deferredRes = async { authRepository.getUserDataFromLocalSource(currentUserId!!) }
 			val userRes = deferredRes.await()
-			if (userRes is Success) {
-				val uData = userRes.data
+			if (userRes != null) {
+				val uData = userRes
 				if (uData != null) {
 					val cartList = uData.cart
 					val idx = cartList.indexOfFirst { it.inventoryId == inventoryId }

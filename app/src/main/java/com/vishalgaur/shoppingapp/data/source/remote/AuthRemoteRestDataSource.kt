@@ -22,12 +22,12 @@ class AuthRemoteRestDataSource : UserDataSource {
 		firebaseDb.collection(USERS_COLLECTION).document(EMAIL_MOBILE_DOC)
 
 
-	override suspend fun getUserById(userId: String): Result<UserData?> {
-		val resRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
-		return if (!resRef.isEmpty) {
-			Success(resRef.toObjects(UserData::class.java)[0])
-		} else {
-			Error(Exception("User Not Found!"))
+	override suspend fun getUserById(userId: String): UserData? {
+		try {
+			val resRef = UserNetwork.retrofit.getUserById(AccessData(userId))
+			return resRef
+		} catch (e: Exception) {
+			return null
 		}
 	}
 

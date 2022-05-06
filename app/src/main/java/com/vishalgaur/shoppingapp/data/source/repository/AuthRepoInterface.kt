@@ -26,7 +26,7 @@ interface AuthRepoInterface {
 	suspend fun setStatusOfOrder(orderId: String, userId: String, status: String): Result<Boolean>
 	suspend fun getOrdersByUserIdFromLocalSource(userId: String): Result<List<UserData.OrderItem>?>
 	suspend fun getAddressesByUserIdFromLocalSource(userId: String): Result<List<UserData.Address>?>
-	suspend fun getUserDataFromLocalSource(userId: String): Result<UserData?>
+	suspend fun getUserDataFromLocalSource(userId: String): UserData?
 	fun getFirebaseAuth(): FirebaseAuth
 	fun signInWithPhoneAuthCredential(
 		credential: PhoneAuthCredential,

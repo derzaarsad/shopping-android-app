@@ -21,17 +21,18 @@ class UserLocalDataSource internal constructor(
 		}
 	}
 
-	override suspend fun getUserById(userId: String): Result<UserData?> =
+	override suspend fun getUserById(userId: String): UserData? =
 		withContext(ioDispatcher) {
 			try {
 				val uData = userDao.getById(userId)
 				if (uData != null) {
-					return@withContext Success(uData)
+					return@withContext uData
 				} else {
-					return@withContext Error(Exception("User Not Found!"))
+					return@withContext null
 				}
 			} catch (e: Exception) {
-				return@withContext Error(e)
+				Log.d("UserLocalSource", "onGetUser: Error Occurred, $e")
+				return@withContext null
 			}
 		}
 

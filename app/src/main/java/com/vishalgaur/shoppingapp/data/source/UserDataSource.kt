@@ -7,7 +7,7 @@ import com.vishalgaur.shoppingapp.data.utils.EmailMobileData
 interface UserDataSource {
 	suspend fun addUser(userData: UserData)
 
-	suspend fun getUserById(userId: String): Result<UserData?>
+	suspend fun getUserById(userId: String): UserData?
 
 	fun updateEmailsAndMobiles(email: String, mobile: String) {}
 

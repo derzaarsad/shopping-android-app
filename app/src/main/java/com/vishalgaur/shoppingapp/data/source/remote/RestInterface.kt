@@ -56,6 +56,9 @@ interface KomodiAPI {
 
 	@PUT("insertProductCategory")
 	suspend fun insertProductCategory(@Body body: ProductCategoryData): String
+
+	@POST("getUserById")
+	suspend fun getUserById(@Body body: AccessData): UserData
 }
 
 object UserNetwork {

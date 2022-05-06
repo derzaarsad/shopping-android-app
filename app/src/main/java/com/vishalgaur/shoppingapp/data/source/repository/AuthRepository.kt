@@ -212,11 +212,11 @@ class AuthRepository(
 			val localRes = async {
 				Log.d(TAG, "onInsertAddressToUser: updating address to local source")
 				val userRes = authRemoteDataSource.getUserById(userId)
-				if (userRes is Success) {
+				if (userRes != null) {
 					userLocalDataSource.clearAllUsers()
-					userLocalDataSource.addUser(userRes.data!!)
-				} else if (userRes is Error) {
-					throw userRes.exception
+					userLocalDataSource.addUser(userRes)
+				} else {
+					throw Exception("User Not Found")
 				}
 			}
 			try {
@@ -242,11 +242,11 @@ class AuthRepository(
 				Log.d(TAG, "onUpdateAddressOfUser: updating address on local source")
 				val userRes =
 					authRemoteDataSource.getUserById(userId)
-				if (userRes is Success) {
+				if (userRes != null) {
 					userLocalDataSource.clearAllUsers()
-					userLocalDataSource.addUser(userRes.data!!)
-				} else if (userRes is Error) {
-					throw userRes.exception
+					userLocalDataSource.addUser(userRes)
+				} else {
+					throw Exception("User Not Found")
 				}
 			}
 			try {
@@ -269,11 +269,11 @@ class AuthRepository(
 				Log.d(TAG, "onDeleteAddressOfUser: deleting address from local source")
 				val userRes =
 					authRemoteDataSource.getUserById(userId)
-				if (userRes is Success) {
+				if (userRes != null) {
 					userLocalDataSource.clearAllUsers()
-					userLocalDataSource.addUser(userRes.data!!)
-				} else if (userRes is Error) {
-					throw userRes.exception
+					userLocalDataSource.addUser(userRes)
+				} else {
+					throw Exception("User Not Found")
 				}
 			}
 			try {
@@ -361,11 +361,11 @@ class AuthRepository(
 			val localRes = async {
 				Log.d(TAG, "onPlaceOrder: adding item to local source")
 				val userRes = authRemoteDataSource.getUserById(userId)
-				if (userRes is Success) {
+				if (userRes != null) {
 					userLocalDataSource.clearAllUsers()
-					userLocalDataSource.addUser(userRes.data!!)
-				} else if (userRes is Error) {
-					throw userRes.exception
+					userLocalDataSource.addUser(userRes)
+				} else {
+					throw Exception("User Not Found")
 				}
 			}
 			try {
@@ -410,7 +410,7 @@ class AuthRepository(
 		return userLocalDataSource.getAddressesByUserId(userId)
 	}
 
-	override suspend fun getUserDataFromLocalSource(userId: String): Result<UserData?> {
+	override suspend fun getUserDataFromLocalSource(userId: String): UserData? {
 		return userLocalDataSource.getUserById(userId)
 	}
 

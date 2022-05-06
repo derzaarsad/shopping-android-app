@@ -64,8 +64,8 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 				authRepository.getUserDataFromLocalSource(currentUser!!)
 			}
 			val userRes = deferredRes.await()
-			if (userRes is Success) {
-				val uData = userRes.data
+			if (userRes != null) {
+				val uData = userRes
 				if (uData != null) {
 					_cartItems.value = uData.cart
 					val priceRes = async { getAllInventoriesInCart() }
