@@ -61,7 +61,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		viewModelScope.launch {
 			val deferredRes = async {
 				authRepository.refreshUserDataFromRemote()
-				authRepository.getUserData(currentUser!!)
+				authRepository.getUserDataFromLocalSource(currentUser!!)
 			}
 			val userRes = deferredRes.await()
 			if (userRes is Success) {
@@ -88,7 +88,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		Log.d(TAG, "Getting Addresses")
 		_dataStatus.value = StoreDataStatus.LOADING
 		viewModelScope.launch {
-			val res = authRepository.getAddressesByUserId(currentUser!!)
+			val res = authRepository.getAddressesByUserIdFromLocalSource(currentUser!!)
 			if (res is Success) {
 				_userAddresses.value = res.data ?: emptyList()
 				_dataStatus.value = StoreDataStatus.DONE

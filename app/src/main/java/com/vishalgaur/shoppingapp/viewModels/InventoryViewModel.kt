@@ -75,7 +75,7 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 
 	fun checkIfInCart() {
 		viewModelScope.launch {
-			val deferredRes = async { authRepository.getUserData(currentUserId!!) }
+			val deferredRes = async { authRepository.getUserDataFromLocalSource(currentUserId!!) }
 			val userRes = deferredRes.await()
 			if (userRes is Success) {
 				val uData = userRes.data

@@ -183,7 +183,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	fun getAllOrders() {
 		viewModelScope.launch {
 			_storeDataStatus.value = StoreDataStatus.LOADING
-			val deferredRes = async { authRepository.getOrdersByUserId(currentUser!!) }
+			val deferredRes = async { authRepository.getOrdersByUserIdFromLocalSource(currentUser!!) }
 			val res = deferredRes.await()
 			if (res is Success) {
 				_userOrders.value = res.data ?: emptyList()
@@ -253,7 +253,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		Log.d(TAG, "Getting Addresses")
 		_dataStatus.value = StoreDataStatus.LOADING
 		viewModelScope.launch {
-			val res = authRepository.getAddressesByUserId(currentUser!!)
+			val res = authRepository.getAddressesByUserIdFromLocalSource(currentUser!!)
 			if (res is Success) {
 				_userAddresses.value = res.data ?: emptyList()
 				_dataStatus.value = StoreDataStatus.DONE
@@ -291,7 +291,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	fun getUserData() {
 		viewModelScope.launch {
 			_dataStatus.value = StoreDataStatus.LOADING
-			val deferredRes = async { authRepository.getUserData(currentUser!!) }
+			val deferredRes = async { authRepository.getUserDataFromLocalSource(currentUser!!) }
 			val res = deferredRes.await()
 			if (res is Success) {
 				val uData = res.data
