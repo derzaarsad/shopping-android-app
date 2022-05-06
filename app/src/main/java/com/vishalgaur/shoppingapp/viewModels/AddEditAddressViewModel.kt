@@ -15,6 +15,7 @@ import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.source.repository.AuthRepository
 import com.vishalgaur.shoppingapp.data.utils.AddObjectStatus
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
+import com.vishalgaur.shoppingapp.data.utils.UserType
 import com.vishalgaur.shoppingapp.getAddressId
 import com.vishalgaur.shoppingapp.isPhoneValid
 import com.vishalgaur.shoppingapp.isZipCodeValid
@@ -86,7 +87,8 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 		city: String,
 		state: String,
 		zipCode: String,
-		phoneNumber: String
+		phoneNumber: String,
+		userType: UserType
 	) {
 		val errorsList = mutableListOf<AddAddressViewErrors>()
 		if (name.isBlank() || streetAdd.isBlank() || city.isBlank() || state.isBlank() || zipCode.isBlank() || phoneNumber.isBlank())
@@ -113,7 +115,8 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 				city.trim(),
 				state.trim(),
 				zipCode.trim(),
-				"+62" + phoneNumber.trim()
+				"+62" + phoneNumber.trim(),
+				userType.name
 			)
 			newAddressData.value = newAddress
 			if (_isEdit.value == true) {

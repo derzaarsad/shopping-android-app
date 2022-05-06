@@ -94,6 +94,9 @@
             android:name="isEdit"
             app:argType="boolean" />
         <argument
+            android:name="userType"
+            app:argType="string" />
+        <argument
             android:name="addressId"
             app:argType="string"
             app:nullable="true" />

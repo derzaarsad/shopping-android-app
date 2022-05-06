@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
+import com.vishalgaur.shoppingapp.data.utils.UserType
 import com.vishalgaur.shoppingapp.databinding.FragmentAddressBinding
 import com.vishalgaur.shoppingapp.viewModels.HomeViewModel
 
@@ -117,7 +118,7 @@ class AddressFragment : Fragment() {
 	private fun navigateToAddEditAddress(isEdit: Boolean, addressId: String? = null) {
 		findNavController().navigate(
 			R.id.action_addressFragment_to_addEditAddressFragment,
-			bundleOf("isEdit" to isEdit, "addressId" to addressId)
+			bundleOf("isEdit" to isEdit, "userType" to UserType.CUSTOMER, "addressId" to addressId)
 		)
 	}
 }

@@ -13,6 +13,7 @@ import com.beust.klaxon.Klaxon
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
+import com.vishalgaur.shoppingapp.data.utils.UserType
 import com.vishalgaur.shoppingapp.databinding.FragmentSelectAddressBinding
 import com.vishalgaur.shoppingapp.viewModels.OrderViewModel
 
@@ -164,9 +165,10 @@ class SelectAddressFragment : Fragment() {
 	}
 
 	private fun navigateToAddEditAddress(isEdit: Boolean, addressId: String? = null) {
+		val userType = if (supplierArg != "null") UserType.SUPPLIER.name else UserType.CUSTOMER.name
 		findNavController().navigate(
 			R.id.action_selectAddressFragment_to_addEditAddressFragment,
-			bundleOf("isEdit" to isEdit, "addressId" to addressId)
+			bundleOf("isEdit" to isEdit, "userType" to userType, "addressId" to addressId)
 		)
 	}
 }

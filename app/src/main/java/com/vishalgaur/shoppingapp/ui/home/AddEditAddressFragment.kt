@@ -30,6 +30,7 @@ class AddEditAddressFragment : Fragment() {
 	private val viewModel by viewModels<AddEditAddressViewModel>()
 
 	private var isEdit by Delegates.notNull<Boolean>()
+	private lateinit var userType: String
 	private lateinit var addressId: String
 
 	override fun onCreateView(
@@ -40,6 +41,7 @@ class AddEditAddressFragment : Fragment() {
 		binding = FragmentAddEditAddressBinding.inflate(layoutInflater)
 
 		isEdit = arguments?.getBoolean("isEdit") == true
+		userType = arguments?.getString("userType").toString()
 		addressId = arguments?.getString("addressId").toString()
 
 		initViewModel()
@@ -177,7 +179,8 @@ class AddEditAddressFragment : Fragment() {
 			city,
 			state,
 			zipCode,
-			phoneNumber
+			phoneNumber,
+			if(userType == UserType.SUPPLIER.name) UserType.SUPPLIER else UserType.CUSTOMER
 		)
 	}
 

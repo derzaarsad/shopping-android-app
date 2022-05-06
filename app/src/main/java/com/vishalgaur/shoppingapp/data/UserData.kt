@@ -76,7 +76,8 @@ data class UserData(
 		var city: String = "",
 		var state: String = "",
 		var zipCode: String = "",
-		var phoneNumber: String = ""
+		var phoneNumber: String = "",
+		var userType: String = UserType.CUSTOMER.name
 	) : Parcelable {
 		fun toHashMap(): HashMap<String, String> {
 			return hashMapOf(
@@ -87,7 +88,8 @@ data class UserData(
 				"city" to city,
 				"state" to state,
 				"zipCode" to zipCode,
-				"phoneNumber" to phoneNumber
+				"phoneNumber" to phoneNumber,
+				"userType" to userType
 			)
 		}
 	}
