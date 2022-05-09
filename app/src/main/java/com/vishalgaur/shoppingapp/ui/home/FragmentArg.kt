@@ -9,5 +9,7 @@ data class AdminToSelectAddressArg(
 
 data class SelectAddressToAdminArg(
 	@Json(name = "supplierName")
-	val supplierName: String
+	val supplierName: String,
+	@Json(name = "addressId")
+	val addressId: String?
 )

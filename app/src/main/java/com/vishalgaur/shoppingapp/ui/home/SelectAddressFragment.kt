@@ -126,7 +126,7 @@ class SelectAddressFragment : Fragment() {
 			binding.shipToNextBtn.setOnClickListener {
 				if (result != null) {
 					findNavController().navigate(R.id.action_selectAddressFragment_to_addSupplierFragment,
-						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName)))
+						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName,addressAdapter.lastCheckedAddress)))
 					)
 				}
 			}
