@@ -220,4 +220,21 @@ class InventoriesRepository(
 			}
 		}
 	}
+
+	override suspend fun insertSupplier(
+		supplierName: String,addressId: String
+	): Result<Boolean> {
+		return supervisorScope {
+			val remoteRes = async {
+				Log.d(InventoriesRepository.TAG, "onInsertSupplier: adding supplier to remote source")
+				inventoriesRemoteSource.insertSupplier(supplierName,addressId)
+			}
+			try {
+				remoteRes.await()
+				Success(true)
+			} catch (e: Exception) {
+				Error(e)
+			}
+		}
+	}
 }

@@ -19,4 +19,5 @@ interface InventoriesRepoInterface {
 	suspend fun deleteInventoryById(inventoryId: String): Result<Boolean>
 	suspend fun getProductCategories(): List<String>?
 	suspend fun insertProductCategory(name: String): Result<Boolean>
+	suspend fun insertSupplier(supplierName: String,addressId: String): Result<Boolean>
 }

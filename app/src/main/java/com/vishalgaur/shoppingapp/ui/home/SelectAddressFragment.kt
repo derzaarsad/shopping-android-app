@@ -15,6 +15,7 @@ import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.data.utils.UserType
 import com.vishalgaur.shoppingapp.databinding.FragmentSelectAddressBinding
+import com.vishalgaur.shoppingapp.ui.getCompleteAddress
 import com.vishalgaur.shoppingapp.viewModels.OrderViewModel
 
 private const val TAG = "ShipToFragment"
@@ -125,8 +126,10 @@ class SelectAddressFragment : Fragment() {
 			val result = Klaxon().parse<AdminToSelectAddressArg>(supplierArg)
 			binding.shipToNextBtn.setOnClickListener {
 				if (result != null) {
+					val selectedAddress = orderViewModel.userAddresses.value?.find { it.addressId == addressAdapter.lastCheckedAddress }
+					val completeAddressText = if (selectedAddress != null) getCompleteAddress(selectedAddress) else null
 					findNavController().navigate(R.id.action_selectAddressFragment_to_addSupplierFragment,
-						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName,addressAdapter.lastCheckedAddress)))
+						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName,addressAdapter.lastCheckedAddress,completeAddressText)))
 					)
 				}
 			}

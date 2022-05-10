@@ -11,5 +11,7 @@ data class SelectAddressToAdminArg(
 	@Json(name = "supplierName")
 	val supplierName: String,
 	@Json(name = "addressId")
-	val addressId: String?
+	val addressId: String?,
+	@Json(name = "completeAddressText")
+	val completeAddressText: String?
 )

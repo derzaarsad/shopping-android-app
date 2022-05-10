@@ -36,6 +36,8 @@ enum class AddAddressViewErrors { EMPTY, ERR_NAME_EMPTY, ERR_STR1_EMPTY, ERR_CIT
 
 enum class AddProductCategoryViewErrors { NONE, EMPTY }
 
+enum class AddSupplierViewErrors { NONE, EMPTY }
+
 enum class AddItemErrors { ERROR_SIZE, ERROR_COLOR }
 
 class MyOnFocusChangeListener : View.OnFocusChangeListener {

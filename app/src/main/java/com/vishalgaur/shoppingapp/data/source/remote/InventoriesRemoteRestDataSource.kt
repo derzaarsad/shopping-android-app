@@ -93,6 +93,10 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		UserNetwork.retrofit.insertProductCategory(ProductCategoryData(name))
 	}
 
+	override suspend fun insertSupplier(supplierName: String,addressId: String) {
+		UserNetwork.retrofit.insertSupplier(SupplierData(supplierName,addressId))
+	}
+
 	override suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		val imgRef = storageRef().child("$SHOES_STORAGE_PATH/$fileName")
 		val uploadTask = imgRef.putFile(uri)

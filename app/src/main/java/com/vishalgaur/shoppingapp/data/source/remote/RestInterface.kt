@@ -31,6 +31,11 @@ data class ProductCategoryData(
 	val name: String
 )
 
+data class SupplierData(
+	val supplierName: String,
+	val addressId: String
+)
+
 interface KomodiAPI {
 
 	@POST("getAccessToken")
@@ -56,6 +61,9 @@ interface KomodiAPI {
 
 	@PUT("insertProductCategory")
 	suspend fun insertProductCategory(@Body body: ProductCategoryData): String
+
+	@PUT("insertSupplier")
+	suspend fun insertSupplier(@Body body: SupplierData): String
 
 	@PUT("insertAddress")
 	suspend fun insertAddress(@Body body: UserData.Address): String
