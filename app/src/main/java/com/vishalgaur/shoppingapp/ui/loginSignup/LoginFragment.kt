@@ -58,8 +58,6 @@ class LoginFragment : LoginSignupBaseFragment<FragmentLoginBinding>() {
 				}
 			}
 		})
-
-		setUpClickableSignUpText()
 	}
 
 	private fun modifyErrors(err: LoginViewErrors) {
@@ -80,22 +78,6 @@ class LoginFragment : LoginSignupBaseFragment<FragmentLoginBinding>() {
 	private fun setEditTextErrors(mobError: String? = null) {
 		binding.loginErrorTextView.visibility = View.GONE
 		binding.loginMobileEditText.error = mobError
-	}
-
-	private fun setUpClickableSignUpText() {
-		val signUpText = getString(R.string.login_signup_text)
-		val ss = SpannableString(signUpText)
-		val clickableSpan = object : ClickableSpan() {
-			override fun onClick(widget: View) {
-				findNavController().navigateUp()
-			}
-		}
-
-		ss.setSpan(clickableSpan, 10, 17, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-		binding.loginSignupTextView.apply {
-			text = ss
-			movementMethod = LinkMovementMethod.getInstance()
-		}
 	}
 
 	private fun onLogin() {
