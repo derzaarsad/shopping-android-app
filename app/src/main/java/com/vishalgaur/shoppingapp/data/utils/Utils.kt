@@ -67,3 +67,15 @@ fun getProvinces(): List<String> {
 fun getDefaultProvince(): String {
 	return getProvinces()[11]
 }
+
+fun getProductUnits(): List<String> {
+	return listOf(
+		"KILOGRAM",
+		"LITER",
+		"PIECE"
+	)
+}
+
+fun getDefaultUnit(): String {
+	return getProductUnits()[0]
+}

@@ -71,6 +71,49 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/add_pro_unit_name_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/pro_unit_dialog_title"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addProCatOutlinedTextField" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addProUnitOutlinedTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:boxStrokeColor="@color/blue_accent_300"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_pro_unit_name_label">
+
+                <AutoCompleteTextView
+                    android:id="@+id/add_pro_unit_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dropDownHeight="240dp"
+                    android:inputType="none"
+                    android:labelFor="@id/addProUnitOutlinedTextField"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
                 android:id="@+id/add_pro_name_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -84,7 +127,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addProCatOutlinedTextField" />
+                app:layout_constraintTop_toBottomOf="@id/addProUnitOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/proNameOutlinedTextField"
@@ -112,13 +155,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_pro_mrp_label"
+                android:id="@+id/add_pro_upc_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/add_pro_mrp_label_text"
+                android:text="@string/add_pro_upc_label_text"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -128,7 +171,7 @@
                 app:layout_constraintTop_toBottomOf="@id/proNameOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mrpOutlinedTextField"
+                android:id="@+id/upcOutlinedTextField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,10 +181,51 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_mrp_label">
+                app:layout_constraintTop_toBottomOf="@id/add_pro_upc_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pro_mrp_edit_text"
+                    android:id="@+id/pro_upc_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/add_pro_sku_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/add_pro_sku_label_text"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/upcOutlinedTextField" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/skuOutlinedTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:boxStrokeColor="@color/blue_accent_300"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_pro_sku_label">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/pro_sku_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -166,7 +250,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mrpOutlinedTextField" />
+                app:layout_constraintTop_toBottomOf="@id/skuOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descOutlinedTextField"

@@ -141,7 +141,7 @@ class AddProductFragment : Fragment() {
 			//binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			binding.proNameEditText.setText(inventory.name)
 			//binding.proPriceEditText.setText(inventory.price.toString())
-			binding.proMrpEditText.setText(inventory.mrp.toString())
+			binding.proUpcEditText.setText(inventory.mrp.toString())
 			binding.proDescEditText.setText(inventory.description)
 
 			binding.addProBtn.setText(R.string.edit_product_btn_text)
@@ -161,10 +161,13 @@ class AddProductFragment : Fragment() {
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 
 		binding.addProErrorTextView.visibility = View.GONE
+		binding.addProCatEditText.onFocusChangeListener = focusChangeListener
+		binding.addProUnitEditText.onFocusChangeListener = focusChangeListener
 		binding.proNameEditText.onFocusChangeListener = focusChangeListener
-		//binding.proPriceEditText.onFocusChangeListener = focusChangeListener
-		binding.proMrpEditText.onFocusChangeListener = focusChangeListener
+		binding.proUpcEditText.onFocusChangeListener = focusChangeListener
+		binding.proSkuEditText.onFocusChangeListener = focusChangeListener
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
+		setUnitTextField()
 
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
@@ -181,7 +184,7 @@ class AddProductFragment : Fragment() {
 	private fun onAddProduct() {
 		val name = binding.proNameEditText.text.toString()
 		val price = 345.0 // TODO: Remove
-		val mrp = binding.proMrpEditText.text.toString().toDoubleOrNull()
+		val mrp = binding.proUpcEditText.text.toString().toDoubleOrNull()
 		val desc = binding.proDescEditText.text.toString()
 		Log.d(
 			TAG,
@@ -190,6 +193,16 @@ class AddProductFragment : Fragment() {
 		viewModel.submitProduct(
 			name, price, mrp, desc, listOf(), listOf(), listOf()
 		)
+	}
+
+	private fun setUnitTextField() {
+		val units = getProductUnits()
+		val defaultUnit = getDefaultUnit()
+		val stateAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, units)
+		(binding.addProUnitEditText as? AutoCompleteTextView)?.let {
+			it.setText(defaultUnit, false)
+			it.setAdapter(stateAdapter)
+		}
 	}
 
 	private fun modifyAddProductErrors(err: AddProductViewErrors) {
