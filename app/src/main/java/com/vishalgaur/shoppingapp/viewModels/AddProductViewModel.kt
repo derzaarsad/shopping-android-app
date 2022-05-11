@@ -52,11 +52,11 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 		}
 	}
 
-	private fun insertProduct(supplierName: String, addressId: String) {
+	private fun insertProduct(productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String) {
 		viewModelScope.launch {
 			_addProductStatus.value = AddObjectStatus.ADDING
 			val deferredRes = async {
-				inventoriesRepository.insertSupplier(supplierName, addressId)
+				inventoriesRepository.insertProduct(productName,description,upc,sku,unit,categoryName)
 			}
 			val res = deferredRes.await()
 			if (res is Success) {
@@ -102,7 +102,7 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 						0.0
 					)
 				Log.d(TAG, "pro = $newProduct")
-				insertProduct("","")
+				insertProduct("","","","","","")
 			}
 		}
 	}

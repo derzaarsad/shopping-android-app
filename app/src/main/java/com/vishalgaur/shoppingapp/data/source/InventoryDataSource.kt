@@ -36,6 +36,8 @@ interface InventoryDataSource {
 
 	suspend fun insertSupplier(supplierName: String,addressId: String) {}
 
+	suspend fun insertProduct(productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String) {}
+
 	suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		return null
 	}
