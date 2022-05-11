@@ -41,9 +41,6 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 	private var _productCategoriesForAddProduct = MutableLiveData<List<String>>()
 	val productCategoriesForAddProduct: LiveData<List<String>> get() = _productCategoriesForAddProduct
 
-	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-	val newProductData = MutableLiveData<Inventory>()
-
 	init {
 		_addProductErrorStatus.value = AddProductViewErrors.NONE
 	}
@@ -104,7 +101,6 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 						emptyList(),
 						0.0
 					)
-				newProductData.value = newProduct
 				Log.d(TAG, "pro = $newProduct")
 				insertProduct("","")
 			}
