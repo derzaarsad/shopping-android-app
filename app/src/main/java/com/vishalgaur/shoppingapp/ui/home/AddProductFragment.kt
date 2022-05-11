@@ -30,6 +30,7 @@ import com.vishalgaur.shoppingapp.viewModels.AddProductViewModel
 import java.util.*
 import kotlin.properties.Delegates
 import com.beust.klaxon.Klaxon
+import com.vishalgaur.shoppingapp.ui.AddSupplierViewErrors
 
 private const val TAG = "AddProductFragment"
 
@@ -39,19 +40,12 @@ class AddProductFragment : Fragment() {
 	private val viewModel by viewModels<AddProductViewModel>()
 	private val focusChangeListener = MyOnFocusChangeListener()
 
-	// arguments
-	private lateinit var catName: String
-	private lateinit var productId: String
-
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
 		// Inflate the layout for this fragment
 		binding = FragmentAddProductBinding.inflate(layoutInflater)
-
-		catName = arguments?.getString("categoryName").toString()
-		productId = arguments?.getString("productId").toString()
 
 		initViewModel()
 
@@ -62,9 +56,6 @@ class AddProductFragment : Fragment() {
 	}
 
 	private fun initViewModel() {
-		Log.d(TAG, "init view model, $catName")
-		viewModel.setCategory(catName)
-
 		viewModel.getProductCategoriesForAddProduct()
 	}
 
@@ -72,40 +63,20 @@ class AddProductFragment : Fragment() {
 		viewModel.addProductErrorStatus.observe(viewLifecycleOwner) { err ->
 			modifyAddProductErrors(err)
 		}
-		viewModel.dataStatus.observe(viewLifecycleOwner) { status ->
+		viewModel.addProductStatus.observe(viewLifecycleOwner) { status ->
 			when (status) {
-				StoreDataStatus.LOADING -> {
-					binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-					binding.loaderLayout.circularLoader.showAnimationBehavior
+				AddObjectStatus.DONE -> setLoaderState()
+				AddObjectStatus.ERR_ADD -> {
+					setLoaderState()
+					binding.addProErrorTextView.visibility = View.VISIBLE
+					binding.addProErrorTextView.text =
+						getString(R.string.save_supplier_error_text)
+					makeToast(getString(R.string.save_supplier_error_text))
 				}
-				StoreDataStatus.DONE -> {
-					binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-					binding.loaderLayout.circularLoader.hideAnimationBehavior
-					fillDataInAllViews()
+				AddObjectStatus.ADDING -> {
+					setLoaderState(View.VISIBLE)
 				}
-				else -> {
-					binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-					binding.loaderLayout.circularLoader.hideAnimationBehavior
-					makeToast("Error getting Data, Try Again!")
-				}
-			}
-		}
-		viewModel.addInventoryErrors.observe(viewLifecycleOwner) { status ->
-			when (status) {
-				AddInventoryErrors.ADDING -> {
-					binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-					binding.loaderLayout.circularLoader.showAnimationBehavior
-				}
-				AddInventoryErrors.ERR_ADD_IMG -> {
-					setAddInventoryErrors(getString(R.string.add_product_error_img_upload))
-				}
-				AddInventoryErrors.ERR_ADD -> {
-					setAddInventoryErrors(getString(R.string.add_product_insert_error))
-				}
-				AddInventoryErrors.NONE -> {
-					binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-					binding.loaderLayout.circularLoader.hideAnimationBehavior
-				}
+				else -> setLoaderState()
 			}
 		}
 
@@ -117,34 +88,13 @@ class AddProductFragment : Fragment() {
 		}
 	}
 
-	private fun setAddInventoryErrors(errText: String) {
-		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-		binding.loaderLayout.circularLoader.hideAnimationBehavior
-		binding.addProErrorTextView.visibility = View.VISIBLE
-		binding.addProErrorTextView.text = errText
-
-	}
-
-	private fun fillDataInAllViews() {
-		viewModel.inventoryData.value?.let { inventory ->
-			Log.d(TAG, "fill data in views")
-			//binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
-			binding.proNameEditText.setText(inventory.name)
-			binding.proUpcEditText.setText(inventory.mrp.toString())
-			binding.proDescEditText.setText(inventory.description)
-
-			binding.addProBtn.setText(R.string.edit_product_btn_text)
-		}
-
-	}
-
 	private fun setViews() {
 		Log.d(TAG, "set views")
 
 		binding.addProAppBar.topAppBar.title = "Tambah Produk"
 
 		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
-			findNavController().navigate(R.id.action_addProductFragment_to_adminFragment)
+			findNavController().navigateUp()
 		}
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
@@ -161,9 +111,10 @@ class AddProductFragment : Fragment() {
 		binding.addProBtn.setOnClickListener {
 			onAddProduct()
 			if (viewModel.addProductErrorStatus.value == AddProductViewErrors.NONE) {
-				viewModel.addInventoryErrors.observe(viewLifecycleOwner) { err ->
-					if (err == AddInventoryErrors.NONE) {
-						findNavController().navigate(R.id.action_addInventoryFragment_to_homeFragment)
+				viewModel.addProductStatus.observe(viewLifecycleOwner) { status ->
+					if (status == AddObjectStatus.DONE) {
+						makeToast("Product Saved!")
+						findNavController().navigate(R.id.action_addProductFragment_to_adminFragment)
 					}
 				}
 			}
