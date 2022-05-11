@@ -28,7 +28,7 @@ enum class LoginViewErrors { NONE, ERR_EMPTY, ERR_MOBILE }
 
 enum class OTPStatus { NONE, CORRECT, WRONG, INVALID_REQ }
 
-enum class AddProductViewErrors { NONE, EMPTY, ERR_PRICE_0 }
+enum class AddProductViewErrors { NONE, ERR_NAME_EMPTY, ERR_UPC_EMPTY, ERR_SKU_EMPTY, ERR_UNIT_EMPTY, ERR_CAT_EMPTY }
 
 enum class AddInventoryViewErrors { NONE, EMPTY, ERR_PRICE_0 }
 

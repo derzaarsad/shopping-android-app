@@ -60,6 +60,12 @@
     <string name="add_pro_color_label_text">Colors Available</string>
     <string name="add_product_error_string">Fill all the details!</string>
     <string name="add_pro_error_price_string">Price can not be 0.</string>
+    <string name="add_pro_name_empty_err">Nama tidak boleh kosong!</string>
+    <string name="add_pro_desc_empty_err">Deskripsi tidak boleh kosong!</string>
+    <string name="add_pro_upc_empty_err">UPC tidak boleh kosong!</string>
+    <string name="add_pro_sku_empty_err">SKU tidak boleh kosong!</string>
+    <string name="add_pro_unit_empty_err">Unit tidak boleh kosong!</string>
+    <string name="add_pro_cat_empty_err">Kategori tidak boleh kosong!</string>
     <string name="pro_item_price">Price: $%d</string>
     <string name="product_detail_image_desc">Product Image</string>
     <string name="pro_details_like_btn_desc">Like Button</string>
@@ -121,6 +127,7 @@
     <string name="save_address_error_text">Error Saving Address!</string>
     <string name="save_category_error_text">Error Saving Product Category!</string>
     <string name="save_supplier_error_text">Error Saving Supplier!</string>
+    <string name="save_product_error_text">Error Saving Product!</string>
     <string name="ship_to_error_empty">Please select an address!</string>
     <string name="delete_address_message_text">On clicking Delete, Address will be deleted premanently!</string>
     <string name="plus_btn_desc">Increase Button</string>

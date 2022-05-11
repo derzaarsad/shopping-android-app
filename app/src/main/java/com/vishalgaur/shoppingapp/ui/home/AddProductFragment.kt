@@ -70,8 +70,8 @@ class AddProductFragment : Fragment() {
 					setLoaderState()
 					binding.addProErrorTextView.visibility = View.VISIBLE
 					binding.addProErrorTextView.text =
-						getString(R.string.save_supplier_error_text)
-					makeToast(getString(R.string.save_supplier_error_text))
+						getString(R.string.save_product_error_text)
+					makeToast(getString(R.string.save_product_error_text))
 				}
 				AddObjectStatus.ADDING -> {
 					setLoaderState(View.VISIBLE)
@@ -82,9 +82,9 @@ class AddProductFragment : Fragment() {
 
 		viewModel.productCategoriesForAddProduct.observe(viewLifecycleOwner) {
 			if(it.size > 0) {
-				binding.addProCatEditText.setText(it[0],false)
+				binding.proCatEditText.setText(it[0],false)
 			}
-			binding.addProCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
+			binding.proCatEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it))
 		}
 	}
 
@@ -100,8 +100,8 @@ class AddProductFragment : Fragment() {
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 
 		binding.addProErrorTextView.visibility = View.GONE
-		binding.addProCatEditText.onFocusChangeListener = focusChangeListener
-		binding.addProUnitEditText.onFocusChangeListener = focusChangeListener
+		binding.proCatEditText.onFocusChangeListener = focusChangeListener
+		binding.proUnitEditText.onFocusChangeListener = focusChangeListener
 		binding.proNameEditText.onFocusChangeListener = focusChangeListener
 		binding.proUpcEditText.onFocusChangeListener = focusChangeListener
 		binding.proSkuEditText.onFocusChangeListener = focusChangeListener
@@ -123,15 +123,17 @@ class AddProductFragment : Fragment() {
 
 	private fun onAddProduct() {
 		val name = binding.proNameEditText.text.toString()
-		val price = 345.0 // TODO: Remove
-		val mrp = binding.proUpcEditText.text.toString().toDoubleOrNull()
 		val desc = binding.proDescEditText.text.toString()
+		val upc = binding.proUpcEditText.text.toString()
+		val sku = binding.proSkuEditText.text.toString()
+		val unit = binding.proUnitEditText.text.toString()
+		val cat = binding.proCatEditText.text.toString()
 		Log.d(
 			TAG,
-			"onAddProduct: Add product initiated, $name, $price, $mrp, $desc"
+			"onAddProduct: Add product initiated, $name, $upc, $sku, $unit, $cat, $desc"
 		)
 		viewModel.submitProduct(
-			name, price, mrp, desc, listOf(), listOf(), listOf()
+			name, desc,upc,sku,unit,cat
 		)
 	}
 
@@ -139,7 +141,7 @@ class AddProductFragment : Fragment() {
 		val units = getProductUnits()
 		val defaultUnit = getDefaultUnit()
 		val stateAdapter = ArrayAdapter(requireContext(), R.layout.country_list_item, units)
-		(binding.addProUnitEditText as? AutoCompleteTextView)?.let {
+		(binding.proUnitEditText as? AutoCompleteTextView)?.let {
 			it.setText(defaultUnit, false)
 			it.setAdapter(stateAdapter)
 		}
@@ -148,13 +150,25 @@ class AddProductFragment : Fragment() {
 	private fun modifyAddProductErrors(err: AddProductViewErrors) {
 		when (err) {
 			AddProductViewErrors.NONE -> binding.addProErrorTextView.visibility = View.GONE
-			AddProductViewErrors.EMPTY -> {
+			AddProductViewErrors.ERR_NAME_EMPTY -> {
 				binding.addProErrorTextView.visibility = View.VISIBLE
-				binding.addProErrorTextView.text = getString(R.string.add_product_error_string)
+				binding.addProErrorTextView.text = getString(R.string.add_pro_name_empty_err)
 			}
-			AddProductViewErrors.ERR_PRICE_0 -> {
+			AddProductViewErrors.ERR_UPC_EMPTY -> {
 				binding.addProErrorTextView.visibility = View.VISIBLE
-				binding.addProErrorTextView.text = getString(R.string.add_pro_error_price_string)
+				binding.addProErrorTextView.text = getString(R.string.add_pro_upc_empty_err)
+			}
+			AddProductViewErrors.ERR_SKU_EMPTY -> {
+				binding.addProErrorTextView.visibility = View.VISIBLE
+				binding.addProErrorTextView.text = getString(R.string.add_pro_sku_empty_err)
+			}
+			AddProductViewErrors.ERR_UNIT_EMPTY -> {
+				binding.addProErrorTextView.visibility = View.VISIBLE
+				binding.addProErrorTextView.text = getString(R.string.add_pro_unit_empty_err)
+			}
+			AddProductViewErrors.ERR_CAT_EMPTY -> {
+				binding.addProErrorTextView.visibility = View.VISIBLE
+				binding.addProErrorTextView.text = getString(R.string.add_pro_cat_empty_err)
 			}
 		}
 	}

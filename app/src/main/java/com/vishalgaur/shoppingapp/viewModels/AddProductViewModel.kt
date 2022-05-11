@@ -20,6 +20,7 @@ import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getProductId
 import com.vishalgaur.shoppingapp.ui.AddProductCategoryViewErrors
 import com.vishalgaur.shoppingapp.ui.AddProductViewErrors
+import com.vishalgaur.shoppingapp.ui.AddSupplierViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -72,38 +73,34 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 	}
 
 	fun submitProduct(
-		name: String,
-		price: Double?,
-		mrp: Double?,
-		desc: String,
-		sizes: List<Int>,
-		colors: List<String>,
-		imgList: List<Uri>,
+		productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String
 	) {
-		if (name.isBlank() || price == null || mrp == null || desc.isBlank() || sizes.isNullOrEmpty() || colors.isNullOrEmpty() || imgList.isNullOrEmpty()) {
-			_addProductErrorStatus.value = AddProductViewErrors.EMPTY
-		} else {
-			if (price == 0.0 || mrp == 0.0) {
-				_addProductErrorStatus.value = AddProductViewErrors.ERR_PRICE_0
-			} else {
-				_addProductErrorStatus.value = AddProductViewErrors.NONE
-				val newProduct =
-					Inventory(
-						"2",
-						name.trim(),
-						currentUser!!,
-						desc.trim(),
-						"Beras",
-						price,
-						mrp,
-						sizes,
-						colors,
-						emptyList(),
-						0.0
-					)
-				Log.d(TAG, "pro = $newProduct")
-				insertProduct("","","","","","")
-			}
+		var err = AddProductViewErrors.NONE
+
+		if (sku.isBlank()) {
+			err = AddProductViewErrors.ERR_SKU_EMPTY
+		}
+
+		if (upc.isBlank()) {
+			err = AddProductViewErrors.ERR_UPC_EMPTY
+		}
+
+		if (productName.isBlank()) {
+			err = AddProductViewErrors.ERR_NAME_EMPTY
+		}
+
+		if (unit.isBlank()) {
+			err = AddProductViewErrors.ERR_UNIT_EMPTY
+		}
+
+		if (categoryName.isBlank()) {
+			err = AddProductViewErrors.ERR_CAT_EMPTY
+		}
+
+		_addProductErrorStatus.value = err
+
+		if (err == AddProductViewErrors.NONE) {
+			insertProduct("","","","","","")
 		}
 	}
 
