@@ -100,7 +100,7 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 		_addProductErrorStatus.value = err
 
 		if (err == AddProductViewErrors.NONE) {
-			insertProduct("","","","","","")
+			insertProduct(productName,description,upc,sku,unit,categoryName)
 		}
 	}
 
