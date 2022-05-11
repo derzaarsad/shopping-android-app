@@ -38,9 +38,6 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 	private val _inventoryId = MutableLiveData<String>()
 	val inventoryId: LiveData<String> get() = _inventoryId
 
-	private val _isEdit = MutableLiveData<Boolean>()
-	val isEdit: LiveData<Boolean> get() = _isEdit
-
 	private val _addProductErrorStatus = MutableLiveData<AddProductViewErrors>()
 	val addProductErrorStatus: LiveData<AddProductViewErrors> get() = _addProductErrorStatus
 
@@ -61,10 +58,6 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 
 	init {
 		_addProductErrorStatus.value = AddProductViewErrors.NONE
-	}
-
-	fun setIsEdit(state: Boolean) {
-		_isEdit.value = state
 	}
 
 	fun getProductCategoriesForAddProduct() {
@@ -115,8 +108,7 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 				_addProductErrorStatus.value = AddProductViewErrors.ERR_PRICE_0
 			} else {
 				_addProductErrorStatus.value = AddProductViewErrors.NONE
-				val proId = if (_isEdit.value == true) _inventoryId.value!! else
-					getProductId(currentUser!!, selectedCategory.value!!)
+				val proId = getProductId(currentUser!!, selectedCategory.value!!)
 				val newProduct =
 					Inventory(
 						proId,
@@ -133,11 +125,7 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 					)
 				newProductData.value = newProduct
 				Log.d(TAG, "pro = $newProduct")
-				if (_isEdit.value == true) {
-					updateProduct(imgList)
-				} else {
-					insertProduct(imgList)
-				}
+				insertProduct(imgList)
 			}
 		}
 	}

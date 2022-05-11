@@ -40,7 +40,6 @@ class AddProductFragment : Fragment() {
 	private val focusChangeListener = MyOnFocusChangeListener()
 
 	// arguments
-	private var isEdit by Delegates.notNull<Boolean>()
 	private lateinit var catName: String
 	private lateinit var productId: String
 
@@ -51,7 +50,6 @@ class AddProductFragment : Fragment() {
 		// Inflate the layout for this fragment
 		binding = FragmentAddProductBinding.inflate(layoutInflater)
 
-		isEdit = arguments?.getBoolean("isEdit") == true
 		catName = arguments?.getString("categoryName").toString()
 		productId = arguments?.getString("productId").toString()
 
@@ -64,16 +62,8 @@ class AddProductFragment : Fragment() {
 	}
 
 	private fun initViewModel() {
-		Log.d(TAG, "init view model, isedit = $isEdit")
-
-		viewModel.setIsEdit(isEdit)
-		if (isEdit) {
-			Log.d(TAG, "init view model, isedit = true, $productId")
-			viewModel.setInventoryData(productId)
-		} else {
-			Log.d(TAG, "init view model, isedit = false, $catName")
-			viewModel.setCategory(catName)
-		}
+		Log.d(TAG, "init view model, $catName")
+		viewModel.setCategory(catName)
 
 		viewModel.getProductCategoriesForAddProduct()
 	}
@@ -140,7 +130,6 @@ class AddProductFragment : Fragment() {
 			Log.d(TAG, "fill data in views")
 			//binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			binding.proNameEditText.setText(inventory.name)
-			//binding.proPriceEditText.setText(inventory.price.toString())
 			binding.proUpcEditText.setText(inventory.mrp.toString())
 			binding.proDescEditText.setText(inventory.description)
 
