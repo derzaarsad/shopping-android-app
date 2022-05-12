@@ -72,9 +72,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sup_spinner" />
 
-            <Spinner
-                android:id="@+id/pro_spinner"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addInvProOutlinedTextField"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -83,7 +83,21 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_name_label" />
+                app:layout_constraintTop_toBottomOf="@id/add_pro_name_label">
+
+                <AutoCompleteTextView
+                    android:id="@+id/inv_pro_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dropDownHeight="240dp"
+                    android:inputType="none"
+                    android:labelFor="@id/addInvProOutlinedTextField"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:textColor="@color/gray"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/add_inv_price_label"
@@ -99,7 +113,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pro_spinner" />
+                app:layout_constraintTop_toBottomOf="@id/addInvProOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/priceOutlinedTextField"

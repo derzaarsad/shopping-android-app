@@ -3,6 +3,7 @@ package com.vishalgaur.shoppingapp.data.source.repository
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import com.vishalgaur.shoppingapp.data.Inventory
+import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 
@@ -18,6 +19,7 @@ interface InventoriesRepoInterface {
 	suspend fun updateImages(newList: List<Uri>, oldList: List<String>): List<String>
 	suspend fun deleteInventoryById(inventoryId: String): Result<Boolean>
 	suspend fun getProductCategories(): List<String>?
+	suspend fun getProducts(): List<Product>?
 	suspend fun insertProductCategory(name: String): Result<Boolean>
 	suspend fun insertSupplier(supplierName: String,addressId: String): Result<Boolean>
 	suspend fun insertProduct(productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String): Result<Boolean>

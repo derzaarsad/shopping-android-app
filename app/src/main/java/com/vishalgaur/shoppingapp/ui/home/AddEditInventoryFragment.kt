@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -85,6 +86,7 @@ class AddEditInventoryFragment : Fragment() {
 			Log.d(TAG, "init view model, isedit = false, $catName")
 			viewModel.setCategory(catName)
 		}
+		viewModel.getProducts()
 	}
 
 	private fun setObservers() {
@@ -126,6 +128,13 @@ class AddEditInventoryFragment : Fragment() {
 					binding.loaderLayout.circularLoader.hideAnimationBehavior
 				}
 			}
+		}
+
+		viewModel.products.observe(viewLifecycleOwner) {
+			if(it.size > 0) {
+				binding.invProEditText.setText(it[0].name,false)
+			}
+			binding.invProEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it.map { it.name }))
 		}
 	}
 
@@ -200,7 +209,7 @@ class AddEditInventoryFragment : Fragment() {
 	}
 
 	private fun onAddInventory() {
-		val name = binding.proSpinner.selectedItem.toString()
+		val name = binding.invProEditText.text.toString()
 		val price = binding.invPriceEditText.text.toString().toDoubleOrNull()
 		val mrp = binding.invMrpEditText.text.toString().toDoubleOrNull()
 		val desc = binding.invDescEditText.text.toString()

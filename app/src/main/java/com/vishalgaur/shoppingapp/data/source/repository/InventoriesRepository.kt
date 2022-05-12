@@ -6,6 +6,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import com.vishalgaur.shoppingapp.ERR_UPLOAD
 import com.vishalgaur.shoppingapp.data.Inventory
+import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.Result.*
 import com.vishalgaur.shoppingapp.data.source.InventoryDataSource
@@ -196,6 +197,21 @@ class InventoriesRepository(
 			Log.d(InventoriesRepository.TAG,"getting product categories success: " + queryResult.size + " product categories found")
 		} catch (e: Exception) {
 			Log.d(InventoriesRepository.TAG,"Error on getting product categories: " + e.toString())
+		}
+		return if (queryResult.size > 0) {
+			queryResult
+		} else {
+			null
+		}
+	}
+
+	override suspend fun getProducts(): List<Product>? {
+		var queryResult = listOf<Product>()
+		try {
+			queryResult = inventoriesRemoteSource.getProducts()
+			Log.d(InventoriesRepository.TAG,"getting products success: " + queryResult.size + " products found")
+		} catch (e: Exception) {
+			Log.d(InventoriesRepository.TAG,"Error on getting products: " + e.toString())
 		}
 		return if (queryResult.size > 0) {
 			queryResult

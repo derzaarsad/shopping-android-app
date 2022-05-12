@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.vishalgaur.shoppingapp.ERR_UPLOAD
 import com.vishalgaur.shoppingapp.ShoppingApplication
 import com.vishalgaur.shoppingapp.data.Inventory
+import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
@@ -21,7 +22,7 @@ import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-private const val TAG = "AddEditViewModel"
+private const val TAG = "AddEditInventoryViewModel"
 
 class AddEditInventoryViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -52,6 +53,9 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 
 	private val _inventoryData = MutableLiveData<Inventory>()
 	val inventoryData: LiveData<Inventory> get() = _inventoryData
+
+	private var _products = MutableLiveData<List<Product>>()
+	val products: LiveData<List<Product>> get() = _products
 
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	val newInventoryData = MutableLiveData<Inventory>()
@@ -198,6 +202,13 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 			} else {
 				Log.d(TAG, "Inventory is Null, Cannot Add Inventory")
 			}
+		}
+	}
+
+	fun getProducts() {
+		viewModelScope.launch {
+			val res = inventoriesRepository.getProducts()
+			_products.value = res ?: emptyList()
 		}
 	}
 

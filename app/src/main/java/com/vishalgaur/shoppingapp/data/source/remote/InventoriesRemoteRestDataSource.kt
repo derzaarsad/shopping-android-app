@@ -10,6 +10,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.vishalgaur.shoppingapp.data.Inventory
+import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
@@ -88,6 +89,8 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 	}
 
 	override suspend fun getProductCategories(): List<String> = UserNetwork.retrofit.getProductCategories()
+
+	override suspend fun getProducts(): List<Product> = UserNetwork.retrofit.getProducts()
 
 	override suspend fun insertProductCategory(name: String) {
 		UserNetwork.retrofit.insertProductCategory(ProductCategoryData(name))

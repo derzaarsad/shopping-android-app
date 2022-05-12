@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.vishalgaur.shoppingapp.data.Inventory
+import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Result
 
 interface InventoryDataSource {
@@ -29,6 +30,10 @@ interface InventoryDataSource {
 	}
 
 	suspend fun getProductCategories(): List<String> {
+		return listOf()
+	}
+
+	suspend fun getProducts(): List<Product> {
 		return listOf()
 	}
 

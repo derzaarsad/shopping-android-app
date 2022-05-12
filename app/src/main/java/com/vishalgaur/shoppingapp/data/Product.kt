@@ -11,6 +11,7 @@ data class Product @JvmOverloads constructor(
 	@PrimaryKey
 	var productId: String = "",
 	var name: String = "",
+	var unit: String = "",
 	var owner: String = "",
 	var description: String = "",
 	var category: String = "",
@@ -25,6 +26,7 @@ data class Product @JvmOverloads constructor(
 		return hashMapOf(
 			"productId" to productId,
 			"name" to name,
+			"unit" to unit,
 			"owner" to owner,
 			"description" to description,
 			"category" to category,
