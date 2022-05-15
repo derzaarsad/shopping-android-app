@@ -12,6 +12,7 @@ import com.vishalgaur.shoppingapp.ERR_UPLOAD
 import com.vishalgaur.shoppingapp.ShoppingApplication
 import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Supplier
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
@@ -57,6 +58,9 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	private var _products = MutableLiveData<List<Product>>()
 	val products: LiveData<List<Product>> get() = _products
 
+	private var _suppliers = MutableLiveData<List<Supplier>>()
+	val suppliers: LiveData<List<Supplier>> get() = _suppliers
+
 	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
 	val newInventoryData = MutableLiveData<Inventory>()
 
@@ -93,8 +97,10 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		}
 	}
 
-	fun submitInventory(
+	fun submitPurchaseInventory(
 		name: String,
+		supplierId: String?,
+		productId: String?,
 		price: Double?,
 		mrp: Double?,
 		desc: String,
@@ -209,6 +215,13 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		viewModelScope.launch {
 			val res = inventoriesRepository.getProducts()
 			_products.value = res ?: emptyList()
+		}
+	}
+
+	fun getSuppliers() {
+		viewModelScope.launch {
+			val res = inventoriesRepository.getSuppliers()
+			_suppliers.value = res ?: emptyList()
 		}
 	}
 

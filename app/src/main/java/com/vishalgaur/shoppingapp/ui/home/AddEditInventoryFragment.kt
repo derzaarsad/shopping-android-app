@@ -41,6 +41,9 @@ class AddEditInventoryFragment : Fragment() {
 	private lateinit var catName: String
 	private lateinit var productId: String
 
+	private var currentProductIdx: Int = 0
+	private var currentSupplierIdx: Int = 0
+
 	private var sizeList = mutableSetOf<Int>()
 	private var colorsList = mutableSetOf<String>()
 	private var imgList = mutableListOf<Uri>()
@@ -87,6 +90,7 @@ class AddEditInventoryFragment : Fragment() {
 			viewModel.setCategory(catName)
 		}
 		viewModel.getProducts()
+		viewModel.getSuppliers()
 	}
 
 	private fun setObservers() {
@@ -135,6 +139,28 @@ class AddEditInventoryFragment : Fragment() {
 				binding.invProEditText.setText(it[0].name,false)
 			}
 			binding.invProEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it.map { it.name }))
+		}
+
+		binding.invProEditText.setOnItemClickListener { adapterView, view, i, l ->
+			currentProductIdx = i
+			val currentUnit = viewModel.products.value!![currentProductIdx].unit
+			when(currentUnit) {
+				"KILOGRAM" -> Log.d(TAG,"SWITCH TO KILO")
+				"LITER" -> Log.d(TAG, "SWITCH TO LIT")
+				"PIECE" -> Log.d(TAG,"SWITCH TO PIECE")
+				else -> throw Exception("Unknown product unit")
+			}
+		}
+
+		viewModel.suppliers.observe(viewLifecycleOwner) {
+			if(it.size > 0) {
+				binding.invSupEditText.setText(it[0].name,false)
+			}
+			binding.invSupEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it.map { it.name }))
+		}
+
+		binding.invSupEditText.setOnItemClickListener { adapterView, view, i, l ->
+			currentSupplierIdx = i
 		}
 	}
 
@@ -217,8 +243,11 @@ class AddEditInventoryFragment : Fragment() {
 			TAG,
 			"onAddProduct: Add inventory initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
 		)
-		viewModel.submitInventory(
-			name, price, mrp, desc, sizeList.toList(), colorsList.toList(), imgList
+		viewModel.submitPurchaseInventory(
+			name,
+			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else null,
+			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else null,
+			price, mrp, desc, sizeList.toList(), colorsList.toList(), imgList
 		)
 	}
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import com.vishalgaur.shoppingapp.ERR_UPLOAD
 import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Supplier
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.Result.*
 import com.vishalgaur.shoppingapp.data.source.InventoryDataSource
@@ -212,6 +213,21 @@ class InventoriesRepository(
 			Log.d(InventoriesRepository.TAG,"getting products success: " + queryResult.size + " products found")
 		} catch (e: Exception) {
 			Log.d(InventoriesRepository.TAG,"Error on getting products: " + e.toString())
+		}
+		return if (queryResult.size > 0) {
+			queryResult
+		} else {
+			null
+		}
+	}
+
+	override suspend fun getSuppliers(): List<Supplier>? {
+		var queryResult = listOf<Supplier>()
+		try {
+			queryResult = inventoriesRemoteSource.getSuppliers()
+			Log.d(InventoriesRepository.TAG,"getting suppliers success: " + queryResult.size + " suppliers found")
+		} catch (e: Exception) {
+			Log.d(InventoriesRepository.TAG,"Error on getting suppliers: " + e.toString())
 		}
 		return if (queryResult.size > 0) {
 			queryResult

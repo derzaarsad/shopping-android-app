@@ -3,6 +3,7 @@ package com.vishalgaur.shoppingapp.data.source.remote
 import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.Product
+import com.vishalgaur.shoppingapp.data.Supplier
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -71,6 +72,9 @@ interface KomodiAPI {
 
 	@GET("getProducts")
 	suspend fun getProducts(): List<Product>
+
+	@GET("getSuppliers")
+	suspend fun getSuppliers(): List<Supplier>
 
 	@PUT("insertProductCategory")
 	suspend fun insertProductCategory(@Body body: ProductCategoryData): String
