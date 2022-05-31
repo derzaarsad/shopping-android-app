@@ -99,9 +99,6 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		val maxQuantity = inventoryData.value!!.quantity
 
 		if ((maxQuantity - quantity) < 0.0) errList.add(AddItemErrors.ERROR_QUANTITY)
-		// TODO: Use this later on
-//		if (size == null) errList.add(AddItemErrors.ERROR_SIZE)
-//		if (color.isNullOrBlank()) errList.add(AddItemErrors.ERROR_COLOR)
 
 		if (errList.isEmpty()) {
 			val itemId = UUID.randomUUID().toString()
@@ -110,6 +107,8 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 			)
 			insertCartItem(newItem)
 		}
+
+		_errorStatus.value = errList
 	}
 
 	private fun insertCartItem(item: UserData.CartItem) {

@@ -131,7 +131,6 @@ class InventoryDetailsFragment : Fragment() {
 
 	@SuppressLint("ResourceAsColor")
 	private fun modifyErrors(errList: List<AddItemErrors>) {
-		makeToast("Please Select Size and Color.")
 		if (!errList.isNullOrEmpty()) {
 			errList.forEach { err ->
 				when (err) {
@@ -142,7 +141,8 @@ class InventoryDetailsFragment : Fragment() {
 						binding.proDetailsSelectColorLabel.setTextColor(R.color.red_600)
 					}
 					AddItemErrors.ERROR_QUANTITY -> {
-						// TODO: set red
+						binding.addInvQuantityLabel.setTextColor(R.color.red_600)
+						makeToast("Quantity cannot be more than " + viewModel.inventoryData.value?.quantity + ".")
 					}
 				}
 			}
@@ -180,7 +180,7 @@ class InventoryDetailsFragment : Fragment() {
 	}
 
 	private fun onAddToCart() {
-		viewModel.addToCart(1.0,selectedSize, selectedColor)
+		viewModel.addToCart(binding.invQuantityEditText.text.toString().toDouble(),selectedSize, selectedColor)
 	}
 
 	private fun navigateToCartFragment() {
