@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -93,6 +94,23 @@ class AddEditInventoryFragment : Fragment() {
 		viewModel.getSuppliers()
 	}
 
+	private fun setUnitField(unit: String) {
+		when(unit) {
+			"KILOGRAM" -> Log.d(TAG,"SWITCH TO KILOGRAM")
+			"LITER" -> Log.d(TAG, "SWITCH TO LITER")
+			"PIECE" -> Log.d(TAG,"SWITCH TO PIECE")
+			else -> throw Exception("Unknown product unit")
+		}
+		when(unit) {
+			"KILOGRAM" -> binding.invQuantityEditText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+			"LITER" -> binding.invQuantityEditText.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+			"PIECE" -> binding.invQuantityEditText.inputType = InputType.TYPE_CLASS_NUMBER
+			else -> throw Exception("Unknown product unit")
+		}
+		binding.invQuantityEditText.setText("")
+		binding.addInvQuantityLabel.setText("Quantity in " + unit)
+	}
+
 	private fun setObservers() {
 		viewModel.errorStatus.observe(viewLifecycleOwner) { err ->
 			modifyErrors(err)
@@ -135,21 +153,18 @@ class AddEditInventoryFragment : Fragment() {
 		}
 
 		viewModel.products.observe(viewLifecycleOwner) {
+			val selectedDefaultProductIdx = 0
 			if(it.size > 0) {
-				binding.invProEditText.setText(it[0].name,false)
+				binding.invProEditText.setText(it[selectedDefaultProductIdx].name,false)
 			}
 			binding.invProEditText.setAdapter(ArrayAdapter(requireContext(),android.R.layout.select_dialog_item,it.map { it.name }))
+			setUnitField(it[selectedDefaultProductIdx].unit)
 		}
 
 		binding.invProEditText.setOnItemClickListener { adapterView, view, i, l ->
 			currentProductIdx = i
 			val currentUnit = viewModel.products.value!![currentProductIdx].unit
-			when(currentUnit) {
-				"KILOGRAM" -> Log.d(TAG,"SWITCH TO KILO")
-				"LITER" -> Log.d(TAG, "SWITCH TO LIT")
-				"PIECE" -> Log.d(TAG,"SWITCH TO PIECE")
-				else -> throw Exception("Unknown product unit")
-			}
+			setUnitField(currentUnit)
 		}
 
 		viewModel.suppliers.observe(viewLifecycleOwner) {
@@ -241,7 +256,7 @@ class AddEditInventoryFragment : Fragment() {
 		val desc = binding.invDescEditText.text.toString()
 		Log.d(
 			TAG,
-			"onAddProduct: Add inventory initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
+			"onAddInventory: Add inventory initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
 		)
 		viewModel.submitPurchaseInventory(
 			name,
