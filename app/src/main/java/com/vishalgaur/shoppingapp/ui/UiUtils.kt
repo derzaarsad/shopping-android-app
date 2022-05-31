@@ -38,7 +38,7 @@ enum class AddProductCategoryViewErrors { NONE, EMPTY }
 
 enum class AddSupplierViewErrors { NONE, EMPTY }
 
-enum class AddItemErrors { ERROR_SIZE, ERROR_COLOR }
+enum class AddItemErrors { ERROR_SIZE, ERROR_COLOR, ERROR_QUANTITY }
 
 class MyOnFocusChangeListener : View.OnFocusChangeListener {
 	override fun onFocusChange(v: View?, hasFocus: Boolean) {

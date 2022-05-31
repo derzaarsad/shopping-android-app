@@ -164,7 +164,7 @@ class OrderDetailsFragment : Fragment() {
 	private fun getItemsCount(cartItems: List<UserData.CartItem>): Int {
 		var totalCount = 0
 		cartItems.forEach {
-			totalCount += it.quantity
+			totalCount += it.quantity.toInt()
 		}
 		return totalCount
 	}
@@ -175,7 +175,7 @@ class OrderDetailsFragment : Fragment() {
 	): Double {
 		var totalPrice = 0.0
 		priceList.forEach { (itemId, price) ->
-			totalPrice += price * (cartItems.find { it.itemId == itemId }?.quantity ?: 1)
+			totalPrice += price * (cartItems.find { it.itemId == itemId }?.quantity?.toInt() ?: 1)
 		}
 		return totalPrice
 	}

@@ -36,7 +36,7 @@ class OrdersAdapter(ordersList: List<UserData.OrderItem>, private val context: C
 				context.getString(R.string.order_items_count_text, totalItems.toString())
 			var totalAmount = 0.0
 			orderData.itemsPrices.forEach { (itemId, price) ->
-				totalAmount += price * (orderData.items.find { it.itemId == itemId }?.quantity ?: 1)
+				totalAmount += price * (orderData.items.find { it.itemId == itemId }?.quantity?.toInt() ?: 1)
 			}
 			binding.orderSummaryTotalAmountTv.text =
 				context.getString(R.string.price_text, totalAmount.toString())

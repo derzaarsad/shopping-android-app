@@ -139,6 +139,9 @@ class InventoryDetailsFragment : Fragment() {
 					AddItemErrors.ERROR_COLOR -> {
 						binding.proDetailsSelectColorLabel.setTextColor(R.color.red_600)
 					}
+					AddItemErrors.ERROR_QUANTITY -> {
+						// TODO: set red
+					}
 				}
 			}
 		}
@@ -174,7 +177,7 @@ class InventoryDetailsFragment : Fragment() {
 	}
 
 	private fun onAddToCart() {
-		viewModel.addToCart(selectedSize, selectedColor)
+		viewModel.addToCart(1.0,selectedSize, selectedColor)
 	}
 
 	private fun navigateToCartFragment() {

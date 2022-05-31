@@ -126,7 +126,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 	fun getItemsPriceTotal(): Double {
 		var totalPrice = 0.0
 		_priceList.value?.forEach { (itemId, price) ->
-			totalPrice += price * (_cartItems.value?.find { it.itemId == itemId }?.quantity ?: 1)
+			totalPrice += price * (_cartItems.value?.find { it.itemId == itemId }?.quantity?.toInt() ?: 1)
 		}
 		return totalPrice
 	}
@@ -134,7 +134,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 	fun getItemsCount(): Int {
 		var totalCount = 0
 		_cartItems.value?.forEach {
-			totalCount += it.quantity
+			totalCount += it.quantity.toInt()
 		}
 		return totalCount
 	}

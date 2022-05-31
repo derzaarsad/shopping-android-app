@@ -19,7 +19,9 @@ data class Inventory @JvmOverloads constructor(
 	var availableSizes: List<Int> = ArrayList(),
 	var availableColors: List<String> = ArrayList(),
 	var images: List<String> = ArrayList(),
-	var rating: Double = 0.0
+	var rating: Double = 0.0,
+	var quantity: Double = 0.0,
+	var unit: String = ""
 ) : Parcelable {
 	fun toHashMap(): HashMap<String, Any> {
 		return hashMapOf(
@@ -33,7 +35,9 @@ data class Inventory @JvmOverloads constructor(
 			"availableSizes" to availableSizes,
 			"availableColors" to availableColors,
 			"images" to images,
-			"rating" to rating
+			"rating" to rating,
+			"quantity" to quantity,
+			"unit" to unit
 		)
 	}
 }

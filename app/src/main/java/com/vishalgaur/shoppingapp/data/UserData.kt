@@ -99,11 +99,13 @@ data class UserData(
 		var itemId: String = "",
 		var inventoryId: String = "",
 		var sellerId: String = "",
-		var quantity: Int = 0,
+		var quantity: Double = 0.0,
+		var maxQuantity: Double = 0.0,
+		var unit: String = "",
 		var color: String?,
 		var size: Int?
 	) : Parcelable {
-		constructor() : this("", "", "", 0, "NA", -1)
+		constructor() : this("", "", "", 0.0,0.0, "", "NA", -1)
 
 		fun toHashMap(): HashMap<String, Any> {
 			val hashMap = hashMapOf<String, Any>()
@@ -111,6 +113,8 @@ data class UserData(
 			hashMap["inventoryId"] = inventoryId
 			hashMap["sellerId"] = sellerId
 			hashMap["quantity"] = quantity
+			hashMap["maxQuantity"] = maxQuantity
+			hashMap["unit"] = unit
 			if (color != null)
 				hashMap["color"] = color!!
 			if (size != null)

@@ -49,7 +49,7 @@ class CartItemAdapter(
 			}
 			binding.cartProductMinusBtn.setOnClickListener {
 				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-				onClickListener.onMinusClick(itemData.itemId, itemData.quantity, binding.loaderLayout)
+				onClickListener.onMinusClick(itemData.itemId, itemData.quantity.toInt(), binding.loaderLayout)
 			}
 
 		}
