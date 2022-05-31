@@ -27,7 +27,7 @@ import com.vishalgaur.shoppingapp.data.utils.AddObjectStatus
 import com.vishalgaur.shoppingapp.data.utils.ShoeColors
 import com.vishalgaur.shoppingapp.data.utils.ShoeSizes
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
-import com.vishalgaur.shoppingapp.databinding.FragmentProductDetailsBinding
+import com.vishalgaur.shoppingapp.databinding.FragmentInventoryDetailsBinding
 import com.vishalgaur.shoppingapp.ui.AddItemErrors
 import com.vishalgaur.shoppingapp.ui.DotsIndicatorDecoration
 import com.vishalgaur.shoppingapp.viewModels.InventoryViewModel
@@ -47,7 +47,7 @@ class InventoryDetailsFragment : Fragment() {
 		}
 	}
 
-	private lateinit var binding: FragmentProductDetailsBinding
+	private lateinit var binding: FragmentInventoryDetailsBinding
 	private lateinit var viewModel: InventoryViewModel
 	private var selectedSize: Int? = null
 	private var selectedColor: String? = null
@@ -57,7 +57,7 @@ class InventoryDetailsFragment : Fragment() {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View? {
-		binding = FragmentProductDetailsBinding.inflate(layoutInflater)
+		binding = FragmentInventoryDetailsBinding.inflate(layoutInflater)
 		val productId = arguments?.getString("productId")
 
 		if (activity != null && productId != null) {

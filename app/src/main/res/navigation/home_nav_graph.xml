@@ -44,7 +44,7 @@
         android:id="@+id/inventoryDetailsFragment"
         android:name="com.vishalgaur.shoppingapp.ui.home.InventoryDetailsFragment"
         android:label="InventoryDetailsFragment"
-        tools:layout="@layout/fragment_product_details">
+        tools:layout="@layout/fragment_inventory_details">
         <action
             android:id="@+id/action_inventoryDetailsFragment_to_homeFragment"
             app:destination="@id/homeFragment"
