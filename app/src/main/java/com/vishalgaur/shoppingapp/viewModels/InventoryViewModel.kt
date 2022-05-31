@@ -48,13 +48,13 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		_errorStatus.value = emptyList()
 		viewModelScope.launch {
 			Log.d(TAG, "init: inventoryId: $inventoryId")
-			getProductDetails()
+			getInventoryDetails()
 			checkIfInCart()
 		}
 
 	}
 
-	private fun getProductDetails() {
+	private fun getInventoryDetails() {
 		viewModelScope.launch {
 			_dataStatus.value = StoreDataStatus.LOADING
 			try {
