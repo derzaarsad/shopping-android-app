@@ -196,13 +196,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_inv_mrp_label"
+                android:id="@+id/add_inv_ordernum_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/add_pro_upc_label_text"
+                android:text="@string/add_pro_ordernum_label_text"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -212,7 +212,7 @@
                 app:layout_constraintTop_toBottomOf="@id/priceOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mrpOutlinedTextField"
+                android:id="@+id/ordernumOutlinedTextField"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -222,13 +222,13 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_inv_mrp_label">
+                app:layout_constraintTop_toBottomOf="@id/add_inv_ordernum_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inv_mrp_edit_text"
+                    android:id="@+id/inv_ordernum_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="text"
                     android:paddingTop="12dp"
                     android:paddingBottom="12dp"
                     android:textColor="@color/gray"
@@ -250,7 +250,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mrpOutlinedTextField" />
+                app:layout_constraintTop_toBottomOf="@id/ordernumOutlinedTextField" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descOutlinedTextField"

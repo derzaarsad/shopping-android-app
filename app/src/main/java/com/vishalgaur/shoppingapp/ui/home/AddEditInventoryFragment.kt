@@ -193,7 +193,7 @@ class AddEditInventoryFragment : Fragment() {
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			//binding.proNameEditText.setText(inventory.name)
 			binding.invPriceEditText.setText(inventory.price.toString())
-			binding.invMrpEditText.setText(inventory.mrp.toString())
+			binding.invOrdernumEditText.setText(inventory.mrp.toString())
 			binding.invDescEditText.setText(inventory.description)
 
 			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
@@ -234,7 +234,7 @@ class AddEditInventoryFragment : Fragment() {
 		binding.addInvErrorTextView.visibility = View.GONE
 		//binding.proNameEditText.onFocusChangeListener = focusChangeListener
 		binding.invPriceEditText.onFocusChangeListener = focusChangeListener
-		binding.invMrpEditText.onFocusChangeListener = focusChangeListener
+		binding.invOrdernumEditText.onFocusChangeListener = focusChangeListener
 		binding.invDescEditText.onFocusChangeListener = focusChangeListener
 
 		binding.addInvBtn.setOnClickListener {
@@ -252,7 +252,7 @@ class AddEditInventoryFragment : Fragment() {
 	private fun onAddInventory() {
 		val name = binding.invProEditText.text.toString()
 		val price = binding.invPriceEditText.text.toString().toDoubleOrNull()
-		val mrp = binding.invMrpEditText.text.toString().toDoubleOrNull()
+		val mrp = binding.invOrdernumEditText.text.toString().toDoubleOrNull()
 		val desc = binding.invDescEditText.text.toString()
 		Log.d(
 			TAG,

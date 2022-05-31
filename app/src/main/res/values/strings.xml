@@ -52,6 +52,7 @@
     <string name="add_pro_desc_label_text">Description</string>
     <string name="add_pro_sizes_label_text">Sizes Available</string>
     <string name="add_pro_expiry_label_text">Expiry Date</string>
+    <string name="add_pro_ordernum_label_text">Order Number</string>
     <string name="app_pro_btn_text">Tambah Produk</string>
     <string name="pro_cat_dialog_title">Kategori Produk</string>
     <string name="pro_cat_dialog_cancel_btn">Cancel</string>
