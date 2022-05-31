@@ -116,9 +116,11 @@ class InventoryDetailsFragment : Fragment() {
 			if (it == true) {
 				binding.proDetailsAddCartBtn.text =
 					getString(R.string.pro_details_go_to_cart_btn_text)
+				binding.quantityOutlinedTextField.isEnabled = false
 			} else {
 				binding.proDetailsAddCartBtn.text =
 					getString(R.string.pro_details_add_to_cart_btn_text)
+				binding.quantityOutlinedTextField.isEnabled = true
 			}
 		}
 		viewModel.errorStatus.observe(viewLifecycleOwner) {
@@ -170,6 +172,7 @@ class InventoryDetailsFragment : Fragment() {
 			R.string.pro_details_price_value,
 			viewModel.inventoryData.value?.price.toString()
 		)
+		binding.invQuantityEditText.setText(viewModel.inventoryData.value?.quantity.toString())
 		setShoeSizeButtons()
 		setShoeColorsButtons()
 		binding.proDetailsSpecificsText.text = viewModel.inventoryData.value?.description ?: ""
