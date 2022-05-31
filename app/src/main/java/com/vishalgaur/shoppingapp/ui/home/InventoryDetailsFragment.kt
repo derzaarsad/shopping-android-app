@@ -49,8 +49,6 @@ class InventoryDetailsFragment : Fragment() {
 
 	private lateinit var binding: FragmentInventoryDetailsBinding
 	private lateinit var viewModel: InventoryViewModel
-	private var selectedSize: Int? = null
-	private var selectedColor: String? = null
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -94,8 +92,6 @@ class InventoryDetailsFragment : Fragment() {
 	override fun onResume() {
 		super.onResume()
 		viewModel.checkIfInCart()
-		selectedSize = null
-		selectedColor = null
 	}
 
 	private fun setObservers() {
@@ -134,12 +130,6 @@ class InventoryDetailsFragment : Fragment() {
 		if (!errList.isNullOrEmpty()) {
 			errList.forEach { err ->
 				when (err) {
-					AddItemErrors.ERROR_SIZE -> {
-						binding.proDetailsSelectSizeLabel.setTextColor(R.color.red_600)
-					}
-					AddItemErrors.ERROR_COLOR -> {
-						binding.proDetailsSelectColorLabel.setTextColor(R.color.red_600)
-					}
 					AddItemErrors.ERROR_QUANTITY -> {
 						binding.addInvQuantityLabel.setTextColor(R.color.red_600)
 						makeToast("Quantity cannot be more than " + viewModel.inventoryData.value?.quantity + ".")
@@ -173,14 +163,12 @@ class InventoryDetailsFragment : Fragment() {
 			viewModel.inventoryData.value?.price.toString()
 		)
 		binding.invQuantityEditText.setText(viewModel.inventoryData.value?.quantity.toString())
-		setShoeSizeButtons()
-		setShoeColorsButtons()
 		binding.proDetailsSpecificsText.text = viewModel.inventoryData.value?.description ?: ""
 		binding.proDetailsLikeBtn.visibility = View.GONE
 	}
 
 	private fun onAddToCart() {
-		viewModel.addToCart(binding.invQuantityEditText.text.toString().toDouble(),selectedSize, selectedColor)
+		viewModel.addToCart(binding.invQuantityEditText.text.toString().toDouble())
 	}
 
 	private fun navigateToCartFragment() {
@@ -207,77 +195,6 @@ class InventoryDetailsFragment : Fragment() {
 				DotsIndicatorDecoration(rad, rad * 4, dotsHeight, inactiveColor, activeColor)
 			binding.proDetailsImagesRecyclerview.addItemDecoration(itemDecoration)
 			PagerSnapHelper().attachToRecyclerView(binding.proDetailsImagesRecyclerview)
-		}
-	}
-
-	private fun setShoeSizeButtons() {
-		binding.proDetailsSizesRadioGroup.apply {
-			for ((_, v) in ShoeSizes) {
-				if (viewModel.inventoryData.value?.availableSizes?.contains(v) == true) {
-					val radioButton = RadioButton(context)
-					radioButton.id = v
-					radioButton.tag = v
-					val param =
-						binding.proDetailsSizesRadioGroup.layoutParams as ViewGroup.MarginLayoutParams
-					param.setMargins(resources.getDimensionPixelSize(R.dimen.radio_margin_size))
-					param.width = ViewGroup.LayoutParams.WRAP_CONTENT
-					param.height = ViewGroup.LayoutParams.WRAP_CONTENT
-					radioButton.layoutParams = param
-					radioButton.background =
-						ContextCompat.getDrawable(context, R.drawable.radio_selector)
-					radioButton.setButtonDrawable(R.color.transparent)
-					radioButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
-					radioButton.setTextColor(Color.BLACK)
-					radioButton.setTypeface(null, Typeface.BOLD)
-					radioButton.textAlignment = View.TEXT_ALIGNMENT_CENTER
-					radioButton.text = "$v"
-					radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
-						val tag = buttonView.tag.toString().toInt()
-						if (isChecked) {
-							selectedSize = tag
-						}
-					}
-					addView(radioButton)
-				}
-			}
-			invalidate()
-		}
-	}
-
-	private fun setShoeColorsButtons() {
-		binding.proDetailsColorsRadioGroup.apply {
-			var ind = 1
-			for ((k, v) in ShoeColors) {
-				if (viewModel.inventoryData.value?.availableColors?.contains(k) == true) {
-					val radioButton = RadioButton(context)
-					radioButton.id = ind
-					radioButton.tag = k
-					val param =
-						binding.proDetailsColorsRadioGroup.layoutParams as ViewGroup.MarginLayoutParams
-					param.setMargins(resources.getDimensionPixelSize(R.dimen.radio_margin_size))
-					param.width = ViewGroup.LayoutParams.WRAP_CONTENT
-					param.height = ViewGroup.LayoutParams.WRAP_CONTENT
-					radioButton.layoutParams = param
-					radioButton.background =
-						ContextCompat.getDrawable(context, R.drawable.color_radio_selector)
-					radioButton.setButtonDrawable(R.color.transparent)
-					radioButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor(v))
-					if (k == "white") {
-						radioButton.backgroundTintMode = PorterDuff.Mode.MULTIPLY
-					} else {
-						radioButton.backgroundTintMode = PorterDuff.Mode.ADD
-					}
-					radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
-						val tag = buttonView.tag.toString()
-						if (isChecked) {
-							selectedColor = tag
-						}
-					}
-					addView(radioButton)
-					ind++
-				}
-			}
-			invalidate()
 		}
 	}
 }

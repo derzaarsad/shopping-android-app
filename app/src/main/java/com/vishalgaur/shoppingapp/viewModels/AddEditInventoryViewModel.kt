@@ -104,11 +104,9 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		price: Double?,
 		mrp: Double?,
 		desc: String,
-		sizes: List<Int>,
-		colors: List<String>,
 		imgList: List<Uri>,
 	) {
-		if (name.isBlank() || price == null || mrp == null || desc.isBlank() || sizes.isNullOrEmpty() || colors.isNullOrEmpty() || imgList.isNullOrEmpty()) {
+		if (name.isBlank() || price == null || mrp == null || desc.isBlank() || imgList.isNullOrEmpty()) {
 			_errorStatus.value = AddInventoryViewErrors.EMPTY
 		} else {
 			if (price == 0.0 || mrp == 0.0) {
@@ -126,8 +124,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						_selectedCategory.value!!,
 						price,
 						mrp,
-						sizes,
-						colors,
 						emptyList(),
 						0.0
 					)

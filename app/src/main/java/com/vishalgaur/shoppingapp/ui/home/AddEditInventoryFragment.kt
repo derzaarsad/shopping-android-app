@@ -45,8 +45,6 @@ class AddEditInventoryFragment : Fragment() {
 	private var currentProductIdx: Int = 0
 	private var currentSupplierIdx: Int = 0
 
-	private var sizeList = mutableSetOf<Int>()
-	private var colorsList = mutableSetOf<String>()
 	private var imgList = mutableListOf<Uri>()
 
 	private val getImages =
@@ -200,9 +198,6 @@ class AddEditInventoryFragment : Fragment() {
 			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
 			binding.addInvImagesRv.adapter = adapter
 
-			setShoeSizesChips(inventory.availableSizes)
-			setShoeColorsChips(inventory.availableColors)
-
 			binding.addInvBtn.setText(R.string.edit_product_btn_text)
 		}
 
@@ -227,9 +222,6 @@ class AddEditInventoryFragment : Fragment() {
 		}
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
-
-		setShoeSizesChips()
-		setShoeColorsChips()
 
 		binding.addInvErrorTextView.visibility = View.GONE
 		//binding.proNameEditText.onFocusChangeListener = focusChangeListener
@@ -256,82 +248,14 @@ class AddEditInventoryFragment : Fragment() {
 		val desc = binding.invDescEditText.text.toString()
 		Log.d(
 			TAG,
-			"onAddInventory: Add inventory initiated, $name, $price, $mrp, $desc, $sizeList, $colorsList, $imgList"
+			"onAddInventory: Add inventory initiated, $name, $price, $mrp, $desc, $imgList"
 		)
 		viewModel.submitPurchaseInventory(
 			name,
 			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else null,
 			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else null,
-			price, mrp, desc, sizeList.toList(), colorsList.toList(), imgList
+			price, mrp, desc, imgList
 		)
-	}
-
-	private fun setShoeSizesChips(shoeList: List<Int>? = emptyList()) {
-		binding.addInvSizeChipGroup.apply {
-			removeAllViews()
-			for ((_, v) in ShoeSizes) {
-				val chip = Chip(context)
-				chip.id = v
-				chip.tag = v
-
-				chip.text = "$v"
-				chip.isCheckable = true
-
-				if (shoeList?.contains(v) == true) {
-					chip.isChecked = true
-					sizeList.add(chip.tag.toString().toInt())
-				}
-
-				chip.setOnCheckedChangeListener { buttonView, isChecked ->
-					val tag = buttonView.tag.toString().toInt()
-					if (!isChecked) {
-						sizeList.remove(tag)
-					} else {
-						sizeList.add(tag)
-					}
-				}
-				addView(chip)
-			}
-			invalidate()
-		}
-	}
-
-	private fun setShoeColorsChips(colorList: List<String>? = emptyList()) {
-		binding.addInvColorChipGroup.apply {
-			removeAllViews()
-			var ind = 1
-			for ((k, v) in ShoeColors) {
-				val chip = Chip(context)
-				chip.id = ind
-				chip.tag = k
-
-				chip.chipStrokeColor = ColorStateList.valueOf(Color.BLACK)
-				chip.chipStrokeWidth = TypedValue.applyDimension(
-					TypedValue.COMPLEX_UNIT_DIP,
-					1F,
-					context.resources.displayMetrics
-				)
-				chip.chipBackgroundColor = ColorStateList.valueOf(Color.parseColor(v))
-				chip.isCheckable = true
-
-				if (colorList?.contains(k) == true) {
-					chip.isChecked = true
-					colorsList.add(chip.tag.toString())
-				}
-
-				chip.setOnCheckedChangeListener { buttonView, isChecked ->
-					val tag = buttonView.tag.toString()
-					if (!isChecked) {
-						colorsList.remove(tag)
-					} else {
-						colorsList.add(tag)
-					}
-				}
-				addView(chip)
-				ind++
-			}
-			invalidate()
-		}
 	}
 
 	private fun modifyErrors(err: AddInventoryViewErrors) {

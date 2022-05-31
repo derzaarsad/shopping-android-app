@@ -108,37 +108,6 @@
                 tools:text="$ 200.99" />
 
             <TextView
-                android:id="@+id/pro_details_select_size_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16sp"
-                android:text="@string/pro_details_select_size_lable_text"
-                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_details_price_tv" />
-
-            <HorizontalScrollView
-                android:id="@+id/pro_size_radio_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_details_select_size_label">
-
-                <RadioGroup
-                    android:id="@+id/pro_details_sizes_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </RadioGroup>
-            </HorizontalScrollView>
-
-            <TextView
                 android:id="@+id/add_inv_quantity_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -152,7 +121,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pro_size_radio_scroll" />
+                app:layout_constraintTop_toBottomOf="@id/pro_details_price_tv" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/quantityOutlinedTextField"
@@ -180,37 +149,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/pro_details_select_color_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/pro_details_select_color_label_text"
-                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/quantityOutlinedTextField" />
-
-            <HorizontalScrollView
-                android:id="@+id/pro_color_radio_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/pro_details_select_color_label">
-
-                <RadioGroup
-                    android:id="@+id/pro_details_colors_radio_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </RadioGroup>
-            </HorizontalScrollView>
-
-            <TextView
                 android:id="@+id/pro_details_specifications_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -221,7 +159,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pro_color_radio_scroll" />
+                app:layout_constraintTop_toBottomOf="@+id/quantityOutlinedTextField" />
 
             <TextView
                 android:id="@+id/pro_details_specifics_text"

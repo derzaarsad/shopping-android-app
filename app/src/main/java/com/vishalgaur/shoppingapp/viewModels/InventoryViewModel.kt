@@ -93,7 +93,7 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		}
 	}
 
-	fun addToCart(quantity: Double, size: Int?, color: String?) {
+	fun addToCart(quantity: Double) {
 		val errList = mutableListOf<AddItemErrors>()
 
 		val maxQuantity = inventoryData.value!!.quantity
@@ -103,7 +103,7 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		if (errList.isEmpty()) {
 			val itemId = UUID.randomUUID().toString()
 			val newItem = UserData.CartItem(
-				itemId, inventoryId, inventoryData.value!!.sellerId, quantity, maxQuantity, inventoryData.value!!.unit, color, size
+				itemId, inventoryId, inventoryData.value!!.sellerId, quantity, maxQuantity, inventoryData.value!!.unit
 			)
 			insertCartItem(newItem)
 		}
