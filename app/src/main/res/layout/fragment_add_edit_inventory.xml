@@ -385,6 +385,36 @@
             </com.google.android.material.chip.ChipGroup>
 
             <TextView
+                android:id="@+id/add_inv_expiry_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/add_pro_expiry_label_text"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_inv_color_chip_group" />
+
+            <DatePicker
+                android:id="@+id/expiryDatepicker"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                app:boxStrokeColor="@color/blue_accent_300"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/add_inv_expiry_label"/>
+
+            <TextView
                 android:id="@+id/add_inv_error_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -399,7 +429,7 @@
                 app:drawableTint="?attr/colorError"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_inv_color_chip_group" />
+                app:layout_constraintTop_toBottomOf="@id/expiryDatepicker" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
