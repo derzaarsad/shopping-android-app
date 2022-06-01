@@ -191,7 +191,6 @@ class AddEditInventoryFragment : Fragment() {
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			//binding.proNameEditText.setText(inventory.name)
 			binding.invPriceEditText.setText(inventory.price.toString())
-			binding.invOrdernumEditText.setText(inventory.mrp.toString())
 			binding.invDescEditText.setText(inventory.description)
 
 			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>

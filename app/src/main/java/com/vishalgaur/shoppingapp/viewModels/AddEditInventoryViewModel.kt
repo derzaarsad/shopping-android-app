@@ -123,7 +123,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						desc.trim(),
 						_selectedCategory.value!!,
 						price,
-						mrp,
 						emptyList(),
 						0.0
 					)

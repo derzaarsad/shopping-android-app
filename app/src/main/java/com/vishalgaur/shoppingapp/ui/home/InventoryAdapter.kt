@@ -50,11 +50,11 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 			proMrp.text =
 				context.getString(
 					R.string.pro_details_actual_strike_value,
-					productData.mrp.toString()
+					"Something"
 				)
 			proOffer.text = context.getString(
 				R.string.pro_offer_precent_text,
-				getOfferPercentage(productData.mrp, productData.price).toString()
+				getOfferPercentage(21.0, productData.price).toString()
 			)
 			if (productData.images.isNotEmpty()) {
 				val imgUrl = productData.images[0].toUri().buildUpon().scheme("https").build()
