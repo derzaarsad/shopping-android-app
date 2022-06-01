@@ -155,13 +155,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_inv_price_label"
+                android:id="@+id/add_inv_purchase_price_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/add_pro_price_label_text"
+                android:text="@string/add_inv_purchase_price_label_text"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -181,10 +181,10 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_inv_price_label">
+                app:layout_constraintTop_toBottomOf="@id/add_inv_purchase_price_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inv_price_edit_text"
+                    android:id="@+id/inv_purchase_price_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -237,7 +237,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/add_pro_sku_label"
+                android:id="@+id/add_inv_sku_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -263,10 +263,10 @@
                 app:boxStrokeColor="@color/blue_accent_300"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_pro_sku_label">
+                app:layout_constraintTop_toBottomOf="@id/add_inv_sku_label">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/pro_sku_edit_text"
+                    android:id="@+id/inv_sku_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -392,23 +392,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_inv_expiry_label"/>
-
-            <TextView
-                android:id="@+id/add_inv_error_text_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="center_vertical"
-                android:text="@string/add_pro_error_empty"
-                android:textAppearance="@style/TextAppearance.MyTheme.Subtitle2"
-                android:textColor="?attr/colorError"
-                app:drawableStartCompat="@android:drawable/stat_notify_error"
-                app:drawableTint="?attr/colorError"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/expiryDatepicker" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

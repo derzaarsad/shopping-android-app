@@ -22,6 +22,7 @@ import com.vishalgaur.shoppingapp.getProductId
 import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 private const val TAG = "AddEditInventoryViewModel"
 
@@ -98,31 +99,62 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	}
 
 	fun submitPurchaseInventory(
-		name: String,
-		supplierId: String?,
-		productId: String?,
-		price: Double?,
-		mrp: Double?,
+		supplierId: String,
+		productId: String,
+		supplierName: String,
+		productName: String,
+		quantity: Double?,
+		purchasePrice: Double?,
+		orderNum: String,
+		sku: String,
 		desc: String,
 		imgList: List<Uri>,
+		expiryDate: LocalDate
 	) {
-		if (name.isBlank() || price == null || mrp == null || desc.isBlank() || imgList.isNullOrEmpty()) {
-			_errorStatus.value = AddInventoryViewErrors.EMPTY
-		} else {
-			if (price == 0.0 || mrp == 0.0) {
-				_errorStatus.value = AddInventoryViewErrors.ERR_PRICE_0
-			} else {
+		if (supplierId.isBlank() || supplierName.isBlank()) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_SUPPLIER_EMPTY
+		}
+		else if (productId.isBlank() || productName.isBlank()) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_PRODUCT_EMPTY
+		}
+		else if (quantity == null || quantity <= 0.0) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_QUANTITY_0
+		}
+		else if (purchasePrice == null) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_PURCHASE_PRICE_EMPTY
+		}
+		else if (orderNum.isBlank()) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_ORDERNUM_EMPTY
+		}
+		else if (sku.isBlank()) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_SKU_EMPTY
+		}
+		else if (imgList.isNullOrEmpty()) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_IMG_EMPTY
+		}
+		else {
+			val now = LocalDate.now()
+			if(expiryDate.year < now.year) {
+				_errorStatus.value = AddInventoryViewErrors.ERR_NOT_FUTURE_DATE
+			}
+			else if(expiryDate.year == now.year && expiryDate.month < now.month) {
+				_errorStatus.value = AddInventoryViewErrors.ERR_NOT_FUTURE_DATE
+			}
+			else if(expiryDate.year == now.year && expiryDate.month == now.month && expiryDate.dayOfMonth <= now.dayOfMonth) {
+				_errorStatus.value = AddInventoryViewErrors.ERR_NOT_FUTURE_DATE
+			}
+			else {
 				_errorStatus.value = AddInventoryViewErrors.NONE
 				val invId = if (_isEdit.value == true) _inventoryId.value!! else
 					getProductId(currentUser!!, selectedCategory.value!!)
 				val newInventory =
 					Inventory(
 						invId,
-						name.trim(),
+						productName.trim(),
 						currentUser!!,
 						desc.trim(),
 						_selectedCategory.value!!,
-						price,
+						purchasePrice,
 						emptyList(),
 						0.0
 					)

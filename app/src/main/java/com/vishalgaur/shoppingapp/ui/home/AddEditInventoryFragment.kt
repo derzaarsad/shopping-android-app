@@ -27,6 +27,8 @@ import com.vishalgaur.shoppingapp.databinding.FragmentAddEditInventoryBinding
 import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
 import com.vishalgaur.shoppingapp.ui.MyOnFocusChangeListener
 import com.vishalgaur.shoppingapp.viewModels.AddEditInventoryViewModel
+import java.time.LocalDate
+import java.util.*
 import kotlin.properties.Delegates
 
 private const val TAG = "AddInventoryFragment"
@@ -180,8 +182,7 @@ class AddEditInventoryFragment : Fragment() {
 	private fun setAddProductErrors(errText: String) {
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 		binding.loaderLayout.circularLoader.hideAnimationBehavior
-		binding.addInvErrorTextView.visibility = View.VISIBLE
-		binding.addInvErrorTextView.text = errText
+		makeToast(errText)
 
 	}
 
@@ -190,7 +191,7 @@ class AddEditInventoryFragment : Fragment() {
 			Log.d(TAG, "fill data in views")
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			//binding.proNameEditText.setText(inventory.name)
-			binding.invPriceEditText.setText(inventory.price.toString())
+			binding.invPurchasePriceEditText.setText(inventory.price.toString())
 			binding.invDescEditText.setText(inventory.description)
 
 			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
@@ -222,9 +223,8 @@ class AddEditInventoryFragment : Fragment() {
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 
-		binding.addInvErrorTextView.visibility = View.GONE
 		//binding.proNameEditText.onFocusChangeListener = focusChangeListener
-		binding.invPriceEditText.onFocusChangeListener = focusChangeListener
+		binding.invPurchasePriceEditText.onFocusChangeListener = focusChangeListener
 		binding.invOrdernumEditText.onFocusChangeListener = focusChangeListener
 		binding.invDescEditText.onFocusChangeListener = focusChangeListener
 
@@ -238,35 +238,59 @@ class AddEditInventoryFragment : Fragment() {
 				}
 			}
 		}
+
+		// the minimum expiry date is set to now even though the minimum should be tomorrow.
+		// this is meant to catch an error when someone is too lazy to fill the expiry date
+		// and just keep the default date.
+		val mCalendar = Calendar.getInstance()
+		binding.expiryDatepicker.minDate = mCalendar.timeInMillis
 	}
 
 	private fun onAddInventory() {
-		val name = binding.invProEditText.text.toString()
-		val price = binding.invPriceEditText.text.toString().toDoubleOrNull()
-		val mrp = binding.invOrdernumEditText.text.toString().toDoubleOrNull()
+		val supplierName = binding.invSupEditText.text.toString()
+		val productName = binding.invProEditText.text.toString()
+		val quantity = binding.invQuantityEditText.text.toString().toDoubleOrNull()
+		val purchaseprice = binding.invPurchasePriceEditText.text.toString().toDoubleOrNull()
+		val ordernum = binding.invOrdernumEditText.text.toString()
+		val sku = binding.invSkuEditText.text.toString()
 		val desc = binding.invDescEditText.text.toString()
+		val expiryDate = LocalDate.of(binding.expiryDatepicker.year,binding.expiryDatepicker.month+1,binding.expiryDatepicker.dayOfMonth)
 		Log.d(
 			TAG,
-			"onAddInventory: Add inventory initiated, $name, $price, $mrp, $desc, $imgList"
+			"onAddInventory: Add inventory initiated, $supplierName, $productName, $quantity, $purchaseprice, $ordernum, $sku, $desc, $expiryDate, $imgList"
 		)
 		viewModel.submitPurchaseInventory(
-			name,
-			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else null,
-			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else null,
-			price, mrp, desc, imgList
+			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else "",
+			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else "",
+			supplierName, productName, quantity, purchaseprice, ordernum, sku, desc, imgList, expiryDate
 		)
 	}
 
 	private fun modifyErrors(err: AddInventoryViewErrors) {
 		when (err) {
-			AddInventoryViewErrors.NONE -> binding.addInvErrorTextView.visibility = View.GONE
-			AddInventoryViewErrors.EMPTY -> {
-				binding.addInvErrorTextView.visibility = View.VISIBLE
-				binding.addInvErrorTextView.text = getString(R.string.add_product_error_string)
+			AddInventoryViewErrors.ERR_SUPPLIER_EMPTY -> {
+				makeToast(getString(R.string.add_inv_error_sup_empty_string))
 			}
-			AddInventoryViewErrors.ERR_PRICE_0 -> {
-				binding.addInvErrorTextView.visibility = View.VISIBLE
-				binding.addInvErrorTextView.text = getString(R.string.add_pro_error_price_string)
+			AddInventoryViewErrors.ERR_PRODUCT_EMPTY -> {
+				makeToast(getString(R.string.add_inv_error_pro_empty_string))
+			}
+			AddInventoryViewErrors.ERR_QUANTITY_0 -> {
+				makeToast(getString(R.string.add_inv_error_quantity_0_string))
+			}
+			AddInventoryViewErrors.ERR_PURCHASE_PRICE_EMPTY -> {
+				makeToast(getString(R.string.add_inv_error_purchase_price_empty_string))
+			}
+			AddInventoryViewErrors.ERR_ORDERNUM_EMPTY -> {
+				makeToast(getString(R.string.add_inv_error_ordernum_empty_string))
+			}
+			AddInventoryViewErrors.ERR_SKU_EMPTY -> {
+				makeToast(getString(R.string.add_pro_sku_empty_err))
+			}
+			AddInventoryViewErrors.ERR_IMG_EMPTY -> {
+				makeToast(getString(R.string.add_inv_error_img_empty_string))
+			}
+			AddInventoryViewErrors.ERR_NOT_FUTURE_DATE -> {
+				makeToast(getString(R.string.add_inv_error_expiry_date_string))
 			}
 		}
 	}

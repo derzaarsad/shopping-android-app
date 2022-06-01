@@ -60,8 +60,14 @@
     <string name="pro_unit_dialog_title">Unit</string>
     <string name="add_pro_error_empty">Fill all the details!</string>
     <string name="add_pro_color_label_text">Colors Available</string>
-    <string name="add_product_error_string">Fill all the details!</string>
-    <string name="add_pro_error_price_string">Price can not be 0.</string>
+    <string name="add_inv_purchase_price_label_text">Total Purchase Price</string>
+    <string name="add_inv_error_sup_empty_string">Pemasok tidak boleh kosong!</string>
+    <string name="add_inv_error_pro_empty_string">Produk tidak boleh kosong!</string>
+    <string name="add_inv_error_quantity_0_string">Kuantitas tidak boleh 0!</string>
+    <string name="add_inv_error_purchase_price_empty_string">Harga beli tidak boleh kosong!</string>
+    <string name="add_inv_error_ordernum_empty_string">Nomer pemesanan tidak boleh kosong!</string>
+    <string name="add_inv_error_img_empty_string">Unggah minimal 1 gambar.</string>
+    <string name="add_inv_error_expiry_date_string">Tanggal kadaluarsa harus di masa depan!</string>
     <string name="add_pro_name_empty_err">Nama tidak boleh kosong!</string>
     <string name="add_pro_desc_empty_err">Deskripsi tidak boleh kosong!</string>
     <string name="add_pro_upc_empty_err">UPC tidak boleh kosong!</string>
