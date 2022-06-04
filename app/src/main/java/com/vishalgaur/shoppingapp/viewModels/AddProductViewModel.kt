@@ -53,11 +53,11 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 		}
 	}
 
-	private fun insertProduct(productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String) {
+	private fun insertProduct(productName: String,description: String,upc: String,unit: String,categoryName: String) {
 		viewModelScope.launch {
 			_addProductStatus.value = AddObjectStatus.ADDING
 			val deferredRes = async {
-				inventoriesRepository.insertProduct(productName,description,upc,sku,unit,categoryName)
+				inventoriesRepository.insertProduct(productName,description,upc,unit,categoryName)
 			}
 			val res = deferredRes.await()
 			if (res is Success) {
@@ -73,13 +73,9 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 	}
 
 	fun submitProduct(
-		productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String
+		productName: String,description: String,upc: String,unit: String,categoryName: String
 	) {
 		var err = AddProductViewErrors.NONE
-
-		if (sku.isBlank()) {
-			err = AddProductViewErrors.ERR_SKU_EMPTY
-		}
 
 		if (upc.isBlank()) {
 			err = AddProductViewErrors.ERR_UPC_EMPTY
@@ -100,7 +96,7 @@ class AddProductViewModel(application: Application) : AndroidViewModel(applicati
 		_addProductErrorStatus.value = err
 
 		if (err == AddProductViewErrors.NONE) {
-			insertProduct(productName,description,upc,sku,unit,categoryName)
+			insertProduct(productName,description,upc,unit,categoryName)
 		}
 	}
 

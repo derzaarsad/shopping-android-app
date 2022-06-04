@@ -271,12 +271,12 @@ class InventoriesRepository(
 	}
 
 	override suspend fun insertProduct(
-		productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String
+		productName: String,description: String,upc: String,unit: String,categoryName: String
 	): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(InventoriesRepository.TAG, "onInsertProduct: adding product to remote source")
-				inventoriesRemoteSource.insertProduct(productName,description,upc,sku,unit,categoryName)
+				inventoriesRemoteSource.insertProduct(productName,description,upc,unit,categoryName)
 			}
 			try {
 				remoteRes.await()

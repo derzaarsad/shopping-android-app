@@ -42,7 +42,6 @@ data class ProductData(
 	val productName: String,
 	val description: String,
 	val upc: String,
-	val sku: String,
 	val unit: String,
 	val categoryName: String
 )

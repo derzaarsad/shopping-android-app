@@ -24,5 +24,5 @@ interface InventoriesRepoInterface {
 	suspend fun getSuppliers(): List<Supplier>?
 	suspend fun insertProductCategory(name: String): Result<Boolean>
 	suspend fun insertSupplier(supplierName: String,addressId: String): Result<Boolean>
-	suspend fun insertProduct(productName: String,description: String,upc: String,sku: String,unit: String,categoryName: String): Result<Boolean>
+	suspend fun insertProduct(productName: String,description: String,upc: String,unit: String,categoryName: String): Result<Boolean>
 }

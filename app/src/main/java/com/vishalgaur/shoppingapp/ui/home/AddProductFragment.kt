@@ -104,7 +104,6 @@ class AddProductFragment : Fragment() {
 		binding.proUnitEditText.onFocusChangeListener = focusChangeListener
 		binding.proNameEditText.onFocusChangeListener = focusChangeListener
 		binding.proUpcEditText.onFocusChangeListener = focusChangeListener
-		binding.proSkuEditText.onFocusChangeListener = focusChangeListener
 		binding.proDescEditText.onFocusChangeListener = focusChangeListener
 		setUnitTextField()
 
@@ -125,15 +124,14 @@ class AddProductFragment : Fragment() {
 		val name = binding.proNameEditText.text.toString()
 		val desc = binding.proDescEditText.text.toString()
 		val upc = binding.proUpcEditText.text.toString()
-		val sku = binding.proSkuEditText.text.toString()
 		val unit = binding.proUnitEditText.text.toString()
 		val cat = binding.proCatEditText.text.toString()
 		Log.d(
 			TAG,
-			"onAddProduct: Add product initiated, $name, $upc, $sku, $unit, $cat, $desc"
+			"onAddProduct: Add product initiated, $name, $upc, $unit, $cat, $desc"
 		)
 		viewModel.submitProduct(
-			name, desc,upc,sku,unit,cat
+			name, desc,upc,unit,cat
 		)
 	}
 
@@ -157,10 +155,6 @@ class AddProductFragment : Fragment() {
 			AddProductViewErrors.ERR_UPC_EMPTY -> {
 				binding.addProErrorTextView.visibility = View.VISIBLE
 				binding.addProErrorTextView.text = getString(R.string.add_pro_upc_empty_err)
-			}
-			AddProductViewErrors.ERR_SKU_EMPTY -> {
-				binding.addProErrorTextView.visibility = View.VISIBLE
-				binding.addProErrorTextView.text = getString(R.string.add_pro_sku_empty_err)
 			}
 			AddProductViewErrors.ERR_UNIT_EMPTY -> {
 				binding.addProErrorTextView.visibility = View.VISIBLE
