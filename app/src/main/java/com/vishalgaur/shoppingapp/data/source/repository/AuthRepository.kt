@@ -45,7 +45,7 @@ class AuthRepository(
 			updateUserInLocalSource(sessionManager.getPhoneNumber(),sessionManager.getPassword())
 		} else {
 			sessionManager.logoutFromSession()
-			deleteAllUsersFromLocalSource()
+			userLocalDataSource.clearAllUsers()
 		}
 	}
 
@@ -165,10 +165,6 @@ class AuthRepository(
 
 	private fun makeErrToast(text: String, context: Context) {
 		Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-	}
-
-	private suspend fun deleteAllUsersFromLocalSource() {
-		userLocalDataSource.clearAllUsers()
 	}
 
 	private suspend fun updateUserInLocalSource(phoneNumber: String?,password: String?) {
