@@ -223,9 +223,12 @@ class AddEditInventoryFragment : Fragment() {
 
 		binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 
-		//binding.proNameEditText.onFocusChangeListener = focusChangeListener
+		binding.invSupEditText.onFocusChangeListener = focusChangeListener
+		binding.invProEditText.onFocusChangeListener = focusChangeListener
+		binding.invQuantityEditText.onFocusChangeListener = focusChangeListener
 		binding.invPurchasePriceEditText.onFocusChangeListener = focusChangeListener
 		binding.invOrdernumEditText.onFocusChangeListener = focusChangeListener
+		binding.invSkuEditText.onFocusChangeListener = focusChangeListener
 		binding.invDescEditText.onFocusChangeListener = focusChangeListener
 
 		binding.addInvBtn.setOnClickListener {
