@@ -23,10 +23,11 @@ class MainActivity : AppCompatActivity() {
 		setContentView(binding.root)
 
 		// Bottom Navigation
-		setUpNav()
+		val sessionManager = ShoppingAppSessionManager(this.applicationContext)
+		setUpNav(sessionManager.isUserAdmin())
 	}
 
-	private fun setUpNav() {
+	private fun setUpNav(isUserAdmin: Boolean) {
 		val navFragment =
 			supportFragmentManager.findFragmentById(R.id.home_nav_host_fragment) as NavHostFragment
 		NavigationUI.setupWithNavController(binding.homeBottomNavigation, navFragment.navController)
@@ -43,8 +44,7 @@ class MainActivity : AppCompatActivity() {
 			}
 		}
 
-		val sessionManager = ShoppingAppSessionManager(this.applicationContext)
-		if (!sessionManager.isUserAdmin()) {
+		if (!isUserAdmin) {
 			binding.homeBottomNavigation.menu.removeItem(R.id.ordersFragment)
 			binding.homeBottomNavigation.menu.removeItem(R.id.adminFragment)
 		}
