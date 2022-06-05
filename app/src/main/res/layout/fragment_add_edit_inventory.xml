@@ -320,48 +320,49 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/add_inv_images_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/add_pro_images_label_text"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/add_inv_images_btn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/descOutlinedTextField" />
+            <!-- TODO: UPLOADIMAGE -->
+<!--            <TextView-->
+<!--                android:id="@+id/add_inv_images_label"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="16dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:text="@string/add_pro_images_label_text"-->
+<!--                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="16sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintEnd_toStartOf="@+id/add_inv_images_btn"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/descOutlinedTextField" />-->
 
-            <ImageButton
-                android:id="@+id/add_inv_images_btn"
-                android:layout_width="35dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/blue_accent_300"
-                android:contentDescription="@string/add_pro_images_label_text"
-                android:scaleType="centerCrop"
-                android:tint="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/add_inv_images_label"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/add_inv_images_label"
-                app:srcCompat="@drawable/ic_add_48" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/add_inv_images_btn"-->
+<!--                android:layout_width="35dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:layout_marginEnd="16dp"-->
+<!--                android:backgroundTint="@color/blue_accent_300"-->
+<!--                android:contentDescription="@string/add_pro_images_label_text"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:tint="@color/white"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/add_inv_images_label"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/add_inv_images_label"-->
+<!--                app:srcCompat="@drawable/ic_add_48" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/add_inv_images_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_inv_images_label"
-                tools:itemCount="5"
-                tools:listitem="@layout/add_images_item" />
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/add_inv_images_rv"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="8dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/add_inv_images_label"-->
+<!--                tools:itemCount="5"-->
+<!--                tools:listitem="@layout/add_images_item" />-->
 
             <TextView
                 android:id="@+id/add_inv_expiry_label"
@@ -377,7 +378,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_inv_images_rv" />
+                app:layout_constraintTop_toBottomOf="@id/descOutlinedTextField" />
 
             <DatePicker
                 android:id="@+id/expiryDatepicker"

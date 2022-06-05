@@ -47,18 +47,19 @@ class AddEditInventoryFragment : Fragment() {
 	private var currentProductIdx: Int = 0
 	private var currentSupplierIdx: Int = 0
 
-	private var imgList = mutableListOf<Uri>()
-
-	private val getImages =
-		registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { result ->
-			imgList.addAll(result)
-			if (imgList.size > 3) {
-				imgList = imgList.subList(0, 3)
-				makeToast("Maximum 3 images are allowed!")
-			}
-			val adapter = context?.let { AddInventoryImagesAdapter(it, imgList) }
-			binding.addInvImagesRv.adapter = adapter
-		}
+// TODO: UPLOADIMAGE
+//	private var imgList = mutableListOf<Uri>()
+//
+//	private val getImages =
+//		registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { result ->
+//			imgList.addAll(result)
+//			if (imgList.size > 3) {
+//				imgList = imgList.subList(0, 3)
+//				makeToast("Maximum 3 images are allowed!")
+//			}
+//			val adapter = context?.let { AddInventoryImagesAdapter(it, imgList) }
+//			binding.addInvImagesRv.adapter = adapter
+//		}
 
 	override fun onCreateView(
 		inflater: LayoutInflater, container: ViewGroup?,
@@ -194,9 +195,10 @@ class AddEditInventoryFragment : Fragment() {
 			binding.invPurchasePriceEditText.setText(inventory.price.toString())
 			binding.invDescEditText.setText(inventory.description)
 
-			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
-			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
-			binding.addInvImagesRv.adapter = adapter
+// TODO: UPLOADIMAGE
+//			imgList = inventory.images.map { it.toUri() } as MutableList<Uri>
+//			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
+//			binding.addInvImagesRv.adapter = adapter
 
 			binding.addInvBtn.setText(R.string.edit_product_btn_text)
 		}
@@ -210,12 +212,14 @@ class AddEditInventoryFragment : Fragment() {
 			binding.addProAppBar.topAppBar.title =
 				"Tambah Inventaris - ${viewModel.selectedCategory.value}"
 
-			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
-			binding.addInvImagesRv.adapter = adapter
+// TODO: UPLOADIMAGE
+//			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
+//			binding.addInvImagesRv.adapter = adapter
 		}
-		binding.addInvImagesBtn.setOnClickListener {
-			getImages.launch("image/*")
-		}
+// TODO: UPLOADIMAGE
+//		binding.addInvImagesBtn.setOnClickListener {
+//			getImages.launch("image/*")
+//		}
 
 		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
 			findNavController().navigateUp()
@@ -260,12 +264,12 @@ class AddEditInventoryFragment : Fragment() {
 		val expiryDate = LocalDate.of(binding.expiryDatepicker.year,binding.expiryDatepicker.month+1,binding.expiryDatepicker.dayOfMonth)
 		Log.d(
 			TAG,
-			"onAddInventory: Add inventory initiated, $supplierName, $productName, $quantity, $purchaseprice, $ordernum, $sku, $desc, $expiryDate, $imgList"
+			"onAddInventory: Add inventory initiated, $supplierName, $productName, $quantity, $purchaseprice, $ordernum, $sku, $desc, $expiryDate"//, $imgList" // TODO: UPLOADIMAGE
 		)
 		viewModel.submitPurchaseInventory(
 			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else "",
 			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else "",
-			supplierName, productName, quantity, purchaseprice, ordernum, sku, desc, imgList, expiryDate
+			supplierName, productName, quantity, purchaseprice, ordernum, sku, desc, expiryDate // ,imgList // TODO: UPLOADIMAGE
 		)
 	}
 
