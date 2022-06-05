@@ -89,7 +89,6 @@ class AddEditInventoryFragment : Fragment() {
 			viewModel.setInventoryData(productId)
 		} else {
 			Log.d(TAG, "init view model, isedit = false, $catName")
-			viewModel.setCategory(catName)
 		}
 		viewModel.getProducts()
 		viewModel.getSuppliers()
@@ -192,7 +191,7 @@ class AddEditInventoryFragment : Fragment() {
 			Log.d(TAG, "fill data in views")
 			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
 			//binding.proNameEditText.setText(inventory.name)
-			binding.invPurchasePriceEditText.setText(inventory.price.toString())
+			binding.invPurchasePriceEditText.setText(inventory.purchasePrice.toString())
 			binding.invDescEditText.setText(inventory.description)
 
 // TODO: UPLOADIMAGE
@@ -210,7 +209,7 @@ class AddEditInventoryFragment : Fragment() {
 
 		if (!isEdit) {
 			binding.addProAppBar.topAppBar.title =
-				"Tambah Inventaris - ${viewModel.selectedCategory.value}"
+				"Tambah Inventaris - ${catName}"
 
 // TODO: UPLOADIMAGE
 //			val adapter = AddInventoryImagesAdapter(requireContext(), imgList)
@@ -269,7 +268,8 @@ class AddEditInventoryFragment : Fragment() {
 		viewModel.submitPurchaseInventory(
 			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else "",
 			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else "",
-			supplierName, productName, quantity, purchaseprice, ordernum, sku, desc, expiryDate // ,imgList // TODO: UPLOADIMAGE
+			supplierName, productName, quantity, purchaseprice, ordernum, sku, desc, expiryDate,
+			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].unit else "", // ,imgList // TODO: UPLOADIMAGE
 		)
 	}
 

@@ -10,27 +10,37 @@ import kotlinx.android.parcel.Parcelize
 data class Inventory @JvmOverloads constructor(
 	@PrimaryKey
 	var inventoryId: String = "",
-	var name: String = "",
+	var supplierId: String = "",
+	var purchaserId: String = "",
+	var productId: String = "",
 	var sellerId: String = "",
+	var purchasePrice: Double = 0.0,
+	var orderNumber: String = "",
+	var sku: String = "",
+	var quantity: Double = 0.0,
+	val expiryDate: String = "",
+	var name: String = "",
 	var description: String = "",
-	var category: String = "",
-	var price: Double = 0.0,
 	var images: List<String> = ArrayList(),
 	var rating: Double = 0.0,
-	var quantity: Double = 0.0,
 	var unit: String = ""
 ) : Parcelable {
 	fun toHashMap(): HashMap<String, Any> {
 		return hashMapOf(
 			"inventoryId" to inventoryId,
-			"name" to name,
+			"supplierId" to supplierId,
+			"purchaserId" to purchaserId,
+			"productId" to productId,
 			"sellerId" to sellerId,
+			"purchasePrice" to purchasePrice,
+			"orderNumber" to orderNumber,
+			"sku" to sku,
+			"quantity" to quantity,
+			"expiryDate" to expiryDate,
+			"name" to name,
 			"description" to description,
-			"category" to category,
-			"price" to price,
 			"images" to images,
 			"rating" to rating,
-			"quantity" to quantity,
 			"unit" to unit
 		)
 	}

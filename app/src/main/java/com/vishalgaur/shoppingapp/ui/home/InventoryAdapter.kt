@@ -44,7 +44,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 			}
 			proName.text = productData.name
 			proPrice.text =
-				context.getString(R.string.pro_details_price_value, productData.price.toString())
+				context.getString(R.string.pro_details_price_value, productData.purchasePrice.toString())
 			proRatingBar.rating = productData.rating.toFloat()
 			proMrp.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 			proMrp.text =
@@ -54,7 +54,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 				)
 			proOffer.text = context.getString(
 				R.string.pro_offer_precent_text,
-				getOfferPercentage(21.0, productData.price).toString()
+				getOfferPercentage(21.0, productData.purchasePrice).toString()
 			)
 			if (productData.images.isNotEmpty()) {
 				val imgUrl = productData.images[0].toUri().buildUpon().scheme("https").build()

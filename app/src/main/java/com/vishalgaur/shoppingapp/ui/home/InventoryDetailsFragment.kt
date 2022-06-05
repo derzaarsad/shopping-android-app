@@ -160,7 +160,7 @@ class InventoryDetailsFragment : Fragment() {
 		binding.proDetailsRatingBar.rating = (viewModel.inventoryData.value?.rating ?: 0.0).toFloat()
 		binding.proDetailsPriceTv.text = resources.getString(
 			R.string.pro_details_price_value,
-			viewModel.inventoryData.value?.price.toString()
+			viewModel.inventoryData.value?.purchasePrice.toString()
 		)
 		binding.invQuantityEditText.setText(viewModel.inventoryData.value?.quantity.toString())
 		binding.proDetailsSpecificsText.text = viewModel.inventoryData.value?.description ?: ""

@@ -29,7 +29,7 @@ class CartItemAdapter(
 			val proData = proList.find { it.inventoryId == itemData.inventoryId } ?: Inventory()
 			binding.cartProductTitleTv.text = proData.name
 			binding.cartProductPriceTv.text =
-				context.getString(R.string.price_text, proData.price.toString())
+				context.getString(R.string.price_text, proData.purchasePrice.toString())
 			if (proData.images.isNotEmpty()) {
 				val imgUrl = proData.images[0].toUri().buildUpon().scheme("https").build()
 				Glide.with(context)

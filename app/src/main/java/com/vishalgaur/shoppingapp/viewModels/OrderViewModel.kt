@@ -271,7 +271,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 					if (proRes is Success) {
 						val proData = proRes.data
 						proList.add(proData)
-						priceMap[item.itemId] = proData.price
+						priceMap[item.itemId] = proData.purchasePrice
 					} else {
 						res = false
 						return@label

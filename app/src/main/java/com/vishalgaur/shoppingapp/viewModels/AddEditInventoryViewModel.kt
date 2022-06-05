@@ -35,9 +35,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 
 	private val currentUser = sessionManager.getUserIdFromSession()
 
-	private val _selectedCategory = MutableLiveData<String>()
-	val selectedCategory: LiveData<String> get() = _selectedCategory
-
 	private val _inventoryId = MutableLiveData<String>()
 	val inventoryId: LiveData<String> get() = _inventoryId
 
@@ -73,10 +70,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		_isEdit.value = state
 	}
 
-	fun setCategory(catName: String) {
-		_selectedCategory.value = catName
-	}
-
 	fun setInventoryData(inventoryId: String) {
 		_inventoryId.value = inventoryId
 		viewModelScope.launch {
@@ -87,7 +80,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 			if (proRes is Success) {
 				val proData = proRes.data
 				_inventoryData.value = proData
-				_selectedCategory.value = _inventoryData.value!!.category
 				Log.d(TAG, "onLoad: Successfully retrieved inventory data")
 				_dataStatus.value = StoreDataStatus.DONE
 			} else if (proRes is Error) {
@@ -108,7 +100,8 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		orderNum: String,
 		sku: String,
 		desc: String,
-		expiryDate: LocalDate
+		expiryDate: LocalDate,
+		unit: String
 		// imgList: List<Uri> // TODO: UPLOADIMAGE
 	) {
 		if (supplierId.isBlank() || supplierName.isBlank()) {
@@ -146,18 +139,24 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 			}
 			else {
 				_errorStatus.value = AddInventoryViewErrors.NONE
-				val invId = if (_isEdit.value == true) _inventoryId.value!! else
-					getProductId(currentUser!!, selectedCategory.value!!)
+				val invId = if (_isEdit.value == true) _inventoryId.value!! else ""
 				val newInventory =
 					Inventory(
 						invId,
-						productName.trim(),
+						supplierId,
 						currentUser!!,
-						desc.trim(),
-						_selectedCategory.value!!,
+						productId,
+						currentUser!!,
 						purchasePrice,
+						orderNum,
+						sku,
+						quantity,
+						expiryDate.toString(),
+						productName.trim(),
+						desc.trim(),
 						emptyList(),
-						0.0
+						0.0,
+						unit
 					)
 				newInventoryData.value = newInventory
 				Log.d(TAG, "inv = $newInventory")

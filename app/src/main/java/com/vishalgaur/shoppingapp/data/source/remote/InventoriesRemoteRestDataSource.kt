@@ -42,7 +42,7 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 	}
 
 	override suspend fun insertInventory(newInventory: Inventory) {
-		inventoriesCollectionRef().add(newInventory.toHashMap()).await()
+		UserNetwork.retrofit.insertInventory(InventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.quantity,newInventory.expiryDate))
 	}
 
 	override suspend fun updateInventory(invData: Inventory) {

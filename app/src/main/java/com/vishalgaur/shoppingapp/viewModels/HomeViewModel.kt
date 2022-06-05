@@ -146,20 +146,21 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		filterInventories(_filterCategory.value!!)
 		_inventories.value = _inventories.value?.filter { inventory ->
 			inventory.name.contains(queryText, true) or
-					((queryText.toDoubleOrNull() ?: 0.0).compareTo(inventory.price) == 0)
+					((queryText.toDoubleOrNull() ?: 0.0).compareTo(inventory.purchasePrice) == 0)
 		}
 	}
 
 	fun filterInventories(filterType: String) {
 		Log.d(TAG, "filterType is $filterType")
 		_filterCategory.value = filterType
-		_inventories.value = when (filterType) {
-			"None" -> emptyList()
-			"All" -> _allInventories.value
-			else -> _allInventories.value?.filter { inventory ->
-				inventory.category == filterType
-			}
-		}
+		// TODO: use the filter for later
+//		_inventories.value = when (filterType) {
+//			"None" -> emptyList()
+//			"All" -> _allInventories.value
+//			else -> _allInventories.value?.filter { inventory ->
+//				inventory.category == filterType
+//			}
+//		}
 	}
 
 	fun deleteInventory(inventoryId: String) {

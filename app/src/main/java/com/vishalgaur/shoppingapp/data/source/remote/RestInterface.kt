@@ -29,6 +29,18 @@ data class InventoryIdData(
 	val inventoryId: String
 )
 
+data class InventoryData(
+	val supplierId: String,
+	val purchaserId: String,
+	val productId: String,
+	val sellerId: String,
+	val purchasePrice: Double,
+	val orderNumber: String,
+	val sku: String,
+	val quantity: Double,
+	val expiryDate: String
+)
+
 data class ProductCategoryData(
 	val name: String
 )
@@ -86,6 +98,9 @@ interface KomodiAPI {
 
 	@PUT("insertAddress")
 	suspend fun insertAddress(@Body body: UserData.Address): String
+
+	@PUT("insertInventory")
+	suspend fun insertInventory(@Body body: InventoryData)
 
 	@POST("getUserById")
 	suspend fun getUserById(@Body body: AccessData): UserData
