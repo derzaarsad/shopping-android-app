@@ -58,7 +58,7 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 
 	override suspend fun getInventoryById(inventoryId: String): Result<Inventory> {
 		try {
-			val resRef = UserNetwork.retrofit.getInventoryById(InventoryData(inventoryId))
+			val resRef = UserNetwork.retrofit.getInventoryById(InventoryIdData(inventoryId))
 			return Success(resRef)
 		} catch (e: Exception) {
 			return Error(Exception("Inventory with id: $inventoryId Not Found!"))
