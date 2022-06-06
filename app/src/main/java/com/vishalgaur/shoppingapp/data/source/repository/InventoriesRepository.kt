@@ -56,7 +56,7 @@ class InventoriesRepository(
 				newInventory.inventoryId = remoteRes.await()
 				val localRes = async {
 					Log.d(TAG, "onInsertInventory: adding inventory to local source with id " + newInventory.inventoryId)
-					inventoriesLocalSource.insertInventory(newInventory)
+					inventoriesLocalSource.insertOrReplaceInventory(newInventory)
 				}
 				localRes.await()
 				Success(true)
@@ -93,7 +93,7 @@ class InventoriesRepository(
 			}
 			val localRes = async {
 				Log.d(TAG, "onUpdate: updating inventory in local source")
-				inventoriesLocalSource.insertInventory(inventory)
+				inventoriesLocalSource.insertOrReplaceInventory(inventory)
 			}
 			try {
 				remoteRes.await()
@@ -180,7 +180,7 @@ class InventoriesRepository(
 		try {
 			val remoteProduct = inventoriesRemoteSource.getInventoryById(inventoryId)
 			if (remoteProduct is Success) {
-				inventoriesLocalSource.insertInventory(remoteProduct.data)
+				inventoriesLocalSource.insertOrReplaceInventory(remoteProduct.data)
 				res = StoreDataStatus.DONE
 			} else {
 				res = StoreDataStatus.ERROR

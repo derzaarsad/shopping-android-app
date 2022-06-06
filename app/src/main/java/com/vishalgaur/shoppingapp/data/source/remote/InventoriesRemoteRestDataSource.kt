@@ -38,7 +38,7 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 
 	suspend fun insertInventory(newInventory: InsertInventoryData): String = UserNetwork.retrofit.insertInventory(newInventory)
 
-	override suspend fun updateInventory(invData: Inventory) {
+	suspend fun updateInventory(invData: Inventory) {
 		val resRef =
 			inventoriesCollectionRef().whereEqualTo(INVENTORY_ID_FIELD, invData.inventoryId).get().await()
 		if (!resRef.isEmpty) {

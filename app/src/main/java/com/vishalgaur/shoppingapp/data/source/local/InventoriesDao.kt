@@ -10,7 +10,7 @@ import com.vishalgaur.shoppingapp.data.Inventory
 @Dao
 interface InventoriesDao {
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insert(inventory: Inventory)
+	suspend fun insertOrReplace(inventory: Inventory)
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	suspend fun insertListOfInventories(inventories: List<Inventory>)
