@@ -53,7 +53,11 @@ class InventoriesRepository(
 				inventoriesRemoteSource.insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate))
 			}
 			try {
-				newInventory.inventoryId = remoteRes.await()
+				val newInventoryId = remoteRes.await()
+				if(newInventoryId == null) {
+					throw Exception("Insert inventory failed")
+				}
+				newInventory.inventoryId = newInventoryId
 				val localRes = async {
 					Log.d(TAG, "onInsertInventory: adding inventory to local source with id " + newInventory.inventoryId)
 					inventoriesLocalSource.insertOrReplaceInventory(newInventory)
