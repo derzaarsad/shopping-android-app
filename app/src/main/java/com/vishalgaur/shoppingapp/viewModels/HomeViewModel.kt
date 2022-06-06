@@ -154,6 +154,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		Log.d(TAG, "filterType is $filterType")
 		_filterCategory.value = filterType
 		// TODO: use the filter for later
+		_inventories.value = _allInventories.value // TODO: delete this
 //		_inventories.value = when (filterType) {
 //			"None" -> emptyList()
 //			"All" -> _allInventories.value
