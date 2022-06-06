@@ -46,17 +46,17 @@ class InventoriesRepository(
 
 	override suspend fun insertInventory(newInventory: Inventory): Result<Boolean> {
 		return supervisorScope {
-			val localRes = async {
-				Log.d(TAG, "onInsertInventory: adding inventory to local source")
-				inventoriesLocalSource.insertInventory(newInventory)
-			}
 			val remoteRes = async {
 				Log.d(TAG, "onInsertInventory: adding inventory to remote source")
 				inventoriesRemoteSource.insertInventory(newInventory)
 			}
+			val localRes = async {
+				Log.d(TAG, "onInsertInventory: adding inventory to local source")
+				inventoriesLocalSource.insertInventory(newInventory)
+			}
 			try {
-				localRes.await()
 				remoteRes.await()
+				localRes.await()
 				Success(true)
 			} catch (e: Exception) {
 				Error(e)
