@@ -62,7 +62,7 @@ class InventoriesLocalDataSource internal constructor(
 			}
 		}
 
-	override suspend fun insertInventory(newInventory: Inventory) = withContext(ioDispatcher) {
+	suspend fun insertInventory(newInventory: Inventory) = withContext(ioDispatcher) {
 		inventoriesDao.insert(newInventory)
 	}
 

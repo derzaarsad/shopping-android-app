@@ -51,12 +51,12 @@ class InventoriesRepository(
 				Log.d(TAG, "onInsertInventory: adding inventory to remote source")
 				inventoriesRemoteSource.insertInventory(newInventory)
 			}
-			val localRes = async {
-				Log.d(TAG, "onInsertInventory: adding inventory to local source")
-				inventoriesLocalSource.insertInventory(newInventory)
-			}
 			try {
-				remoteRes.await()
+				newInventory.inventoryId = remoteRes.await()
+				val localRes = async {
+					Log.d(TAG, "onInsertInventory: adding inventory to local source with id " + newInventory.inventoryId)
+					inventoriesLocalSource.insertInventory(newInventory)
+				}
 				localRes.await()
 				Success(true)
 			} catch (e: Exception) {

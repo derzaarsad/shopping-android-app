@@ -41,9 +41,7 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		return Success(resRef)
 	}
 
-	override suspend fun insertInventory(newInventory: Inventory) {
-		UserNetwork.retrofit.insertInventory(InventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.quantity,newInventory.expiryDate))
-	}
+	suspend fun insertInventory(newInventory: Inventory): String = UserNetwork.retrofit.insertInventory(InventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.quantity,newInventory.expiryDate))
 
 	override suspend fun updateInventory(invData: Inventory) {
 		val resRef =

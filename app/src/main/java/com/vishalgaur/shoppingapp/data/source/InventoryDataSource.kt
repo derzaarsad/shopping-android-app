@@ -14,8 +14,6 @@ interface InventoryDataSource {
 
 	suspend fun getInventoryById(inventoryId: String): Result<Inventory>
 
-	suspend fun insertInventory(newInventory: Inventory)
-
 	suspend fun updateInventory(invData: Inventory)
 
 	fun observeInventoriesBySellerId(sellerId: String): LiveData<Result<List<Inventory>>?> {
