@@ -11,6 +11,7 @@ import com.vishalgaur.shoppingapp.data.Supplier
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.Result.*
 import com.vishalgaur.shoppingapp.data.source.local.InventoriesLocalDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.InsertInventoryData
 import com.vishalgaur.shoppingapp.data.source.remote.InventoriesRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import kotlinx.coroutines.async
@@ -49,7 +50,7 @@ class InventoriesRepository(
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onInsertInventory: adding inventory to remote source")
-				inventoriesRemoteSource.insertInventory(newInventory)
+				inventoriesRemoteSource.insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate))
 			}
 			try {
 				newInventory.inventoryId = remoteRes.await()
