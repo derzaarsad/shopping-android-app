@@ -95,6 +95,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		productId: String,
 		supplierName: String,
 		productName: String,
+		minSellPrice: Double?,
 		quantity: Double?,
 		purchasePrice: Double?,
 		orderNum: String,
@@ -115,6 +116,9 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		}
 		else if (purchasePrice == null) {
 			_errorStatus.value = AddInventoryViewErrors.ERR_PURCHASE_PRICE_EMPTY
+		}
+		else if (minSellPrice == null || minSellPrice <= purchasePrice) {
+			_errorStatus.value = AddInventoryViewErrors.ERR_MINSELLPRICE_NOT_BIGGER
 		}
 		else if (orderNum.isBlank()) {
 			_errorStatus.value = AddInventoryViewErrors.ERR_ORDERNUM_EMPTY
@@ -150,6 +154,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						purchasePrice,
 						orderNum,
 						sku,
+						minSellPrice,
 						quantity,
 						expiryDate.toString(),
 						productName.trim(),

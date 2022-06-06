@@ -257,6 +257,7 @@ class AddEditInventoryFragment : Fragment() {
 		val productName = binding.invProEditText.text.toString()
 		val quantity = binding.invQuantityEditText.text.toString().toDoubleOrNull()
 		val purchaseprice = binding.invPurchasePriceEditText.text.toString().toDoubleOrNull()
+		val minsellprice = binding.invMinSellPriceEditText.text.toString().toDoubleOrNull()
 		val ordernum = binding.invOrdernumEditText.text.toString()
 		val sku = binding.invSkuEditText.text.toString()
 		val desc = binding.invDescEditText.text.toString()
@@ -268,7 +269,7 @@ class AddEditInventoryFragment : Fragment() {
 		viewModel.submitPurchaseInventory(
 			if (viewModel.suppliers.value != null) viewModel.suppliers.value!![currentSupplierIdx].supplierId else "",
 			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].productId else "",
-			supplierName, productName, quantity, purchaseprice, ordernum, sku, desc, expiryDate,
+			supplierName, productName, minsellprice, quantity, purchaseprice, ordernum, sku, desc, expiryDate,
 			if (viewModel.products.value != null) viewModel.products.value!![currentProductIdx].unit else "", // ,imgList // TODO: UPLOADIMAGE
 		)
 	}
@@ -286,6 +287,9 @@ class AddEditInventoryFragment : Fragment() {
 			}
 			AddInventoryViewErrors.ERR_PURCHASE_PRICE_EMPTY -> {
 				makeToast(getString(R.string.add_inv_error_purchase_price_empty_string))
+			}
+			AddInventoryViewErrors.ERR_MINSELLPRICE_NOT_BIGGER -> {
+				makeToast(getString(R.string.add_inv_error_min_sell_price_empty_string))
 			}
 			AddInventoryViewErrors.ERR_ORDERNUM_EMPTY -> {
 				makeToast(getString(R.string.add_inv_error_ordernum_empty_string))

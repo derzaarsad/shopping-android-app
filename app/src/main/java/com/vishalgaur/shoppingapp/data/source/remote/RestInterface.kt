@@ -37,6 +37,7 @@ data class InventoryData(
 	val purchasePrice: Double,
 	val orderNumber: String,
 	val sku: String,
+	val minSellPrice: Double,
 	val quantity: Double,
 	val expiryDate: String
 )

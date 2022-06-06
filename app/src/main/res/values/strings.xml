@@ -61,10 +61,12 @@
     <string name="add_pro_error_empty">Fill all the details!</string>
     <string name="add_pro_color_label_text">Colors Available</string>
     <string name="add_inv_purchase_price_label_text">Total Purchase Price</string>
+    <string name="add_inv_min_sell_price_label_text">Minimum Sell Price</string>
     <string name="add_inv_error_sup_empty_string">Pemasok tidak boleh kosong!</string>
     <string name="add_inv_error_pro_empty_string">Produk tidak boleh kosong!</string>
     <string name="add_inv_error_quantity_0_string">Kuantitas tidak boleh 0!</string>
     <string name="add_inv_error_purchase_price_empty_string">Harga beli tidak boleh kosong!</string>
+    <string name="add_inv_error_min_sell_price_empty_string">Minimum harga jual kurang dari harga beli!</string>
     <string name="add_inv_error_ordernum_empty_string">Nomer pemesanan tidak boleh kosong!</string>
     <string name="add_inv_error_img_empty_string">Unggah minimal 1 gambar.</string>
     <string name="add_inv_error_expiry_date_string">Tanggal kadaluarsa harus di masa depan!</string>
