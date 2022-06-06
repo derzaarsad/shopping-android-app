@@ -59,9 +59,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 	private var _suppliers = MutableLiveData<List<Supplier>>()
 	val suppliers: LiveData<List<Supplier>> get() = _suppliers
 
-	@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-	val newInventoryData = MutableLiveData<Inventory>()
-
 	init {
 		_errorStatus.value = AddInventoryViewErrors.NONE
 	}
@@ -162,34 +159,33 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						0.0,
 						unit
 					)
-				newInventoryData.value = newInventory
 				Log.d(TAG, "inv = $newInventory")
 				if (_isEdit.value == true) {
-					updateInventory(/*imgList TODO: UPLOADIMAGE*/)
+					updateInventory(newInventory/*imgList TODO: UPLOADIMAGE*/)
 				} else {
-					insertInventory(/*imgList TODO: UPLOADIMAGE*/)
+					insertInventory(newInventory/*imgList TODO: UPLOADIMAGE*/)
 				}
 			}
 		}
 	}
 
-	private fun updateInventory(/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
+	private fun updateInventory(newInventoryData: Inventory?/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
 		viewModelScope.launch {
-			if (newInventoryData.value != null && _inventoryData.value != null) {
+			if (newInventoryData != null && _inventoryData.value != null) {
 				_addInventoryErrors.value = AddInventoryErrors.ADDING
 // TODO: UPLOADIMAGE
 //				val resImg =
 //					async { inventoriesRepository.updateImages(imgList, _inventoryData.value!!.images) }
 //				val imagesPaths = resImg.await()
-				newInventoryData.value?.images = listOf("https://www.hdnicewallpapers.com/Walls/Big/Tiger/Download_Image_of_Animal_Tiger.jpg")//imagesPaths // TODO: UPLOADIMAGE
-				if (newInventoryData.value?.images?.isNotEmpty() == true) {
+				newInventoryData?.images = listOf("https://www.hdnicewallpapers.com/Walls/Big/Tiger/Download_Image_of_Animal_Tiger.jpg")//imagesPaths // TODO: UPLOADIMAGE
+				if (newInventoryData?.images?.isNotEmpty() == true) {
 // TODO: UPLOADIMAGE
 //					if (imagesPaths[0] == ERR_UPLOAD) {
 //						Log.d(TAG, "error uploading images")
 //						_addInventoryErrors.value = AddInventoryErrors.ERR_ADD_IMG
 //					} else {
 						val updateRes =
-							async { inventoriesRepository.updateInventory(newInventoryData.value!!) }
+							async { inventoriesRepository.updateInventory(newInventoryData!!) }
 						val res = updateRes.await()
 						if (res is Success) {
 							Log.d(TAG, "onUpdate: Success")
@@ -210,22 +206,22 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		}
 	}
 
-	private fun insertInventory(/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
+	private fun insertInventory(newInventoryData: Inventory?/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
 		viewModelScope.launch {
-			if (newInventoryData.value != null) {
+			if (newInventoryData != null) {
 				_addInventoryErrors.value = AddInventoryErrors.ADDING
 // TODO: UPLOADIMAGE
 //				val resImg = async { inventoriesRepository.insertImages(imgList) }
 //				val imagesPaths = resImg.await()
-				newInventoryData.value?.images = listOf("https://www.hdnicewallpapers.com/Walls/Big/Tiger/Download_Image_of_Animal_Tiger.jpg")//imagesPaths // TODO: UPLOADIMAGE
-				if (newInventoryData.value?.images?.isNotEmpty() == true) {
+				newInventoryData?.images = listOf("https://www.hdnicewallpapers.com/Walls/Big/Tiger/Download_Image_of_Animal_Tiger.jpg")//imagesPaths // TODO: UPLOADIMAGE
+				if (newInventoryData?.images?.isNotEmpty() == true) {
 // TODO: UPLOADIMAGE
 //					if (imagesPaths[0] == ERR_UPLOAD) {
 //						Log.d(TAG, "error uploading images")
 //						_addInventoryErrors.value = AddInventoryErrors.ERR_ADD_IMG
 //					} else {
 						val deferredRes = async {
-							inventoriesRepository.insertInventory(newInventoryData.value!!)
+							inventoriesRepository.insertInventory(newInventoryData!!)
 						}
 						val res = deferredRes.await()
 						if (res is Success) {
