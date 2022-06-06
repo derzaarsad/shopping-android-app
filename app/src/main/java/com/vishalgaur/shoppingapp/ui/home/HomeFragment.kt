@@ -208,7 +208,7 @@ class HomeFragment : Fragment() {
 			override fun onClick(productData: Inventory) {
 				findNavController().navigate(
 					R.id.action_seeInventory,
-					bundleOf("productId" to productData.inventoryId)
+					bundleOf("inventoryId" to productData.inventoryId)
 				)
 			}
 
@@ -217,9 +217,9 @@ class HomeFragment : Fragment() {
 				showDeleteDialog(productData.sku, productData.inventoryId)
 			}
 
-			override fun onEditClick(productId: String) {
-				Log.d(TAG, "onEditProduct: initiated for $productId")
-				navigateToAddEditInventoryFragment(isEdit = true, productId = productId)
+			override fun onEditClick(inventoryId: String) {
+				Log.d(TAG, "onEditProduct: initiated for $inventoryId")
+				navigateToAddEditInventoryFragment(isEdit = true, inventoryId = inventoryId)
 			}
 
 			override fun onAddToCartClick(productData: Inventory) {
@@ -293,11 +293,11 @@ class HomeFragment : Fragment() {
 	private fun navigateToAddEditInventoryFragment(
 		isEdit: Boolean,
 		catName: String? = null,
-		productId: String? = null
+		inventoryId: String? = null
 	) {
 		findNavController().navigate(
 			R.id.action_goto_addInventory,
-			bundleOf("isEdit" to isEdit, "categoryName" to catName, "productId" to productId)
+			bundleOf("isEdit" to isEdit, "categoryName" to catName, "inventoryId" to inventoryId)
 		)
 	}
 

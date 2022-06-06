@@ -31,7 +31,7 @@
             app:argType="boolean"
             app:nullable="false" />
         <argument
-            android:name="productId"
+            android:name="inventoryId"
             app:argType="string"
             app:nullable="true" />
         <action
@@ -51,7 +51,7 @@
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
         <argument
-            android:name="productId"
+            android:name="inventoryId"
             app:argType="string" />
         <action
             android:id="@+id/action_inventoryDetailsFragment_to_cartFragment"

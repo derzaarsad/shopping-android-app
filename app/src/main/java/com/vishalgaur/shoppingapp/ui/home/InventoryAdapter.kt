@@ -137,7 +137,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 	interface OnClickListener {
 		fun onClick(productData: Inventory)
 		fun onDeleteClick(productData: Inventory)
-		fun onEditClick(productId: String) {}
+		fun onEditClick(inventoryId: String) {}
 		fun onAddToCartClick(productData: Inventory) {}
 	}
 }

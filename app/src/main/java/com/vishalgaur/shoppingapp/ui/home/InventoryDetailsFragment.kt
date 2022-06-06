@@ -56,10 +56,10 @@ class InventoryDetailsFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View? {
 		binding = FragmentInventoryDetailsBinding.inflate(layoutInflater)
-		val productId = arguments?.getString("productId")
+		val inventoryId = arguments?.getString("inventoryId")
 
-		if (activity != null && productId != null) {
-			val viewModelFactory = InventoryViewModelFactory(productId, requireActivity().application)
+		if (activity != null && inventoryId != null) {
+			val viewModelFactory = InventoryViewModelFactory(inventoryId, requireActivity().application)
 			viewModel = ViewModelProvider(this, viewModelFactory).get(InventoryViewModel::class.java)
 		}
 

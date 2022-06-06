@@ -42,7 +42,7 @@ class AddEditInventoryFragment : Fragment() {
 	// arguments
 	private var isEdit by Delegates.notNull<Boolean>()
 	private lateinit var catName: String
-	private lateinit var productId: String
+	private lateinit var inventoryId: String
 
 	private var currentProductIdx: Int = 0
 	private var currentSupplierIdx: Int = 0
@@ -70,7 +70,7 @@ class AddEditInventoryFragment : Fragment() {
 
 		isEdit = arguments?.getBoolean("isEdit") == true
 		catName = arguments?.getString("categoryName").toString()
-		productId = arguments?.getString("productId").toString()
+		inventoryId = arguments?.getString("inventoryId").toString()
 
 		initViewModel()
 
@@ -85,8 +85,8 @@ class AddEditInventoryFragment : Fragment() {
 
 		viewModel.setIsEdit(isEdit)
 		if (isEdit) {
-			Log.d(TAG, "init view model, isedit = true, $productId")
-			viewModel.setInventoryData(productId)
+			Log.d(TAG, "init view model, isedit = true, $inventoryId")
+			viewModel.setInventoryData(inventoryId)
 		} else {
 			Log.d(TAG, "init view model, isedit = false, $catName")
 		}
