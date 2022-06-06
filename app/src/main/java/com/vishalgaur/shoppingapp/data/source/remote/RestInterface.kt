@@ -67,9 +67,6 @@ interface KomodiAPI {
 	@POST("getAllProductsByOwner")
 	suspend fun getAllInventoriesBySellerId(@Body body: AccessData): List<Inventory>
 
-	@POST("getAllProductsByOwner")
-	suspend fun getAllInventories(@Body body: AccessData): List<Inventory>
-
 	@POST("getProductById")
 	suspend fun getInventoryById(@Body body: InventoryIdData): Inventory
 

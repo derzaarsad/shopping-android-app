@@ -20,31 +20,7 @@ interface InventoryDataSource {
 		return MutableLiveData()
 	}
 
-	suspend fun getAllInventoriesBySellerId(sellerId: String): Result<List<Inventory>> {
-		return Result.Success(emptyList())
-	}
-
-	suspend fun getAllInventories(userId: String): Result<List<Inventory>> {
-		return Result.Success(emptyList())
-	}
-
-	suspend fun getProductCategories(): List<String> {
-		return listOf()
-	}
-
-	suspend fun getProducts(): List<Product> {
-		return listOf()
-	}
-
-	suspend fun getSuppliers(): List<Supplier> {
-		return listOf()
-	}
-
-	suspend fun insertProductCategory(name: String) {}
-
-	suspend fun insertSupplier(supplierName: String,addressId: String) {}
-
-	suspend fun insertProduct(productName: String,description: String,upc: String,unit: String,categoryName: String) {}
+	suspend fun getAllInventoriesBySellerId(sellerId: String): Result<List<Inventory>>
 
 	suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		return null

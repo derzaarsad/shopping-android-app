@@ -36,11 +36,6 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		return Success(resRef)
 	}
 
-	override suspend fun getAllInventories(userId: String): Result<List<Inventory>> {
-		val resRef = UserNetwork.retrofit.getAllInventories(AccessData(userId))
-		return Success(resRef)
-	}
-
 	suspend fun insertInventory(newInventory: Inventory): String = UserNetwork.retrofit.insertInventory(InventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate))
 
 	override suspend fun updateInventory(invData: Inventory) {
@@ -87,21 +82,21 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		}
 	}
 
-	override suspend fun getProductCategories(): List<String> = UserNetwork.retrofit.getProductCategories()
+	suspend fun getProductCategories(): List<String> = UserNetwork.retrofit.getProductCategories()
 
-	override suspend fun getProducts(): List<Product> = UserNetwork.retrofit.getProducts()
+	suspend fun getProducts(): List<Product> = UserNetwork.retrofit.getProducts()
 
-	override suspend fun getSuppliers(): List<Supplier> = UserNetwork.retrofit.getSuppliers()
+	suspend fun getSuppliers(): List<Supplier> = UserNetwork.retrofit.getSuppliers()
 
-	override suspend fun insertProductCategory(name: String) {
+	suspend fun insertProductCategory(name: String) {
 		UserNetwork.retrofit.insertProductCategory(ProductCategoryData(name))
 	}
 
-	override suspend fun insertSupplier(supplierName: String,addressId: String) {
+	suspend fun insertSupplier(supplierName: String,addressId: String) {
 		UserNetwork.retrofit.insertSupplier(SupplierData(supplierName,addressId))
 	}
 
-	override suspend fun insertProduct(productName: String,description: String,upc: String,unit: String,categoryName: String) {
+	suspend fun insertProduct(productName: String,description: String,upc: String,unit: String,categoryName: String) {
 		UserNetwork.retrofit.insertProduct(ProductData(productName,description,upc,unit,categoryName))
 	}
 
