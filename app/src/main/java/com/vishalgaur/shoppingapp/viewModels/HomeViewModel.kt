@@ -101,6 +101,20 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
+	private fun getInventoriesBySellerId() {
+		_allInventories =
+			Transformations.switchMap(inventoriesRepository.observeInventoriesBySellerId(currentUser!!)) {
+				Log.d(TAG, it.toString())
+				getInventoriesLiveData(it)
+			} as MutableLiveData<List<Inventory>>
+		viewModelScope.launch {
+			_storeDataStatus.value = StoreDataStatus.LOADING
+			val res = async { inventoriesRepository.updateLocalInventoriesFromRemote(currentUser!!) }
+			res.await()
+			Log.d(TAG, "getInventoriesByOwner: status = ${_storeDataStatus.value}")
+		}
+	}
+
 	fun getProductCategories() {
 		viewModelScope.launch {
 			val res = inventoriesRepository.getProductCategories()
@@ -122,24 +136,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 				Log.d(TAG, "getInventoriesLiveData: Error Occurred: ${result.exception}")
 		}
 		return res
-	}
-
-	private fun getInventoriesBySellerId() {
-		_allInventories =
-			Transformations.switchMap(inventoriesRepository.observeInventoriesBySellerId(currentUser!!)) {
-				Log.d(TAG, it.toString())
-				getInventoriesLiveData(it)
-			} as MutableLiveData<List<Inventory>>
-		viewModelScope.launch {
-			_storeDataStatus.value = StoreDataStatus.LOADING
-			val res = async { inventoriesRepository.updateLocalInventoriesFromRemote(currentUser!!) }
-			res.await()
-			Log.d(TAG, "getInventoriesByOwner: status = ${_storeDataStatus.value}")
-		}
-	}
-
-	fun refreshInventories() {
-		getInventories()
 	}
 
 	fun filterBySearch(queryText: String) {
