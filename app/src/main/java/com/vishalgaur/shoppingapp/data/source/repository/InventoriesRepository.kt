@@ -10,15 +10,16 @@ import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Supplier
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.Result.*
-import com.vishalgaur.shoppingapp.data.source.InventoryDataSource
+import com.vishalgaur.shoppingapp.data.source.local.InventoriesLocalDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.InventoriesRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
 import java.util.*
 
 class InventoriesRepository(
-	private val inventoriesRemoteSource: InventoryDataSource,
-	private val inventoriesLocalSource: InventoryDataSource
+	private val inventoriesRemoteSource: InventoriesRemoteRestDataSource,
+	private val inventoriesLocalSource: InventoriesLocalDataSource
 ) : InventoriesRepoInterface {
 
 	companion object {

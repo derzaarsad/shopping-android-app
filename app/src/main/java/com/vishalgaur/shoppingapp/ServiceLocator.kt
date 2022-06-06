@@ -3,9 +3,7 @@ package com.vishalgaur.shoppingapp
 import android.content.Context
 import androidx.annotation.VisibleForTesting
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
-import com.vishalgaur.shoppingapp.data.source.InventoryDataSource
 import com.vishalgaur.shoppingapp.data.source.ProductDataSource
-import com.vishalgaur.shoppingapp.data.source.UserDataSource
 import com.vishalgaur.shoppingapp.data.source.local.InventoriesLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.local.ProductsLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.local.ShoppingAppDatabase
@@ -98,7 +96,7 @@ object ServiceLocator {
 		return UserLocalDataSource(database.userDao())
 	}
 
-	private fun createInventoriesLocalDataSource(context: Context): InventoryDataSource {
+	private fun createInventoriesLocalDataSource(context: Context): InventoriesLocalDataSource {
 		val database = database ?: ShoppingAppDatabase.getInstance(context.applicationContext)
 		return InventoriesLocalDataSource(database.inventoriesDao())
 	}
