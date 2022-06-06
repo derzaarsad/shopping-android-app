@@ -141,7 +141,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 	fun filterBySearch(queryText: String) {
 		filterInventories(_filterCategory.value!!)
 		_inventories.value = _inventories.value?.filter { inventory ->
-			inventory.name.contains(queryText, true) or
+			inventory.sku.contains(queryText, true) or
 					((queryText.toDoubleOrNull() ?: 0.0).compareTo(inventory.purchasePrice) == 0)
 		}
 	}

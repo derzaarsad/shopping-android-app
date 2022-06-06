@@ -142,7 +142,7 @@ class InventoryDetailsFragment : Fragment() {
 	private fun setViews() {
 		binding.layoutViewsGroup.visibility = View.VISIBLE
 		binding.proDetailsAddCartBtn.visibility = View.VISIBLE
-		binding.addProAppBar.topAppBar.title = viewModel.inventoryData.value?.name
+		binding.addProAppBar.topAppBar.title = viewModel.inventoryData.value?.sku
 		binding.addProAppBar.topAppBar.setNavigationOnClickListener {
 			findNavController().navigateUp()
 		}
@@ -156,7 +156,7 @@ class InventoryDetailsFragment : Fragment() {
 
 		setImagesView()
 
-		binding.proDetailsTitleTv.text = viewModel.inventoryData.value?.name ?: ""
+		binding.proDetailsTitleTv.text = viewModel.inventoryData.value?.sku ?: ""
 		binding.proDetailsRatingBar.rating = (viewModel.inventoryData.value?.rating ?: 0.0).toFloat()
 		binding.proDetailsPriceTv.text = resources.getString(
 			R.string.pro_details_price_value,

@@ -27,7 +27,7 @@ class CartItemAdapter(
 		fun bind(itemData: UserData.CartItem) {
 			binding.loaderLayout.loaderFrameLayout.visibility = View.GONE
 			val proData = proList.find { it.inventoryId == itemData.inventoryId } ?: Inventory()
-			binding.cartProductTitleTv.text = proData.name
+			binding.cartProductTitleTv.text = proData.sku
 			binding.cartProductPriceTv.text =
 				context.getString(R.string.price_text, proData.purchasePrice.toString())
 			if (proData.images.isNotEmpty()) {

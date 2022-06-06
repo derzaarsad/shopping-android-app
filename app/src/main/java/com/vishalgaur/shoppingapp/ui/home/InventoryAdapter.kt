@@ -42,7 +42,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 			productCard.setOnClickListener {
 				onClickListener.onClick(productData)
 			}
-			proName.text = productData.name
+			proName.text = productData.sku
 			proPrice.text =
 				context.getString(R.string.pro_details_price_value, productData.purchasePrice.toString())
 			proRatingBar.rating = productData.rating.toFloat()

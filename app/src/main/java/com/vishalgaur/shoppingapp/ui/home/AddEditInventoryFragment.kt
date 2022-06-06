@@ -189,7 +189,7 @@ class AddEditInventoryFragment : Fragment() {
 	private fun fillDataInAllViews() {
 		viewModel.inventoryData.value?.let { inventory ->
 			Log.d(TAG, "fill data in views")
-			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.name}"
+			binding.addProAppBar.topAppBar.title = "Edit Product - ${inventory.sku}"
 			//binding.proNameEditText.setText(inventory.name)
 			binding.invPurchasePriceEditText.setText(inventory.purchasePrice.toString())
 			binding.invDescEditText.setText(inventory.description)

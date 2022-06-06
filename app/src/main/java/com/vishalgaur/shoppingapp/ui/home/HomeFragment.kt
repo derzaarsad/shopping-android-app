@@ -214,7 +214,7 @@ class HomeFragment : Fragment() {
 
 			override fun onDeleteClick(productData: Inventory) {
 				Log.d(TAG, "onDeleteProduct: initiated for ${productData.inventoryId}")
-				showDeleteDialog(productData.name, productData.inventoryId)
+				showDeleteDialog(productData.sku, productData.inventoryId)
 			}
 
 			override fun onEditClick(productId: String) {
