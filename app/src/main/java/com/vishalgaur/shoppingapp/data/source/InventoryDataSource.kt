@@ -20,7 +20,7 @@ interface InventoryDataSource {
 		return MutableLiveData()
 	}
 
-	suspend fun getAllInventoriesBySellerId(sellerId: String): Result<List<Inventory>>
+	suspend fun getInventoriesBySellerId(sellerId: String): Result<List<Inventory>>
 
 	suspend fun uploadImage(uri: Uri, fileName: String): Uri? {
 		return null

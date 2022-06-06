@@ -39,7 +39,7 @@ class InventoriesLocalDataSource internal constructor(
 		}
 	}
 
-	override suspend fun getAllInventoriesBySellerId(sellerId: String): Result<List<Inventory>> =
+	override suspend fun getInventoriesBySellerId(sellerId: String): Result<List<Inventory>> =
 		withContext(ioDispatcher) {
 			return@withContext try {
 				Success(inventoriesDao.getInventoriesBySellerId(sellerId))
