@@ -156,7 +156,6 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 						expiryDate.toString(),
 						desc.trim(),
 						emptyList(),
-						0.0,
 						unit
 					)
 				Log.d(TAG, "inv = $newInventory")

@@ -35,7 +35,6 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 		private val proEditBtn = binding.inventoryEditButton
 		private val proMrp = binding.inventoryActualPriceTv
 		private val proOffer = binding.inventoryOfferValueTv
-		private val proRatingBar = binding.inventoryRatingBar
 		private val proCartButton = binding.inventoryAddToCartButton
 
 		fun bind(productData: Inventory) {
@@ -45,7 +44,6 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 			proName.text = productData.sku
 			proPrice.text =
 				context.getString(R.string.pro_details_price_value, productData.purchasePrice.toString())
-			proRatingBar.rating = productData.rating.toFloat()
 			proMrp.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 			proMrp.text =
 				context.getString(

@@ -157,7 +157,6 @@ class InventoryDetailsFragment : Fragment() {
 		setImagesView()
 
 		binding.proDetailsTitleTv.text = viewModel.inventoryData.value?.sku ?: ""
-		binding.proDetailsRatingBar.rating = (viewModel.inventoryData.value?.rating ?: 0.0).toFloat()
 		binding.proDetailsPriceTv.text = resources.getString(
 			R.string.pro_details_price_value,
 			viewModel.inventoryData.value?.purchasePrice.toString()

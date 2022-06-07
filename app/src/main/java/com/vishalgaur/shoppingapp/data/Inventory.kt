@@ -22,7 +22,6 @@ data class Inventory @JvmOverloads constructor(
 	val expiryDate: String = "",
 	var description: String = "",
 	var images: List<String> = ArrayList(),
-	var rating: Double = 0.0,
 	var unit: String = ""
 ) : Parcelable {
 	fun toHashMap(): HashMap<String, Any> {
@@ -40,7 +39,6 @@ data class Inventory @JvmOverloads constructor(
 			"expiryDate" to expiryDate,
 			"description" to description,
 			"images" to images,
-			"rating" to rating,
 			"unit" to unit
 		)
 	}

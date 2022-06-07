@@ -54,17 +54,6 @@
             app:layout_constraintTop_toBottomOf="@id/inventory_image_view"
             tools:text="Item Name name name wofe348" />
 
-        <RatingBar
-            android:id="@+id/inventory_rating_bar"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:progressTint="@color/gold"
-            android:rating="4.25"
-            android:secondaryProgressTint="#FFFFFF"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inventory_name_tv" />
-
         <TextView
             android:id="@+id/inventory_price_tv"
             android:layout_width="wrap_content"
@@ -75,7 +64,7 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inventory_rating_bar"
+            app:layout_constraintTop_toBottomOf="@id/inventory_name_tv"
             tools:text="$2000" />
 
         <TextView
