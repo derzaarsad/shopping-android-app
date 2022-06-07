@@ -17,6 +17,7 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.source.remote.InsertInventoryData
+import com.vishalgaur.shoppingapp.data.source.remote.UpdateInventoryData
 import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getProductId
@@ -161,7 +162,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 					)
 				Log.d(TAG, "inv = $newInventory")
 				if (_isEdit.value == true) {
-					updateInventory(newInventory/*imgList TODO: UPLOADIMAGE*/)
+					updateInventory(UpdateInventoryData(newInventory.inventoryId,newInventory.minSellPrice)/*imgList TODO: UPLOADIMAGE*/)
 				} else {
 					insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate)/*imgList TODO: UPLOADIMAGE*/)
 				}
@@ -169,7 +170,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		}
 	}
 
-	private fun updateInventory(newInventoryData: Inventory?/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
+	private fun updateInventory(newInventoryData: UpdateInventoryData?/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
 		viewModelScope.launch {
 			if (newInventoryData != null && _inventoryData.value != null) {
 				_addInventoryErrors.value = AddInventoryErrors.ADDING
@@ -177,8 +178,8 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 //				val resImg =
 //					async { inventoriesRepository.updateImages(imgList, _inventoryData.value!!.images) }
 //				val imagesPaths = resImg.await()
-				newInventoryData?.images = listOf("https://www.hdnicewallpapers.com/Walls/Big/Tiger/Download_Image_of_Animal_Tiger.jpg")//imagesPaths // TODO: UPLOADIMAGE
-				if (newInventoryData?.images?.isNotEmpty() == true) {
+//				newInventoryData?.images = imagesPaths
+//				if (newInventoryData?.images?.isNotEmpty() == true) {
 // TODO: UPLOADIMAGE
 //					if (imagesPaths[0] == ERR_UPLOAD) {
 //						Log.d(TAG, "error uploading images")
@@ -197,9 +198,9 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 								Log.d(TAG, "onUpdate: Error, ${res.exception}")
 						}
 //					} // TODO: UPLOADIMAGE
-				} else {
-					Log.d(TAG, "Inventory images empty, Cannot Add Inventory")
-				}
+//				} else {
+//					Log.d(TAG, "Inventory images empty, Cannot Add Inventory")
+//				}
 			} else {
 				Log.d(TAG, "Inventory is Null, Cannot Add Inventory")
 			}
@@ -213,7 +214,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 // TODO: UPLOADIMAGE
 //				val resImg = async { inventoriesRepository.insertImages(imgList) }
 //				val imagesPaths = resImg.await()
-//				newInventoryData?.images = imagesPaths // TODO: UPLOADIMAGE
+//				newInventoryData?.images = imagesPaths
 //				if (newInventoryData?.images?.isNotEmpty() == true) {
 // TODO: UPLOADIMAGE
 //					if (imagesPaths[0] == ERR_UPLOAD) {

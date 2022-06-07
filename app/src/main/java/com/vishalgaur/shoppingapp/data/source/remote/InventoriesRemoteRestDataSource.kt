@@ -45,14 +45,12 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		}
 	}
 
-	suspend fun updateInventory(invData: Inventory) {
-		val resRef =
-			inventoriesCollectionRef().whereEqualTo(INVENTORY_ID_FIELD, invData.inventoryId).get().await()
-		if (!resRef.isEmpty) {
-			val docId = resRef.documents[0].id
-			inventoriesCollectionRef().document(docId).set(invData.toHashMap()).await()
-		} else {
-			Log.d(TAG, "onUpdateInventory: inventory with id: $invData.inventoryId not found!")
+	suspend fun updateInventory(updateInventory: UpdateInventoryData): Inventory? {
+		try {
+			val resRef = UserNetwork.retrofit.updateInventory(updateInventory)
+			return resRef
+		} catch (e: Exception) {
+			return null
 		}
 	}
 

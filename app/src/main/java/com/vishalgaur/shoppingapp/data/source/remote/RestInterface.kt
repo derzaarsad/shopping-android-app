@@ -42,6 +42,11 @@ data class InsertInventoryData(
 	val expiryDate: String
 )
 
+data class UpdateInventoryData(
+	val inventoryId: String,
+	val minSellPrice: Double
+)
+
 data class ProductCategoryData(
 	val name: String
 )
@@ -99,6 +104,9 @@ interface KomodiAPI {
 
 	@PUT("insertInventory")
 	suspend fun insertInventory(@Body body: InsertInventoryData): Inventory
+
+	@POST("updateInventory")
+	suspend fun updateInventory(@Body body: UpdateInventoryData): Inventory
 
 	@POST("getUserById")
 	suspend fun getUserById(@Body body: AccessData): UserData

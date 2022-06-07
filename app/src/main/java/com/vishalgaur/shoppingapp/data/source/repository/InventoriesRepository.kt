@@ -13,6 +13,7 @@ import com.vishalgaur.shoppingapp.data.Result.*
 import com.vishalgaur.shoppingapp.data.source.local.InventoriesLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.InsertInventoryData
 import com.vishalgaur.shoppingapp.data.source.remote.InventoriesRemoteRestDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.UpdateInventoryData
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
@@ -88,18 +89,21 @@ class InventoriesRepository(
 		return urlList
 	}
 
-	override suspend fun updateInventory(inventory: Inventory): Result<Boolean> {
+	override suspend fun updateInventory(updateInventory: UpdateInventoryData): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onUpdate: updating inventory in remote source")
-				inventoriesRemoteSource.updateInventory(inventory)
-			}
-			val localRes = async {
-				Log.d(TAG, "onUpdate: updating inventory in local source")
-				inventoriesLocalSource.insertOrReplaceInventory(inventory)
+				inventoriesRemoteSource.updateInventory(updateInventory)
 			}
 			try {
-				remoteRes.await()
+				val updatedInventory = remoteRes.await()
+				if(updatedInventory == null) {
+					throw Exception("Update inventory failed")
+				}
+				val localRes = async {
+					Log.d(TAG, "onUpdate: updating inventory in local source")
+					inventoriesLocalSource.insertOrReplaceInventory(updatedInventory)
+				}
 				localRes.await()
 				Success(true)
 			} catch (e: Exception) {
