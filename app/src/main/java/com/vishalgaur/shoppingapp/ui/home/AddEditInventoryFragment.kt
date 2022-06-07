@@ -20,8 +20,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.vishalgaur.shoppingapp.R
 import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
-import com.vishalgaur.shoppingapp.data.utils.ShoeColors
-import com.vishalgaur.shoppingapp.data.utils.ShoeSizes
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.databinding.FragmentAddEditInventoryBinding
 import com.vishalgaur.shoppingapp.ui.AddInventoryViewErrors
@@ -89,9 +87,9 @@ class AddEditInventoryFragment : Fragment() {
 			viewModel.setInventoryData(inventoryId)
 		} else {
 			Log.d(TAG, "init view model, isedit = false, $catName")
+			viewModel.getProducts()
+			viewModel.getSuppliers()
 		}
-		viewModel.getProducts()
-		viewModel.getSuppliers()
 	}
 
 	private fun setUnitField(unit: String) {
@@ -230,6 +228,7 @@ class AddEditInventoryFragment : Fragment() {
 		binding.invProEditText.onFocusChangeListener = focusChangeListener
 		binding.invQuantityEditText.onFocusChangeListener = focusChangeListener
 		binding.invPurchasePriceEditText.onFocusChangeListener = focusChangeListener
+		binding.invMinSellPriceEditText.onFocusChangeListener = focusChangeListener
 		binding.invOrdernumEditText.onFocusChangeListener = focusChangeListener
 		binding.invSkuEditText.onFocusChangeListener = focusChangeListener
 		binding.invDescEditText.onFocusChangeListener = focusChangeListener
