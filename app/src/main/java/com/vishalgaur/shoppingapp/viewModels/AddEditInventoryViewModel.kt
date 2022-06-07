@@ -16,6 +16,7 @@ import com.vishalgaur.shoppingapp.data.Supplier
 import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
+import com.vishalgaur.shoppingapp.data.source.remote.InsertInventoryData
 import com.vishalgaur.shoppingapp.data.utils.AddInventoryErrors
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getProductId
@@ -162,7 +163,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 				if (_isEdit.value == true) {
 					updateInventory(newInventory/*imgList TODO: UPLOADIMAGE*/)
 				} else {
-					insertInventory(newInventory/*imgList TODO: UPLOADIMAGE*/)
+					insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate)/*imgList TODO: UPLOADIMAGE*/)
 				}
 			}
 		}
@@ -205,15 +206,15 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 		}
 	}
 
-	private fun insertInventory(newInventoryData: Inventory?/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
+	private fun insertInventory(newInventoryData: InsertInventoryData?/*imgList: List<Uri> TODO: UPLOADIMAGE*/) {
 		viewModelScope.launch {
 			if (newInventoryData != null) {
 				_addInventoryErrors.value = AddInventoryErrors.ADDING
 // TODO: UPLOADIMAGE
 //				val resImg = async { inventoriesRepository.insertImages(imgList) }
 //				val imagesPaths = resImg.await()
-				newInventoryData?.images = listOf("https://www.hdnicewallpapers.com/Walls/Big/Tiger/Download_Image_of_Animal_Tiger.jpg")//imagesPaths // TODO: UPLOADIMAGE
-				if (newInventoryData?.images?.isNotEmpty() == true) {
+//				newInventoryData?.images = imagesPaths // TODO: UPLOADIMAGE
+//				if (newInventoryData?.images?.isNotEmpty() == true) {
 // TODO: UPLOADIMAGE
 //					if (imagesPaths[0] == ERR_UPLOAD) {
 //						Log.d(TAG, "error uploading images")
@@ -232,9 +233,9 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 								Log.d(TAG, "onInsertInventory: Error Occurred, ${res.exception}")
 						}
 //					} // TODO: UPLOADIMAGE
-				} else {
-					Log.d(TAG, "Inventory images empty, Cannot Add Inventory")
-				}
+//				} else {
+//					Log.d(TAG, "Inventory images empty, Cannot Add Inventory")
+//				}
 			} else {
 				Log.d(TAG, "Inventory is Null, Cannot Add Inventory")
 			}

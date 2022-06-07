@@ -46,21 +46,20 @@ class InventoriesRepository(
 		return inventoriesLocalSource.getInventoryById(inventoryId)
 	}
 
-	override suspend fun insertInventory(newInventory: Inventory): Result<Boolean> {
+	override suspend fun insertInventory(newInventory: InsertInventoryData): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onInsertInventory: adding inventory to remote source")
-				inventoriesRemoteSource.insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate))
+				inventoriesRemoteSource.insertInventory(newInventory)
 			}
 			try {
-				val newInventoryId = remoteRes.await()
-				if(newInventoryId == null) {
+				val insertedInventory = remoteRes.await()
+				if(insertedInventory == null) {
 					throw Exception("Insert inventory failed")
 				}
-				newInventory.inventoryId = newInventoryId
 				val localRes = async {
-					Log.d(TAG, "onInsertInventory: adding inventory to local source with id " + newInventory.inventoryId)
-					inventoriesLocalSource.insertOrReplaceInventory(newInventory)
+					Log.d(TAG, "onInsertInventory: adding inventory to local source with id " + insertedInventory.inventoryId)
+					inventoriesLocalSource.insertOrReplaceInventory(insertedInventory)
 				}
 				localRes.await()
 				Success(true)

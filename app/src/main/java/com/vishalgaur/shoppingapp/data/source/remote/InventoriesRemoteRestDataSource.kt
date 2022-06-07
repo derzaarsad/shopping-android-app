@@ -36,7 +36,7 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		return Success(resRef)
 	}
 
-	suspend fun insertInventory(newInventory: InsertInventoryData): String? {
+	suspend fun insertInventory(newInventory: InsertInventoryData): Inventory? {
 		try {
 			val resRef = UserNetwork.retrofit.insertInventory(newInventory)
 			return resRef

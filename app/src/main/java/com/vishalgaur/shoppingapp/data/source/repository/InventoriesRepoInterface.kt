@@ -6,6 +6,7 @@ import com.vishalgaur.shoppingapp.data.Inventory
 import com.vishalgaur.shoppingapp.data.Product
 import com.vishalgaur.shoppingapp.data.Supplier
 import com.vishalgaur.shoppingapp.data.Result
+import com.vishalgaur.shoppingapp.data.source.remote.InsertInventoryData
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 
 interface InventoriesRepoInterface {
@@ -14,7 +15,7 @@ interface InventoriesRepoInterface {
 	fun observeInventoriesBySellerId(sellerId: String): LiveData<Result<List<Inventory>>?>
 	suspend fun getInventoriesBySellerId(sellerId: String): Result<List<Inventory>>
 	suspend fun getInventoryById(inventoryId: String, forceUpdate: Boolean = false): Result<Inventory>
-	suspend fun insertInventory(newInventory: Inventory): Result<Boolean>
+	suspend fun insertInventory(newInventory: InsertInventoryData): Result<Boolean>
 	suspend fun insertImages(imgList: List<Uri>): List<String>
 	suspend fun updateInventory(inventory: Inventory): Result<Boolean>
 	suspend fun updateImages(newList: List<Uri>, oldList: List<String>): List<String>

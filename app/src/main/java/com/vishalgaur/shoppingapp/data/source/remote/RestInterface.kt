@@ -98,7 +98,7 @@ interface KomodiAPI {
 	suspend fun insertAddress(@Body body: UserData.Address): String
 
 	@PUT("insertInventory")
-	suspend fun insertInventory(@Body body: InsertInventoryData): String
+	suspend fun insertInventory(@Body body: InsertInventoryData): Inventory
 
 	@POST("getUserById")
 	suspend fun getUserById(@Body body: AccessData): UserData
