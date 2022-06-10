@@ -76,7 +76,7 @@ interface KomodiAPI {
 	@POST("getProductById")
 	suspend fun getInventoryById(@Body body: InventoryIdData): Inventory
 
-	@POST("insertCartItem")
+	@PUT("insertCartItem")
 	suspend fun insertCartItem(@Body body: CartItemData): UserData.CartItem
 
 	@POST("getAddressesByUserId")
