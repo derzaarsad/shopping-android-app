@@ -21,8 +21,9 @@ data class AccessData(
 )
 
 data class CartItemData(
-	val cartItem: UserData.CartItem,
-	val userId: String
+	val inventoryId: String,
+	val sellerId: String,
+	val quantity: Double
 )
 
 data class InventoryIdData(
@@ -76,7 +77,7 @@ interface KomodiAPI {
 	suspend fun getInventoryById(@Body body: InventoryIdData): Inventory
 
 	@POST("insertCartItem")
-	suspend fun insertCartItem(@Body body: CartItemData): AccessData
+	suspend fun insertCartItem(@Body body: CartItemData): UserData.CartItem
 
 	@POST("getAddressesByUserId")
 	suspend fun getAddressesByUserId(@Body body: AccessData): List<UserData.Address>

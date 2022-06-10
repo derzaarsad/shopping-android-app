@@ -16,6 +16,7 @@ import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.CartItemData
 import com.vishalgaur.shoppingapp.data.utils.SignUpErrors
 import com.vishalgaur.shoppingapp.data.utils.UserType
 import kotlinx.coroutines.async
@@ -283,21 +284,23 @@ class AuthRepository(
 	}
 
 	override suspend fun insertCartItemByUserId(
-		cartItem: UserData.CartItem,
-		userId: String
+		cartItem: CartItemData
 	): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onInsertCartItem: adding item to remote source")
-				authRemoteDataSource.insertCartItem(cartItem, userId)
-			}
-			val localRes = async {
-				Log.d(TAG, "onInsertCartItem: updating item to local source")
-				userLocalDataSource.insertCartItem(cartItem, userId)
+				authRemoteDataSource.insertCartItem(cartItem)
 			}
 			try {
+				val insertedCartItem = remoteRes.await()
+				if(insertedCartItem == null) {
+					throw Exception("Insert cart item failed")
+				}
+				val localRes = async {
+					Log.d(TAG, "onInsertCartItem: updating item to local source")
+					userLocalDataSource.insertCartItem(insertedCartItem, cartItem.sellerId) // in our use case, the seller is the one that creates the order
+				}
 				localRes.await()
-				remoteRes.await()
 				Success(true)
 			} catch (e: Exception) {
 				Error(e)

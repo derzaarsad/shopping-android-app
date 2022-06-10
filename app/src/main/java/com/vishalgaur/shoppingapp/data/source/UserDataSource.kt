@@ -28,8 +28,6 @@ interface UserDataSource {
 
 	suspend fun deleteAddressOfUser(addressId: String, userId: String) {}
 
-	suspend fun insertCartItem(newItem: UserData.CartItem, userId: String) {}
-
 	suspend fun updateCartItem(item: UserData.CartItem, userId: String) {}
 
 	suspend fun deleteCartItem(itemId: String, userId: String) {}

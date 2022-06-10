@@ -12,6 +12,7 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
+import com.vishalgaur.shoppingapp.data.source.remote.CartItemData
 import com.vishalgaur.shoppingapp.data.utils.AddObjectStatus
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.ui.AddItemErrors
@@ -105,17 +106,17 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 			val newItem = UserData.CartItem(
 				itemId, inventoryId, inventoryData.value!!.sellerId, quantity, maxQuantity, inventoryData.value!!.unit
 			)
-			insertCartItem(newItem)
+			insertCartItem(CartItemData(inventoryId, currentUserId!!,quantity))
 		}
 
 		_errorStatus.value = errList
 	}
 
-	private fun insertCartItem(item: UserData.CartItem) {
+	private fun insertCartItem(item: CartItemData) {
 		viewModelScope.launch {
 			_addItemStatus.value = AddObjectStatus.ADDING
 			val deferredRes = async {
-				authRepository.insertCartItemByUserId(item, currentUserId!!)
+				authRepository.insertCartItemByUserId(item)
 			}
 			val res = deferredRes.await()
 			if (res is Success) {

@@ -85,7 +85,7 @@ class UserLocalDataSource internal constructor(
 			}
 		}
 
-	override suspend fun insertCartItem(newItem: UserData.CartItem, userId: String) =
+	suspend fun insertCartItem(newItem: UserData.CartItem, userId: String) =
 		withContext(ioDispatcher) {
 			try {
 				val uData = userDao.getById(userId)

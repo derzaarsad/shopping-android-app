@@ -100,14 +100,13 @@ class AuthRemoteRestDataSource : UserDataSource {
 		}
 	}
 
-	override suspend fun insertCartItem(newItem: UserData.CartItem, userId: String) {
-		UserNetwork.retrofit.insertCartItem(CartItemData(newItem,userId))
-		// TODO: do code below on the backend
-//		if (!userRef.isEmpty) {
-//			val docId = userRef.documents[0].id
-//			usersCollectionRef().document(docId)
-//				.update(USERS_CART_FIELD, FieldValue.arrayUnion(newItem.toHashMap()))
-//		}
+	suspend fun insertCartItem(newItem: CartItemData): UserData.CartItem? {
+		try {
+			val resRef = UserNetwork.retrofit.insertCartItem(newItem)
+			return resRef
+		} catch (e: Exception) {
+			return null
+		}
 	}
 
 	override suspend fun updateCartItem(item: UserData.CartItem, userId: String) {
