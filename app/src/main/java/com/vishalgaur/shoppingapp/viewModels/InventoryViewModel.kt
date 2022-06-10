@@ -102,10 +102,6 @@ class InventoryViewModel(private val inventoryId: String, application: Applicati
 		if ((maxQuantity - quantity) < 0.0) errList.add(AddItemErrors.ERROR_QUANTITY)
 
 		if (errList.isEmpty()) {
-			val itemId = UUID.randomUUID().toString()
-			val newItem = UserData.CartItem(
-				itemId, inventoryId, inventoryData.value!!.sellerId, quantity, maxQuantity, inventoryData.value!!.unit
-			)
 			insertCartItem(CartItemData(inventoryId, currentUserId!!,quantity))
 		}
 
