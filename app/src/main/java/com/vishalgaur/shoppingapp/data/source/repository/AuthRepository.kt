@@ -15,6 +15,7 @@ import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.AccessData
 import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.CartItemData
 import com.vishalgaur.shoppingapp.data.utils.SignUpErrors
@@ -126,6 +127,17 @@ class AuthRepository(
 		}
 	}
 
+	private suspend fun getCartItemsBySellerId(accessData: AccessData): List<UserData.CartItem> {
+		Log.d(TAG, "on getCartItems: get cart items from id " + accessData.userId)
+		var queryResult = listOf<UserData.CartItem>()
+		try {
+			queryResult = authRemoteDataSource.getCartItemsBySellerId(accessData)
+		} catch (e: Exception) {
+			Log.d(TAG,"Error on getCartItems: " + e.toString())
+		}
+		return queryResult
+	}
+
 	override fun signInWithPhoneAuthCredential(
 		credential: PhoneAuthCredential,
 		isUserLoggedIn: MutableLiveData<Boolean>, context: Context
@@ -192,6 +204,7 @@ class AuthRepository(
 		if (mobile != null && password != null) {
 			val uData = checkLogin(mobile,password)
 			if (uData != null) {
+				uData.cart = getCartItemsBySellerId(AccessData(uData.userId))
 				userLocalDataSource.addUser(uData)
 			}
 		}
