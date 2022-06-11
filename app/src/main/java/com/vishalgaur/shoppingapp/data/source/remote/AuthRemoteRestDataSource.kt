@@ -146,22 +146,22 @@ class AuthRemoteRestDataSource : UserDataSource {
 		// specific items to their owners
 		// empty customers cart
 		val sellerInventories: MutableMap<String, MutableList<UserData.CartItem>> = mutableMapOf()
-		for (item in newOrder.items) {
-			if (!sellerInventories.containsKey(item.sellerId)) {
-				sellerInventories[item.sellerId] = mutableListOf()
+		for (cartItem in newOrder.items) {
+			if (!sellerInventories.containsKey(cartItem.sellerId)) {
+				sellerInventories[cartItem.sellerId] = mutableListOf()
 			}
-			sellerInventories[item.sellerId]?.add(item)
+			sellerInventories[cartItem.sellerId]?.add(cartItem)
 		}
-		sellerInventories.forEach { (sellerId, items) ->
+		sellerInventories.forEach { (sellerId, cartItems) ->
 			run {
 				val itemPrices = mutableMapOf<String, Double>()
-				items.forEach { item ->
-					itemPrices[item.itemId] = newOrder.itemsPrices[item.itemId] ?: 0.0
+				cartItems.forEach { cartItem ->
+					itemPrices[cartItem.itemId] = newOrder.itemsPrices[cartItem.itemId] ?: 0.0
 				}
 				val ownerOrder = UserData.OrderItem(
 					newOrder.orderId,
 					userId,
-					items,
+					cartItems,
 					itemPrices,
 					newOrder.deliveryAddress,
 					newOrder.shippingCharges,
