@@ -100,6 +100,8 @@ class AuthRemoteRestDataSource : UserDataSource {
 		}
 	}
 
+	suspend fun getCartItemsBySellerId(accessData: AccessData): List<UserData.CartItem> = UserNetwork.retrofit.getCartItemsBySellerId(accessData)
+
 	suspend fun insertCartItem(newItem: CartItemData): UserData.CartItem? {
 		try {
 			val resRef = UserNetwork.retrofit.insertCartItem(newItem)
@@ -108,8 +110,6 @@ class AuthRemoteRestDataSource : UserDataSource {
 			return null
 		}
 	}
-
-	suspend fun getCartItemsBySellerId(accessData: AccessData): List<UserData.CartItem> = UserNetwork.retrofit.getCartItemsBySellerId(accessData)
 
 	override suspend fun updateCartItem(item: UserData.CartItem, userId: String) {
 		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
