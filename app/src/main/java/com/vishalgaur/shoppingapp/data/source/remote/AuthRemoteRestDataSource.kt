@@ -185,7 +185,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 			usersCollectionRef().document(docId)
 				.update(USERS_ORDERS_FIELD, FieldValue.arrayUnion(newOrder.toHashMap()))
 			usersCollectionRef().document(docId)
-				.update(USERS_CART_FIELD, ArrayList<UserData.CartItem>())
+				.update(USERS_CART_FIELD, ArrayList<UserData.CartItem>()) // TODO: deleteCartItemsBySellerId
 		}
 	}
 
