@@ -164,7 +164,7 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 				if (_isEdit.value == true) {
 					updateInventory(UpdateInventoryData(newInventory.inventoryId,newInventory.minSellPrice)/*imgList TODO: UPLOADIMAGE*/)
 				} else {
-					insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.purchaserId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate)/*imgList TODO: UPLOADIMAGE*/)
+					insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.ownerId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate)/*imgList TODO: UPLOADIMAGE*/)
 				}
 			}
 		}

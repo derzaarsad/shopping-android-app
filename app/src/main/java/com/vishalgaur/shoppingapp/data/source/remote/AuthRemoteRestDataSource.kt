@@ -145,14 +145,14 @@ class AuthRemoteRestDataSource : UserDataSource {
 		// add order to customer and
 		// specific items to their owners
 		// empty customers cart
-		val sellerInventories: MutableMap<String, MutableList<UserData.CartItem>> = mutableMapOf()
+		val ownerInventories: MutableMap<String, MutableList<UserData.CartItem>> = mutableMapOf()
 		for (cartItem in newOrder.items) {
-			if (!sellerInventories.containsKey(cartItem.sellerId)) {
-				sellerInventories[cartItem.sellerId] = mutableListOf()
+			if (!ownerInventories.containsKey(cartItem.ownerId)) {
+				ownerInventories[cartItem.ownerId] = mutableListOf()
 			}
-			sellerInventories[cartItem.sellerId]?.add(cartItem)
+			ownerInventories[cartItem.ownerId]?.add(cartItem)
 		}
-		sellerInventories.forEach { (sellerId, cartItems) ->
+		ownerInventories.forEach { (ownerId, cartItems) ->
 			run {
 				val itemPrices = mutableMapOf<String, Double>()
 				cartItems.forEach { cartItem ->
@@ -170,7 +170,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 					OrderStatus.CONFIRMED.name
 				)
 				val ownerRef =
-					usersCollectionRef().whereEqualTo(USERS_ID_FIELD, sellerId).get().await()
+					usersCollectionRef().whereEqualTo(USERS_ID_FIELD, ownerId).get().await()
 				if (!ownerRef.isEmpty) {
 					val docId = ownerRef.documents[0].id
 					usersCollectionRef().document(docId)

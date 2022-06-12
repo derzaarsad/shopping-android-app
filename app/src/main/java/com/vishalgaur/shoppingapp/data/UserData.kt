@@ -98,7 +98,7 @@ data class UserData(
 	data class CartItem(
 		var itemId: String = "",
 		var inventoryId: String = "",
-		var sellerId: String = "",
+		var ownerId: String = "",
 		var quantity: Double = 0.0,
 		var maxQuantity: Double = 0.0,
 		var unit: String = ""
@@ -109,7 +109,7 @@ data class UserData(
 			val hashMap = hashMapOf<String, Any>()
 			hashMap["itemId"] = itemId
 			hashMap["inventoryId"] = inventoryId
-			hashMap["sellerId"] = sellerId
+			hashMap["ownerId"] = ownerId
 			hashMap["quantity"] = quantity
 			hashMap["maxQuantity"] = maxQuantity
 			hashMap["unit"] = unit

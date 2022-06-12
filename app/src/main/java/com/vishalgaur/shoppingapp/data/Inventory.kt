@@ -11,7 +11,7 @@ data class Inventory @JvmOverloads constructor(
 	@PrimaryKey
 	var inventoryId: String = "",
 	var supplierId: String = "",
-	var purchaserId: String = "",
+	var ownerId: String = "",
 	var productId: String = "",
 	var sellerId: String = "",
 	var purchasePrice: Double = 0.0,
@@ -28,7 +28,7 @@ data class Inventory @JvmOverloads constructor(
 		return hashMapOf(
 			"inventoryId" to inventoryId,
 			"supplierId" to supplierId,
-			"purchaserId" to purchaserId,
+			"ownerId" to ownerId,
 			"productId" to productId,
 			"sellerId" to sellerId,
 			"purchasePrice" to purchasePrice,
