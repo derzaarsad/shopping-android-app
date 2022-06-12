@@ -32,7 +32,7 @@ data class InventoryIdData(
 
 data class InsertInventoryData(
 	val supplierId: String,
-	val purchaserId: String,
+	val ownerId: String,
 	val productId: String,
 	val sellerId: String,
 	val purchasePrice: Double,
