@@ -141,7 +141,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 		}
 	}
 
-	override suspend fun placeOrder(newOrder: UserData.OrderItem, userId: String) {
+	override suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String) {
 		// add order to customer and
 		// specific items to their owners
 		// empty customers cart
@@ -160,7 +160,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 				}
 				val ownerOrder = UserData.OrderItem(
 					newOrder.orderId,
-					userId,
+					newOrder.customerId,
 					cartItems,
 					itemPrices,
 					newOrder.deliveryAddress,
@@ -179,9 +179,9 @@ class AuthRemoteRestDataSource : UserDataSource {
 			}
 		}
 
-		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
-		if (!userRef.isEmpty) {
-			val docId = userRef.documents[0].id
+		val sellerRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, sellerId).get().await()
+		if (!sellerRef.isEmpty) {
+			val docId = sellerRef.documents[0].id
 			usersCollectionRef().document(docId)
 				.update(USERS_ORDERS_FIELD, FieldValue.arrayUnion(newOrder.toHashMap()))
 			usersCollectionRef().document(docId)

@@ -23,7 +23,7 @@ interface AuthRepoInterface {
 	suspend fun insertCartItemByUserId(cartItem: CartItemData): Result<Boolean>
 	suspend fun updateCartItemByUserId(cartItem: UserData.CartItem, userId: String): Result<Boolean>
 	suspend fun deleteCartItemByUserId(itemId: String, userId: String): Result<Boolean>
-	suspend fun placeOrder(newOrder: UserData.OrderItem, userId: String): Result<Boolean>
+	suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String): Result<Boolean>
 	suspend fun setStatusOfOrder(orderId: String, userId: String, status: String): Result<Boolean>
 	suspend fun getOrdersByUserIdFromLocalSource(userId: String): Result<List<UserData.OrderItem>?>
 	suspend fun getAddressesByUserIdFromLocalSource(userId: String): Result<List<UserData.Address>?>

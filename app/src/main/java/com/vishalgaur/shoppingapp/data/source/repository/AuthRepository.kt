@@ -364,15 +364,15 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun placeOrder(newOrder: UserData.OrderItem, userId: String): Result<Boolean> {
+	override suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onPlaceOrder: adding item to remote source")
-				authRemoteDataSource.placeOrder(newOrder, userId)
+				authRemoteDataSource.placeOrder(newOrder, sellerId)
 			}
 			val localRes = async {
 				Log.d(TAG, "onPlaceOrder: adding item to local source")
-				val userRes = authRemoteDataSource.getUserById(userId)
+				val userRes = authRemoteDataSource.getUserById(sellerId)
 				if (userRes != null) {
 					userLocalDataSource.clearAllUsers()
 					userLocalDataSource.addUser(userRes)
