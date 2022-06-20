@@ -125,8 +125,8 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 
 	fun getItemsPriceTotal(): Double {
 		var totalPrice = 0.0
-		_priceList.value?.forEach { (itemId, price) ->
-			totalPrice += price * (_cartItems.value?.find { it.itemId == itemId }?.quantity?.toInt() ?: 1)
+		_priceList.value?.forEach { (inventoryId, price) ->
+			totalPrice += price * (_cartItems.value?.find { it.inventoryId == inventoryId }?.quantity?.toInt() ?: 1)
 		}
 		return totalPrice
 	}
@@ -139,13 +139,13 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		return totalCount
 	}
 
-	fun setQuantityOfItem(itemId: String, value: Int) {
+	fun setQuantityOfItem(inventoryId: String, value: Int) {
 		viewModelScope.launch {
 //			_dataStatus.value = StoreDataStatus.LOADING
 			var cartList: MutableList<UserData.CartItem>
 			_cartItems.value?.let { items ->
-				val item = items.find { it.itemId == itemId }
-				val itemPos = items.indexOfFirst { it.itemId == itemId }
+				val item = items.find { it.inventoryId == inventoryId }
+				val itemPos = items.indexOfFirst { it.inventoryId == inventoryId }
 				cartList = items.toMutableList()
 				if (item != null) {
 					item.quantity = item.quantity + value
@@ -167,15 +167,15 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
-	fun deleteItemFromCart(itemId: String) {
+	fun deleteItemFromCart(inventoryId: String) {
 		viewModelScope.launch {
 //			_dataStatus.value = StoreDataStatus.LOADING
 			var cartList: MutableList<UserData.CartItem>
 			_cartItems.value?.let { items ->
-				val itemPos = items.indexOfFirst { it.itemId == itemId }
+				val itemPos = items.indexOfFirst { it.inventoryId == inventoryId }
 				cartList = items.toMutableList()
 				val deferredRes = async {
-					authRepository.deleteCartItemByUserId(itemId, currentUser!!)
+					authRepository.deleteCartItemByUserId(inventoryId, currentUser!!)
 				}
 				val res = deferredRes.await()
 				if (res is Success) {
@@ -271,7 +271,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 					if (proRes is Success) {
 						val proData = proRes.data
 						proList.add(proData)
-						priceMap[item.itemId] = proData.purchasePrice
+						priceMap[item.inventoryId] = proData.purchasePrice
 					} else {
 						res = false
 						return@label

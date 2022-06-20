@@ -109,7 +109,7 @@ class UserLocalDataSource internal constructor(
 				val uData = userDao.getById(userId)
 				if (uData != null) {
 					val cartItems = uData.cart.toMutableList()
-					val pos = cartItems.indexOfFirst { it.itemId == item.itemId }
+					val pos = cartItems.indexOfFirst { it.inventoryId == item.inventoryId }
 					if (pos >= 0) {
 						cartItems[pos] = item
 					}
@@ -124,13 +124,13 @@ class UserLocalDataSource internal constructor(
 			}
 		}
 
-	override suspend fun deleteCartItem(itemId: String, userId: String) =
+	override suspend fun deleteCartItem(inventoryId: String, userId: String) =
 		withContext(ioDispatcher) {
 			try {
 				val uData = userDao.getById(userId)
 				if (uData != null) {
 					val cartItems = uData.cart.toMutableList()
-					val pos = cartItems.indexOfFirst { it.itemId == itemId }
+					val pos = cartItems.indexOfFirst { it.inventoryId == inventoryId }
 					if (pos >= 0) {
 						cartItems.removeAt(pos)
 					}

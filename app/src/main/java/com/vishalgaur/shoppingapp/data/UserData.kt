@@ -96,18 +96,16 @@ data class UserData(
 
 	@Parcelize
 	data class CartItem(
-		var itemId: String = "",
 		var inventoryId: String = "",
 		var ownerId: String = "",
 		var quantity: Double = 0.0,
 		var maxQuantity: Double = 0.0,
 		var unit: String = ""
 	) : Parcelable {
-		constructor() : this("", "", "", 0.0,0.0, "")
+		constructor() : this("", "", 0.0,0.0, "")
 
 		fun toHashMap(): HashMap<String, Any> {
 			val hashMap = hashMapOf<String, Any>()
-			hashMap["itemId"] = itemId
 			hashMap["inventoryId"] = inventoryId
 			hashMap["ownerId"] = ownerId
 			hashMap["quantity"] = quantity

@@ -174,8 +174,8 @@ class OrderDetailsFragment : Fragment() {
 		cartItems: List<UserData.CartItem>
 	): Double {
 		var totalPrice = 0.0
-		priceList.forEach { (itemId, price) ->
-			totalPrice += price * (cartItems.find { it.itemId == itemId }?.quantity?.toInt() ?: 1)
+		priceList.forEach { (inventoryId, price) ->
+			totalPrice += price * (cartItems.find { it.inventoryId == inventoryId }?.quantity?.toInt() ?: 1)
 		}
 		return totalPrice
 	}

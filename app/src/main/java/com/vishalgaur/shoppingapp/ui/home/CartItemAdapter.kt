@@ -41,15 +41,15 @@ class CartItemAdapter(
 			binding.cartProductQuantityTextView.text = itemData.quantity.toString()
 			binding.cartProductDeleteBtn.setOnClickListener {
 				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-				onClickListener.onDeleteClick(itemData.itemId, binding.loaderLayout)
+				onClickListener.onDeleteClick(itemData.inventoryId, binding.loaderLayout)
 			}
 			binding.cartProductPlusBtn.setOnClickListener {
 				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-				onClickListener.onPlusClick(itemData.itemId)
+				onClickListener.onPlusClick(itemData.inventoryId)
 			}
 			binding.cartProductMinusBtn.setOnClickListener {
 				binding.loaderLayout.loaderFrameLayout.visibility = View.VISIBLE
-				onClickListener.onMinusClick(itemData.itemId, itemData.quantity.toInt(), binding.loaderLayout)
+				onClickListener.onMinusClick(itemData.inventoryId, itemData.quantity.toInt(), binding.loaderLayout)
 			}
 
 		}

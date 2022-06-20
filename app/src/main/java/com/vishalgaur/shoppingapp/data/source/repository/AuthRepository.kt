@@ -344,15 +344,15 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun deleteCartItemByUserId(itemId: String, userId: String): Result<Boolean> {
+	override suspend fun deleteCartItemByUserId(inventoryId: String, userId: String): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onDelete: deleting cart item from remote source")
-				authRemoteDataSource.deleteCartItem(itemId, userId)
+				authRemoteDataSource.deleteCartItem(inventoryId, userId)
 			}
 			val localRes = async {
 				Log.d(TAG, "onDelete: deleting cart item from local source")
-				userLocalDataSource.deleteCartItem(itemId, userId)
+				userLocalDataSource.deleteCartItem(inventoryId, userId)
 			}
 			try {
 				localRes.await()

@@ -117,7 +117,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 			val docId = userRef.documents[0].id
 			val oldCart =
 				userRef.documents[0].toObject(UserData::class.java)?.cart?.toMutableList()
-			val idx = oldCart?.indexOfFirst { it.itemId == item.itemId } ?: -1
+			val idx = oldCart?.indexOfFirst { it.inventoryId == item.inventoryId } ?: -1
 			if (idx != -1) {
 				oldCart?.set(idx, item)
 			}
@@ -126,13 +126,13 @@ class AuthRemoteRestDataSource : UserDataSource {
 		}
 	}
 
-	override suspend fun deleteCartItem(itemId: String, userId: String) {
+	override suspend fun deleteCartItem(inventoryId: String, userId: String) {
 		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
 		if (!userRef.isEmpty) {
 			val docId = userRef.documents[0].id
 			val oldCart =
 				userRef.documents[0].toObject(UserData::class.java)?.cart?.toMutableList()
-			val idx = oldCart?.indexOfFirst { it.itemId == itemId } ?: -1
+			val idx = oldCart?.indexOfFirst { it.inventoryId == inventoryId } ?: -1
 			if (idx != -1) {
 				oldCart?.removeAt(idx)
 			}
@@ -156,7 +156,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 			run {
 				val itemPrices = mutableMapOf<String, Double>()
 				cartItems.forEach { cartItem ->
-					itemPrices[cartItem.itemId] = newOrder.itemsPrices[cartItem.itemId] ?: 0.0
+					itemPrices[cartItem.inventoryId] = newOrder.itemsPrices[cartItem.inventoryId] ?: 0.0
 				}
 				val ownerOrder = UserData.OrderItem(
 					newOrder.orderId,
