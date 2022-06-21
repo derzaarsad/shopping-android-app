@@ -12,6 +12,7 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
+import com.vishalgaur.shoppingapp.data.source.remote.InsertOrderData
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import com.vishalgaur.shoppingapp.getRandomString
 import kotlinx.coroutines.async
@@ -234,7 +235,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 			if (newOrderData.value != null) {
 				_orderStatus.value = StoreDataStatus.LOADING
 				val deferredRes = async {
-					authRepository.placeOrder(newOrderData.value!!, currentUser!!)
+					authRepository.placeOrder(InsertOrderData(currentUser!!,newOrderData.value!!.items.map { it.inventoryId },newOrderData.value!!.deliveryAddress.addressId,newOrderData.value!!.shippingCharges,newOrderData.value!!.paymentMethod))
 				}
 				val res = deferredRes.await()
 				if (res is Success) {

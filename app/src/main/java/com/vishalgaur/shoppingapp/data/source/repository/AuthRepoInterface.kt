@@ -7,6 +7,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.vishalgaur.shoppingapp.data.Result
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.source.remote.CartItemData
+import com.vishalgaur.shoppingapp.data.source.remote.InsertOrderData
 import com.vishalgaur.shoppingapp.data.utils.SignUpErrors
 
 interface AuthRepoInterface {
@@ -23,7 +24,7 @@ interface AuthRepoInterface {
 	suspend fun insertCartItemByUserId(cartItem: CartItemData): Result<Boolean>
 	suspend fun updateCartItemByUserId(cartItem: UserData.CartItem, userId: String): Result<Boolean>
 	suspend fun deleteCartItemByUserId(inventoryId: String, userId: String): Result<Boolean>
-	suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String): Result<Boolean>
+	suspend fun placeOrder(newOrder: InsertOrderData): Result<Boolean>
 	suspend fun setStatusOfOrder(orderId: String, userId: String, status: String): Result<Boolean>
 	suspend fun getOrdersByUserIdFromLocalSource(userId: String): Result<List<UserData.OrderItem>?>
 	suspend fun getAddressesByUserIdFromLocalSource(userId: String): Result<List<UserData.Address>?>

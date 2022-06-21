@@ -18,6 +18,7 @@ import com.vishalgaur.shoppingapp.data.source.local.UserLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.AccessData
 import com.vishalgaur.shoppingapp.data.source.remote.AuthRemoteRestDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.CartItemData
+import com.vishalgaur.shoppingapp.data.source.remote.InsertOrderData
 import com.vishalgaur.shoppingapp.data.utils.SignUpErrors
 import com.vishalgaur.shoppingapp.data.utils.UserType
 import kotlinx.coroutines.async
@@ -364,24 +365,28 @@ class AuthRepository(
 		}
 	}
 
-	override suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String): Result<Boolean> {
+	override suspend fun placeOrder(newOrder: InsertOrderData): Result<Boolean> {
 		return supervisorScope {
 			val remoteRes = async {
 				Log.d(TAG, "onPlaceOrder: adding item to remote source")
-				authRemoteDataSource.placeOrder(newOrder, sellerId)
-			}
-			val localRes = async {
-				Log.d(TAG, "onPlaceOrder: adding item to local source")
-				val userRes = authRemoteDataSource.getUserById(sellerId)
-				if (userRes != null) {
-					userLocalDataSource.clearAllUsers()
-					userLocalDataSource.addUser(userRes)
-				} else {
-					throw Exception("User Not Found")
-				}
+				authRemoteDataSource.insertOrder(newOrder)
 			}
 			try {
-				remoteRes.await()
+				val insertedOrder = remoteRes.await()
+				if(insertedOrder == null) {
+					throw Exception("Insert order failed")
+				}
+				val localRes = async {
+					Log.d(TAG, "onPlaceOrder: adding item to local source")
+					val userRes = authRemoteDataSource.getUserById(newOrder.sellerId)
+					if (userRes != null) {
+						// TODO: refreshUserFromRemote (don't forget to add getOrderByUserId!)
+						userLocalDataSource.clearAllUsers()
+						userLocalDataSource.addUser(userRes)
+					} else {
+						throw Exception("User Not Found")
+					}
+				}
 				localRes.await()
 				Success(true)
 			} catch (e: Exception) {

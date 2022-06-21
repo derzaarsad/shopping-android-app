@@ -141,6 +141,8 @@ class AuthRemoteRestDataSource : UserDataSource {
 		}
 	}
 
+	suspend fun insertOrder(newOrder: InsertOrderData): String = UserNetwork.retrofit.insertOrder(newOrder)
+
 	override suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String) {
 		// add order to customer and
 		// specific items to their owners
