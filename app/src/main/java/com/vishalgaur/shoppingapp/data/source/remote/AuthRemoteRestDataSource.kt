@@ -143,54 +143,6 @@ class AuthRemoteRestDataSource : UserDataSource {
 
 	suspend fun insertOrder(newOrder: InsertOrderData): String = UserNetwork.retrofit.insertOrder(newOrder)
 
-	override suspend fun placeOrder(newOrder: UserData.OrderItem, sellerId: String) {
-		// add order to customer and
-		// specific items to their owners
-		// empty customers cart
-		val ownerInventories: MutableMap<String, MutableList<UserData.CartItem>> = mutableMapOf()
-		for (cartItem in newOrder.items) {
-			if (!ownerInventories.containsKey(cartItem.ownerId)) {
-				ownerInventories[cartItem.ownerId] = mutableListOf()
-			}
-			ownerInventories[cartItem.ownerId]?.add(cartItem)
-		}
-		ownerInventories.forEach { (ownerId, cartItems) ->
-			run {
-				val itemPrices = mutableMapOf<String, Double>()
-				cartItems.forEach { cartItem ->
-					itemPrices[cartItem.inventoryId] = newOrder.itemsPrices[cartItem.inventoryId] ?: 0.0
-				}
-				val ownerOrder = UserData.OrderItem(
-					newOrder.orderId,
-					newOrder.customerId,
-					cartItems,
-					itemPrices,
-					newOrder.deliveryAddress,
-					newOrder.shippingCharges,
-					newOrder.paymentMethod,
-					newOrder.orderDate,
-					OrderStatus.CONFIRMED.name
-				)
-				val ownerRef =
-					usersCollectionRef().whereEqualTo(USERS_ID_FIELD, ownerId).get().await()
-				if (!ownerRef.isEmpty) {
-					val docId = ownerRef.documents[0].id
-					usersCollectionRef().document(docId)
-						.update(USERS_ORDERS_FIELD, FieldValue.arrayUnion(ownerOrder.toHashMap()))
-				}
-			}
-		}
-
-		val sellerRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, sellerId).get().await()
-		if (!sellerRef.isEmpty) {
-			val docId = sellerRef.documents[0].id
-			usersCollectionRef().document(docId)
-				.update(USERS_ORDERS_FIELD, FieldValue.arrayUnion(newOrder.toHashMap()))
-			usersCollectionRef().document(docId)
-				.update(USERS_CART_FIELD, ArrayList<UserData.CartItem>()) // TODO: deleteCartItemsBySellerId
-		}
-	}
-
 	override suspend fun setStatusOfOrderByUserId(orderId: String, userId: String, status: String) {
 		// update on customer and owner
 		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()

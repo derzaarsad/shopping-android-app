@@ -32,8 +32,6 @@ interface UserDataSource {
 
 	suspend fun deleteCartItem(itemId: String, userId: String) {}
 
-	suspend fun placeOrder(newOrder: UserData.OrderItem, userId: String) {}
-
 	suspend fun setStatusOfOrderByUserId(orderId: String, userId: String, status: String) {}
 
 	suspend fun clearAllUsers() {}
