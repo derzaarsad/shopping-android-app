@@ -420,7 +420,7 @@ class AuthRepository(
 	}
 
 	override suspend fun getOrdersByUserIdFromLocalSource(userId: String): Result<List<UserData.OrderItem>?> {
-		return userLocalDataSource.getOrdersByUserId(userId)
+		return userLocalDataSource.getOrdersByUserIdFromLocalSource(userId)
 	}
 
 	override suspend fun getAddressesByUserIdFromLocalSource(userId: String): Result<List<UserData.Address>?> {

@@ -51,7 +51,7 @@ class UserLocalDataSource internal constructor(
 			}
 		}
 
-	override suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?> =
+	suspend fun getOrdersByUserIdFromLocalSource(userId: String): Result<List<UserData.OrderItem>?> =
 		withContext(ioDispatcher) {
 			try {
 				val uData = userDao.getById(userId)

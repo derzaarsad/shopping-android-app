@@ -42,7 +42,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 			}
 	}
 
-	override suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?> {
+	suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?> {
 		try {
 			val ordersRef = UserNetwork.retrofit.getOrdersByUserId(AccessData(userId))
 			return Success(ordersRef)
