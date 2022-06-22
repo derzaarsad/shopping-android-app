@@ -125,6 +125,9 @@ interface KomodiAPI {
 
 	@POST("getUserById")
 	suspend fun getUserById(@Body body: AccessData): UserData
+
+	@POST("getAllProductsByOwner")
+	suspend fun getOrdersByUserId(@Body body: AccessData): List<UserData.OrderItem>
 }
 
 object UserNetwork {

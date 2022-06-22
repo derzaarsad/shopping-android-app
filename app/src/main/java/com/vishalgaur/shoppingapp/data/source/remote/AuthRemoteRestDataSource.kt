@@ -43,12 +43,11 @@ class AuthRemoteRestDataSource : UserDataSource {
 	}
 
 	override suspend fun getOrdersByUserId(userId: String): Result<List<UserData.OrderItem>?> {
-		val userRef = usersCollectionRef().whereEqualTo(USERS_ID_FIELD, userId).get().await()
-		return if (!userRef.isEmpty) {
-			val userData = userRef.documents[0].toObject(UserData::class.java)
-			Success(userData!!.orders)
-		} else {
-			Error(Exception("User Not Found!"))
+		try {
+			val ordersRef = UserNetwork.retrofit.getOrdersByUserId(AccessData(userId))
+			return Success(ordersRef)
+		} catch (e: Exception) {
+			return Error(Exception("Cannot receive order!"))
 		}
 	}
 
