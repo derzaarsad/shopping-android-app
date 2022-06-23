@@ -115,17 +115,7 @@ class AuthRepository(
 
 	override suspend fun checkLogin(mobile: String, password: String): UserData? {
 		Log.d(TAG, "on Login: checking mobile and password")
-		var queryResult = mutableListOf<UserData>()
-		try {
-			queryResult = authRemoteDataSource.getUserByMobileAndPassword(mobile, password)
-		} catch (e: Exception) {
-			Log.d(TAG,"Error on Login: " + e.toString())
-		}
-		return if (queryResult.size > 0) {
-			queryResult[0]
-		} else {
-			null
-		}
+		return authRemoteDataSource.getUserByMobileAndPassword(mobile, password)
 	}
 
 	private suspend fun getCartItemsBySellerId(accessData: AccessData): List<UserData.CartItem> {

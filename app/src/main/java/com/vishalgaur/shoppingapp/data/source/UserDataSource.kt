@@ -18,8 +18,8 @@ interface UserDataSource {
 	suspend fun getUserByMobileAndPassword(
 		mobile: String,
 		password: String
-	): MutableList<UserData> {
-		return mutableListOf()
+	): UserData? {
+		return null
 	}
 
 	suspend fun insertAddress(newAddress: UserData.Address) {}

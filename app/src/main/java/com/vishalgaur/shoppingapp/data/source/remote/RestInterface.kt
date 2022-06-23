@@ -76,7 +76,7 @@ data class ProductData(
 interface KomodiAPI {
 
 	@POST("getAccessToken")
-	suspend fun getUserByMobileAndPassword(@Body body: LoginData): MutableList<UserData>
+	suspend fun getUserByMobileAndPassword(@Body body: LoginData): String
 
 	@POST("getInventoriesBySellerId")
 	suspend fun getInventoriesBySellerId(@Body body: AccessData): List<Inventory>

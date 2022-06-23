@@ -10,6 +10,7 @@ import com.vishalgaur.shoppingapp.data.Result.Error
 import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.source.UserDataSource
+import com.vishalgaur.shoppingapp.data.source.repository.AuthRepository
 import com.vishalgaur.shoppingapp.data.utils.EmailMobileData
 import com.vishalgaur.shoppingapp.data.utils.OrderStatus
 import kotlinx.coroutines.tasks.await
@@ -63,7 +64,19 @@ class AuthRemoteRestDataSource : UserDataSource {
 	override suspend fun getUserByMobileAndPassword(
 		mobile: String,
 		password: String
-	): MutableList<UserData> = UserNetwork.retrofit.getUserByMobileAndPassword(LoginData(mobile,password))
+	): UserData? {
+		try {
+			val idRef = UserNetwork.retrofit.getUserByMobileAndPassword(LoginData(mobile,password))
+			if(idRef == "0") {
+				Log.d(TAG,"User Not Found!")
+				return null
+			}
+			return UserNetwork.retrofit.getUserById(AccessData(idRef))
+		} catch (e: Exception) {
+			Log.d(TAG,"Error on authorization")
+			return null
+		}
+	}
 
 	override suspend fun insertAddress(newAddress: UserData.Address) {
 		UserNetwork.retrofit.insertAddress(newAddress)
