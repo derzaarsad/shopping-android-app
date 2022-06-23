@@ -28,6 +28,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 			val resRef = UserNetwork.retrofit.getUserById(AccessData(userId))
 			return resRef
 		} catch (e: Exception) {
+			Log.d(TAG,"Error on authorization: " + e.toString())
 			return null
 		}
 	}
@@ -71,9 +72,9 @@ class AuthRemoteRestDataSource : UserDataSource {
 				Log.d(TAG,"User Not Found!")
 				return null
 			}
-			return UserNetwork.retrofit.getUserById(AccessData(idRef))
+			return getUserById(idRef)
 		} catch (e: Exception) {
-			Log.d(TAG,"Error on authorization")
+			Log.d(TAG,"Error on authorization: " + e.toString())
 			return null
 		}
 	}
