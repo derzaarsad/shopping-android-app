@@ -25,7 +25,8 @@ class AuthRemoteRestDataSource : UserDataSource {
 
 	override suspend fun getUserById(userId: String): UserData? {
 		try {
-			val resRef = UserNetwork.retrofit.getUserById(AccessData(userId))
+			var resRef = UserNetwork.retrofit.getUserById(AccessData(userId))
+			resRef.orders = UserNetwork.retrofit.getOrdersByUserId(AccessData(userId))
 			return resRef
 		} catch (e: Exception) {
 			Log.d(TAG,"Error on authorization: " + e.toString())

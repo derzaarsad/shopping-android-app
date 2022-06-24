@@ -129,6 +129,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 			val res = async { authRepository.checkLogin(phoneNumber, pwd) }
 			_userData.value = res.await()
 			if (_userData.value != null) {
+				_userData.value!!.mobile = phoneNumber
+				_userData.value!!.password = pwd
+
 				_loginErrorStatus.value = LogInErrors.NONE
 			} else {
 				_loginErrorStatus.value = LogInErrors.LERR
