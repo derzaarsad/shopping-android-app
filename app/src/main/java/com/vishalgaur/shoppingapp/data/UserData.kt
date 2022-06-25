@@ -98,16 +98,18 @@ data class UserData(
 	data class CartItem(
 		var inventoryId: String = "",
 		var ownerId: String = "",
+		var sellerId: String = "",
 		var quantity: Double = 0.0,
 		var maxQuantity: Double = 0.0,
 		var unit: String = ""
 	) : Parcelable {
-		constructor() : this("", "", 0.0,0.0, "")
+		constructor() : this("", "","", 0.0,0.0, "")
 
 		fun toHashMap(): HashMap<String, Any> {
 			val hashMap = hashMapOf<String, Any>()
 			hashMap["inventoryId"] = inventoryId
 			hashMap["ownerId"] = ownerId
+			hashMap["sellerId"] = sellerId
 			hashMap["quantity"] = quantity
 			hashMap["maxQuantity"] = maxQuantity
 			hashMap["unit"] = unit
