@@ -37,13 +37,13 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 		private val proOffer = binding.inventoryOfferValueTv
 		private val proCartButton = binding.inventoryAddToCartButton
 
-		fun bind(productData: Inventory) {
+		fun bind(inventoryData: Inventory) {
 			productCard.setOnClickListener {
-				onClickListener.onClick(productData)
+				onClickListener.onClick(inventoryData)
 			}
-			proName.text = productData.sku
+			proName.text = inventoryData.sku
 			proPrice.text =
-				context.getString(R.string.pro_details_price_value, productData.purchasePrice.toString())
+				context.getString(R.string.pro_details_price_value, inventoryData.purchasePrice.toString())
 			proMrp.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 			proMrp.text =
 				context.getString(
@@ -52,10 +52,10 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 				)
 			proOffer.text = context.getString(
 				R.string.pro_offer_precent_text,
-				getOfferPercentage(21.0, productData.purchasePrice).toString()
+				getOfferPercentage(21.0, inventoryData.purchasePrice).toString()
 			)
-			if (productData.images.isNotEmpty()) {
-				val imgUrl = productData.images[0].toUri().buildUpon().scheme("https").build()
+			if (inventoryData.images.isNotEmpty()) {
+				val imgUrl = inventoryData.images[0].toUri().buildUpon().scheme("https").build()
 				Glide.with(context)
 					.asBitmap()
 					.load(imgUrl)
@@ -66,19 +66,19 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 
 			if (sessionManager.isUserAdmin()) {
 				proEditBtn.setOnClickListener {
-					onClickListener.onEditClick(productData.inventoryId)
+					onClickListener.onEditClick(inventoryData.inventoryId)
 				}
 
 				proDeleteButton.setOnClickListener {
-					onClickListener.onDeleteClick(productData)
+					onClickListener.onDeleteClick(inventoryData)
 				}
 			} else {
 				proEditBtn.visibility = View.GONE
 				proDeleteButton.visibility = View.GONE
 			}
-			bindImageButtons.setCartButton(productData.inventoryId, proCartButton)
+			bindImageButtons.setCartButton(inventoryData.inventoryId, proCartButton)
 			proCartButton.setOnClickListener {
-				onClickListener.onAddToCartClick(productData)
+				onClickListener.onAddToCartClick(inventoryData)
 			}
 		}
 	}
