@@ -27,8 +27,8 @@ interface InventoriesDao {
 	@Query("SELECT * FROM inventories WHERE inventoryId = :invId")
 	suspend fun getInventoryById(invId: String): Inventory?
 
-	@Query("SELECT * FROM inventories WHERE sellerId = :seller_id")
-	suspend fun getInventoriesBySellerId(seller_id: String): List<Inventory>
+	@Query("SELECT * FROM inventories WHERE sellerId = :user_id OR ownerId = :user_id")
+	suspend fun getInventoriesByUserId(user_id: String): List<Inventory>
 
 	@Query("DELETE FROM inventories WHERE inventoryId = :invId")
 	suspend fun deleteInventoryById(invId: String): Int

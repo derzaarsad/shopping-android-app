@@ -14,7 +14,7 @@ interface InventoriesRepoInterface {
 	suspend fun updateLocalInventoriesFromRemote(userId: String): StoreDataStatus?
 	fun observeInventories(): LiveData<Result<List<Inventory>>?>
 	fun observeInventoriesBySellerId(sellerId: String): LiveData<Result<List<Inventory>>?>
-	suspend fun getInventoriesBySellerId(sellerId: String): Result<List<Inventory>>
+	suspend fun getInventoriesByUserId(userId: String): Result<List<Inventory>>
 	suspend fun getInventoryById(inventoryId: String, forceUpdate: Boolean = false): Result<Inventory>
 	suspend fun insertInventory(newInventory: InsertInventoryData): Result<Boolean>
 	suspend fun insertImages(imgList: List<Uri>): List<String>

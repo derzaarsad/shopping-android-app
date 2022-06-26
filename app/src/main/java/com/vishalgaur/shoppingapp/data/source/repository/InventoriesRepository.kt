@@ -36,8 +36,8 @@ class InventoriesRepository(
 		return inventoriesLocalSource.observeInventoriesBySellerId(sellerId)
 	}
 
-	override suspend fun getInventoriesBySellerId(sellerId: String): Result<List<Inventory>> {
-		return inventoriesLocalSource.getInventoriesBySellerId(sellerId)
+	override suspend fun getInventoriesByUserId(userId: String): Result<List<Inventory>> {
+		return inventoriesLocalSource.getInventoriesByUserId(userId)
 	}
 
 	override suspend fun getInventoryById(inventoryId: String, forceUpdate: Boolean): Result<Inventory> {
@@ -160,11 +160,11 @@ class InventoriesRepository(
 		}
 	}
 
-	override suspend fun updateLocalInventoriesFromRemote(sellerId: String): StoreDataStatus? {
+	override suspend fun updateLocalInventoriesFromRemote(userId: String): StoreDataStatus? {
 		Log.d(TAG, "Updating Inventories in Room")
 		var res: StoreDataStatus? = null
 		try {
-			val remoteProducts = inventoriesRemoteSource.getInventoriesBySellerId(sellerId)
+			val remoteProducts = inventoriesRemoteSource.getInventoriesByUserId(userId)
 			if (remoteProducts is Success) {
 				Log.d(TAG, "inv list = ${remoteProducts.data}")
 				inventoriesLocalSource.deleteAllInventories()
