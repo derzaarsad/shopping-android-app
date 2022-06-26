@@ -27,6 +27,7 @@ class AuthRemoteRestDataSource : UserDataSource {
 		try {
 			var resRef = UserNetwork.retrofit.getUserById(AccessData(userId))
 			resRef.orders = UserNetwork.retrofit.getOrdersByUserId(AccessData(userId))
+			resRef.cart = getCartItemsBySellerId(AccessData(userId))
 			return resRef
 		} catch (e: Exception) {
 			Log.d(TAG,"Error on authorization: " + e.toString())
