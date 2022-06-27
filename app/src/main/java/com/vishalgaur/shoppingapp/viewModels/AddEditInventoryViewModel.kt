@@ -142,29 +142,10 @@ class AddEditInventoryViewModel(application: Application) : AndroidViewModel(app
 			}
 			else {
 				_errorStatus.value = AddInventoryViewErrors.NONE
-				val invId = if (_isEdit.value == true) _inventoryId.value!! else ""
-				val newInventory =
-					Inventory(
-						invId,
-						supplierId,
-						currentUser!!,
-						productId,
-						currentUser!!,
-						purchasePrice,
-						orderNum.trim(),
-						sku.trim(),
-						minSellPrice,
-						quantity,
-						expiryDate.toString(),
-						desc.trim(),
-						emptyList(),
-						unit
-					)
-				Log.d(TAG, "inv = $newInventory")
 				if (_isEdit.value == true) {
-					updateInventory(UpdateInventoryData(newInventory.inventoryId,newInventory.minSellPrice)/*imgList TODO: UPLOADIMAGE*/)
+					updateInventory(UpdateInventoryData(_inventoryId.value!!,minSellPrice)/*imgList TODO: UPLOADIMAGE*/)
 				} else {
-					insertInventory(InsertInventoryData(newInventory.supplierId,newInventory.ownerId,newInventory.productId,newInventory.sellerId,newInventory.purchasePrice,newInventory.orderNumber,newInventory.sku,newInventory.minSellPrice,newInventory.quantity,newInventory.expiryDate)/*imgList TODO: UPLOADIMAGE*/)
+					insertInventory(InsertInventoryData(supplierId,currentUser!!,productId,currentUser!!,purchasePrice,orderNum.trim(),sku.trim(),minSellPrice,quantity,expiryDate.toString())/*imgList TODO: UPLOADIMAGE*/)
 				}
 			}
 		}
