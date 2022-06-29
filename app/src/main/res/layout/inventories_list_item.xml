@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp">
 
+        <!-- TODO: UPLOADIMAGE
         <ImageView
             android:id="@+id/inventory_image_view"
             android:layout_width="0dp"
@@ -27,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            tools:srcCompat="@tools:sample/backgrounds/scenic" /> -->
 
         <ImageView
             android:id="@+id/inventory_delete_button"
@@ -51,7 +52,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inventory_image_view"
+            app:layout_constraintTop_toBottomOf="@id/inventory_delete_button"
             tools:text="Item Name name name wofe348" />
 
         <TextView

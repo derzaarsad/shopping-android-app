@@ -30,7 +30,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 		private val proName = binding.inventoryNameTv
 		private val proPrice = binding.inventoryPriceTv
 		private val productCard = binding.inventoryCard
-		private val productImage = binding.inventoryImageView
+		//private val productImage = binding.inventoryImageView // TODO: UPLOADIMAGE
 		private val proDeleteButton = binding.inventoryDeleteButton
 		private val proEditBtn = binding.inventoryEditButton
 		private val proMrp = binding.inventoryActualPriceTv
@@ -54,15 +54,16 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 				R.string.pro_offer_precent_text,
 				getOfferPercentage(21.0, inventoryData.purchasePrice).toString()
 			)
-			if (inventoryData.images.isNotEmpty()) {
-				val imgUrl = inventoryData.images[0].toUri().buildUpon().scheme("https").build()
-				Glide.with(context)
-					.asBitmap()
-					.load(imgUrl)
-					.into(productImage)
-
-				productImage.clipToOutline = true
-			}
+			// TODO: UPLOADIMAGE
+//			if (inventoryData.images.isNotEmpty()) {
+//				val imgUrl = inventoryData.images[0].toUri().buildUpon().scheme("https").build()
+//				Glide.with(context)
+//					.asBitmap()
+//					.load(imgUrl)
+//					.into(productImage)
+//
+//				productImage.clipToOutline = true
+//			}
 
 			if (sessionManager.isUserAdmin()) {
 				proEditBtn.setOnClickListener {
