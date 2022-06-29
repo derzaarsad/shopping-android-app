@@ -10,9 +10,9 @@ import kotlinx.android.parcel.Parcelize
 data class Inventory @JvmOverloads constructor(
 	@PrimaryKey
 	var inventoryId: String = "",
-	var supplierId: String = "",
+	var supplierName: String = "",
 	var ownerId: String = "",
-	var productId: String = "",
+	var productName: String = "",
 	var sellerId: String = "",
 	var purchasePrice: Double = 0.0,
 	var orderNumber: String = "",
@@ -27,9 +27,9 @@ data class Inventory @JvmOverloads constructor(
 	fun toHashMap(): HashMap<String, Any> {
 		return hashMapOf(
 			"inventoryId" to inventoryId,
-			"supplierId" to supplierId,
+			"supplierName" to supplierName,
 			"ownerId" to ownerId,
-			"productId" to productId,
+			"productName" to productName,
 			"sellerId" to sellerId,
 			"purchasePrice" to purchasePrice,
 			"orderNumber" to orderNumber,

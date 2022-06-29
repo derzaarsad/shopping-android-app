@@ -41,7 +41,7 @@ class InventoryAdapter(proList: List<Any>, private val context: Context) :
 			productCard.setOnClickListener {
 				onClickListener.onClick(inventoryData)
 			}
-			proName.text = inventoryData.sku
+			proName.text = inventoryData.productName + " " + inventoryData.supplierName + " " + inventoryData.sku
 			proPrice.text =
 				context.getString(R.string.pro_details_price_value, inventoryData.purchasePrice.toString())
 			proMrp.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
