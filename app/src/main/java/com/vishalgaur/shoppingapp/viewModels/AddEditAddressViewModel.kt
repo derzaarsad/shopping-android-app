@@ -63,7 +63,7 @@ class AddEditAddressViewModel(application: Application) : AndroidViewModel(appli
 		viewModelScope.launch {
 			Log.d(TAG, "onLoad: Getting Address Data")
 			_dataStatus.value = StoreDataStatus.LOADING
-			val res = async { authRepository.getAddressesByUserIdFromLocalSource(currentUser!!) }
+			val res = async { authRepository.getMemberAddressesByUserIdFromLocalSource(currentUser!!) }
 			val addRes = res.await()
 			if (addRes is Success) {
 				val addData = addRes.data?.find { address -> address.addressId == addressId }

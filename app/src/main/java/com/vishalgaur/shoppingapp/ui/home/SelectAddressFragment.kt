@@ -45,7 +45,7 @@ class SelectAddressFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
-		orderViewModel.getUserAddresses()
+		orderViewModel.getMemberAddresses()
 	}
 
 	private fun setObservers() {
@@ -62,7 +62,7 @@ class SelectAddressFragment : Fragment() {
 				}
 			}
 			if(status != null && status != StoreDataStatus.LOADING) {
-				orderViewModel.userAddresses.observe(viewLifecycleOwner) { addressList ->
+				orderViewModel.memberAddresses.observe(viewLifecycleOwner) { addressList ->
 					if (addressList.isNotEmpty()) {
 						addressAdapter.data = addressList
 						binding.shipToAddressesRecyclerView.adapter = addressAdapter
@@ -98,7 +98,7 @@ class SelectAddressFragment : Fragment() {
 		if (context != null) {
 			addressAdapter = AddressAdapter(
 				requireContext(),
-				orderViewModel.userAddresses.value ?: emptyList(),
+				orderViewModel.memberAddresses.value ?: emptyList(),
 				true
 			)
 			addressAdapter.onClickListener = object : AddressAdapter.OnClickListener {
@@ -126,7 +126,7 @@ class SelectAddressFragment : Fragment() {
 			val result = Klaxon().parse<AdminToSelectAddressArg>(supplierArg)
 			binding.shipToNextBtn.setOnClickListener {
 				if (result != null) {
-					val selectedAddress = orderViewModel.userAddresses.value?.find { it.addressId == addressAdapter.lastCheckedAddress }
+					val selectedAddress = orderViewModel.memberAddresses.value?.find { it.addressId == addressAdapter.lastCheckedAddress }
 					val completeAddressText = if (selectedAddress != null) getCompleteAddress(selectedAddress) else null
 					findNavController().navigate(R.id.action_selectAddressFragment_to_addSupplierFragment,
 						bundleOf("supplierArg" to Klaxon().toJsonString(SelectAddressToAdminArg(result.supplierName,addressAdapter.lastCheckedAddress,completeAddressText)))

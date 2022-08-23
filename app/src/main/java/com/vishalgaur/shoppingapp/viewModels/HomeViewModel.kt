@@ -251,7 +251,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 		Log.d(TAG, "Getting Addresses")
 		_dataStatus.value = StoreDataStatus.LOADING
 		viewModelScope.launch {
-			val res = authRepository.getAddressesByUserIdFromLocalSource(currentUser!!)
+			val res = authRepository.getMemberAddressesByUserIdFromLocalSource(currentUser!!)
 			if (res is Success) {
 				_userAddresses.value = res.data ?: emptyList()
 				_dataStatus.value = StoreDataStatus.DONE
