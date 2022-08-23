@@ -13,7 +13,9 @@ import com.vishalgaur.shoppingapp.data.Result.Success
 import com.vishalgaur.shoppingapp.data.ShoppingAppSessionManager
 import com.vishalgaur.shoppingapp.data.UserData
 import com.vishalgaur.shoppingapp.data.source.remote.InsertOrderData
+import com.vishalgaur.shoppingapp.data.source.remote.MoveInventoryData
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
+import com.vishalgaur.shoppingapp.data.utils.UserType
 import com.vishalgaur.shoppingapp.getRandomString
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -234,8 +236,14 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		viewModelScope.launch {
 			if (newOrderData.value != null) {
 				_orderStatus.value = StoreDataStatus.LOADING
+				val recipientType = newOrderData.value!!.deliveryAddress.userType
 				val deferredRes = async {
-					authRepository.placeOrder(InsertOrderData(currentUser!!,newOrderData.value!!.items.map { it.inventoryId },newOrderData.value!!.deliveryAddress.addressId,newOrderData.value!!.shippingCharges,newOrderData.value!!.paymentMethod))
+					if(recipientType == UserType.CUSTOMER.name) {
+						authRepository.placeOrder(InsertOrderData(currentUser!!,newOrderData.value!!.items.map { it.inventoryId },newOrderData.value!!.deliveryAddress.addressId,newOrderData.value!!.shippingCharges,newOrderData.value!!.paymentMethod))
+					}
+					else {
+						inventoriesRepository.moveInventory(MoveInventoryData(currentUser!!,newOrderData.value!!.items.map { it.inventoryId },newOrderData.value!!.deliveryAddress.addressId))
+					}
 				}
 				val res = deferredRes.await()
 				if (res is Success) {

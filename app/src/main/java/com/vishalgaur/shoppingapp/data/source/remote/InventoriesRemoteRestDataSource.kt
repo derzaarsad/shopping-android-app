@@ -87,6 +87,15 @@ class InventoriesRemoteRestDataSource : InventoryDataSource {
 		}
 	}
 
+	suspend fun moveInventory(inventoryToMove: MoveInventoryData): String? {
+		try {
+			val resRef = UserNetwork.retrofit.moveInventory(inventoryToMove)
+			return resRef
+		} catch (e: Exception) {
+			return null
+		}
+	}
+
 	suspend fun getProductCategories(): List<String> = UserNetwork.retrofit.getProductCategories()
 
 	suspend fun getProducts(): List<Product> = UserNetwork.retrofit.getProducts()

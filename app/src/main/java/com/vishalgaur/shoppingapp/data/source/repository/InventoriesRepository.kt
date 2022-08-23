@@ -13,6 +13,7 @@ import com.vishalgaur.shoppingapp.data.Result.*
 import com.vishalgaur.shoppingapp.data.source.local.InventoriesLocalDataSource
 import com.vishalgaur.shoppingapp.data.source.remote.InsertInventoryData
 import com.vishalgaur.shoppingapp.data.source.remote.InventoriesRemoteRestDataSource
+import com.vishalgaur.shoppingapp.data.source.remote.MoveInventoryData
 import com.vishalgaur.shoppingapp.data.source.remote.UpdateInventoryData
 import com.vishalgaur.shoppingapp.data.utils.StoreDataStatus
 import kotlinx.coroutines.async
@@ -198,6 +199,29 @@ class InventoriesRepository(
 			Log.d(TAG, "onUpdateInventoryFromRemoteSource: Exception occurred, ${e.message}")
 		}
 		return res
+	}
+
+	override suspend fun moveInventory(inventoryToMove: MoveInventoryData): Result<Boolean> {
+		return supervisorScope {
+			val remoteRes = async {
+				Log.d(TAG, "onInsertInventory: adding inventory to remote source")
+				inventoriesRemoteSource.moveInventory(inventoryToMove)
+			}
+			try {
+				val recipientId = remoteRes.await()
+				if(recipientId == null) {
+					throw Exception("Move inventory failed")
+				}
+				val localRes = async {
+					Log.d(TAG, "onMoveInventory: update recipient local source inventories with id " + recipientId)
+					updateLocalInventoriesFromRemote(recipientId)
+				}
+				localRes.await()
+				Success(true)
+			} catch (e: Exception) {
+				Error(e)
+			}
+		}
 	}
 
 	override suspend fun getProductCategories(): List<String>? {
