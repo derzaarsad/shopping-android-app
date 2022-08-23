@@ -36,5 +36,5 @@ interface UserDataSource {
 
 	suspend fun clearAllUsers() {}
 
-	suspend fun getAddressesByUserId(userId: String): Result<List<UserData.Address>?>
+	suspend fun getMemberAddressesByUserId(userId: String): Result<List<UserData.Address>?>
 }

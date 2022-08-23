@@ -29,8 +29,8 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 	private val authRepository = (application as ShoppingApplication).authRepository
 	private val inventoriesRepository = (application as ShoppingApplication).inventoriesRepository
 
-	private val _userAddresses = MutableLiveData<List<UserData.Address>>()
-	val userAddresses: LiveData<List<UserData.Address>> get() = _userAddresses
+	private val _memberAddresses = MutableLiveData<List<UserData.Address>>()
+	val memberAddresses: LiveData<List<UserData.Address>> get() = _memberAddresses
 
 	private val _cartItems = MutableLiveData<List<UserData.CartItem>>()
 	val cartItems: LiveData<List<UserData.CartItem>> get() = _cartItems
@@ -85,17 +85,17 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 		}
 	}
 
-	fun getUserAddresses() {
+	fun getMemberAddresses() {
 		Log.d(TAG, "Getting Addresses")
 		_dataStatus.value = StoreDataStatus.LOADING
 		viewModelScope.launch {
-			val res = authRepository.getAddressesByUserIdFromLocalSource(currentUser!!)
+			val res = authRepository.getMemberAddressesByUserIdFromLocalSource(currentUser!!)
 			if (res is Success) {
-				_userAddresses.value = res.data ?: emptyList()
+				_memberAddresses.value = res.data ?: emptyList()
 				_dataStatus.value = StoreDataStatus.DONE
 				Log.d(TAG, "Getting Addresses: Success")
 			} else {
-				_userAddresses.value = emptyList()
+				_memberAddresses.value = emptyList()
 				_dataStatus.value = StoreDataStatus.ERROR
 				if (res is Error)
 					Log.d(TAG, "Getting Addresses: Error Occurred, ${res.exception.message}")
@@ -109,13 +109,13 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 			when (val res = delRes.await()) {
 				is Success -> {
 					Log.d(TAG, "onDeleteAddress: Success")
-					val addresses = _userAddresses.value?.toMutableList()
+					val addresses = _memberAddresses.value?.toMutableList()
 					addresses?.let {
 						val pos =
 							addresses.indexOfFirst { address -> address.addressId == addressId }
 						if (pos >= 0)
 							it.removeAt(pos)
-						_userAddresses.value = it
+						_memberAddresses.value = it
 					}
 				}
 				is Error -> Log.d(TAG, "onDeleteAddress: Error, ${res.exception}")
@@ -204,7 +204,7 @@ class OrderViewModel(application: Application) : AndroidViewModel(application) {
 	fun finalizeOrder() {
 		_orderStatus.value = StoreDataStatus.LOADING
 		val deliveryAddress =
-			_userAddresses.value?.find { it.addressId == _selectedAddress.value }
+			_memberAddresses.value?.find { it.addressId == _selectedAddress.value }
 		val paymentMethod = _selectedPaymentMethod.value
 		val currDate = Date()
 		val orderId = getRandomString(6, currDate.time.toString(), 1)

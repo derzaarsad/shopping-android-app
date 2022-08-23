@@ -21,7 +21,7 @@ data class UserData(
 	var email: String = "",
 	var password: String = "",
 	@TypeConverters(ObjectListTypeConvertor::class)
-	var addresses: List<Address> = ArrayList(),
+	var memberAddresses: List<Address> = ArrayList(),
 	@TypeConverters(ObjectListTypeConvertor::class)
 	var cart: List<CartItem> = ArrayList(),
 	@TypeConverters(ObjectListTypeConvertor::class)
@@ -35,7 +35,7 @@ data class UserData(
 			"email" to email,
 			"mobile" to mobile,
 			"password" to password,
-			"addresses" to addresses.map { it.toHashMap() },
+			"memberAddresses" to memberAddresses.map { it.toHashMap() },
 			"userType" to userType
 		)
 	}
